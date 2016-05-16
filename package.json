@@ -1,0 +1,32 @@
+{
+  "name": "elo-elo-elo",
+  "version": "0.0.1",
+  "description": "Elo scoreboard",
+  "main": "server.js",
+  "dependencies": {
+    "bower": "^1.7.7",
+    "chalk": "^1.1.1",
+    "elo-js": "^1.0.1",
+    "express": "^4.13.4",
+    "helmet": "^1.1.0",
+    "moment": "^2.11.2",
+    "mongoose": "^4.4.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamiePrentice/EloEloElo.git"
+  },
+  "author": "@JamiePrentice",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamiePrentice/EloEloElo/issues"
+  },
+  "homepage": "https://github.com/JamiePrentice/EloEloElo#readme"
+}

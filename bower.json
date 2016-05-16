@@ -1,0 +1,22 @@
+{
+  "name": "elo-elo-elo",
+  "description": "Elo scoreboard",
+  "main": "server.js",
+  "authors": [
+    "@JamiePrentice"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/JamiePrentice/EloEloElo",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
