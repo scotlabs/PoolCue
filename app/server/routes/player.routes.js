@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player = require('../../models/user');
+var Player = require('../../models/player');
 
 /* Variables */
 

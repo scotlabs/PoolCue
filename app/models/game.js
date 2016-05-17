@@ -8,7 +8,7 @@ var Mongoose = require('mongoose');
 /* Global Variables */
 
 /* Schema */
-var game = Mongoose.Schema({
+var gameSchema = Mongoose.Schema({
   player1:    {type: String, required: true},
   player1Elo: {type: Number},
   player2:    {type: String, required: true},
@@ -17,4 +17,4 @@ var game = Mongoose.Schema({
   winner:     {type: String}
 });
 
-module.exports = Mongoose.model('Game', game);
+module.exports = Mongoose.model('Game', gameSchema);

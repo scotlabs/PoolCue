@@ -6,9 +6,9 @@ var Elo      = require('elo-js');
 var Alerts   = require('../helpers/alerts');
 
 /* Imports */
-var User = require('../models/user.js');
+var Player = require('../models/player.js');
 var Game = require('../models/game.js');
-var UserFunctions = require('../models/userFunctions.js');
+var PlayerFunctions = require('../models/playerFunctions.js');
 
 /* Global Variables */
 var elo = new Elo();
@@ -16,7 +16,6 @@ var elo = new Elo();
 /* Functions */
 exports.queue = function(player1, player2) {
   var game = new Game();
-  console.log(game);
   findOrCreatePlayer(player1, game);
   findOrCreatePlayer(player2, game);
 
@@ -32,11 +31,11 @@ exports.abandon = function(gameId) {
 exports.complete = function(gameId, winner, loser) {
 
   var game = this.findById(gameId);
-  User.find({name: {$in: [winner, loser]}}, function(error, players) {
+  Player.find({name: {$in: [winner, loser]}}, function(error, players) {
     if (players[0].name == winner) {
-      updateUsers(players[0], players[1]);
+      updatePlayers(players[0], players[1]);
     }else {
-      updateUsers(players[1], players[0]);
+      updatePlayers(players[1], players[0]);
     }
 
     game.winner = winner;
@@ -51,9 +50,9 @@ exports.findById = function(gameID) {
 };
 
 function findOrCreatePlayer(playerName, game) {
-  User.findOne({name: playerName}, function(error, player) {
+  Player.findOne({name: playerName}, function(error, player) {
     if (!player) {
-      player = new User({name: playerName}).save();
+      player = new Player({name: playerName}).save();
       Alerts.logMessage('Create', 'New player created: ' +  playerName);
     }
 
@@ -68,7 +67,7 @@ function findOrCreatePlayer(playerName, game) {
   });
 }
 
-function updateUsers(winner, loser) {
+function updatePlayers(winner, loser) {
   Alerts.logMessage('Start', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
   winner.elo = elo.ifWins(winner.elo, loser.elo);
   winner.wins++;

@@ -8,11 +8,11 @@ var Mongoose = require('mongoose');
 /* Global Variables */
 
 /* Schema */
-var userSchema = Mongoose.Schema({
+var playerSchema = Mongoose.Schema({
   name:   {type: String, unique: true},
   elo:    {type: Number, default: 1000},
   wins:   {type: Number, default: 0},
   losses: {type: Number, default: 0},
 });
 
-module.exports = Mongoose.model('User', userSchema);
+module.exports = Mongoose.model('Player', playerSchema);
