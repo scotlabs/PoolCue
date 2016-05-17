@@ -23,6 +23,12 @@ exports.queue = function(player1, player2) {
   Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
 };
 
+exports.abandon = function(gameId) {
+    var game = this.findById(gameId);
+    game.winner = 'Abandoned';
+    Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+  };
+
 exports.complete = function(gameId, winner, loser) {
 
   var game = this.findById(gameId);
