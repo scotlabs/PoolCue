@@ -5,16 +5,19 @@
 /* Imports */
 var Server   = require('./app/server/serverConfig').start();
 var Database = require('./app/server/databaseConfig').connect();
-var User = require('./app/models/user');
-var UserFunctions = require('./app/models/userFunctions');
-var Game = require('./app/models/game');
+var User = require('./app/models/userFunctions');
+var Game = require('./app/models/gameFunctions');
 
 /* Global Variables */
 
 /* Functions */
 
 // Test game
-var game = new Game().queue('testuser1', 'testuser2').complete('testuser1', 'testuser2');
+//var game = Game.queue('testuser1', 'testuser2').complete('testuser1', 'testuser2');
 //testGame.complete('testuser1', 'testuser2');
-var user = new User({name: 'Jamie'}).importStats(32,42);
+User.importUser('Jamie', 10, 10);
+var game = Game.queue('test1', 'test2');
+//Game.complete('test1', 'test2');
+//Game.findById('573b674ad255b6d24033bc1f');
+//game.complete('test1', 'test2');
 //UserFunctions.importStats(32,42);
