@@ -23,12 +23,14 @@ exports.start = function() {
     // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
   };
 
+  require('./routes/routes')(router);
   try {
     app.use(new Helmet());
     app.use(Helmet.hidePoweredBy());
 
     Https.createServer(options, app).listen(httpsPort);
     app.listen(httpPort);
+    app.use('/', router);
 
     Alerts.systemMessage('Starting', '@ https://localhost:' + httpsPort + '...');
 
