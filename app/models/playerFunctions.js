@@ -1,10 +1,10 @@
 'use strict';
 
 /* NPM Packages*/
-var Elo      = require('elo-js');
+var Elo = require('elo-js');
 
 /* Imports */
-var Alerts   = require('../helpers/alerts');
+var Alerts = require('../helpers/alerts');
 var Player = require('../models/player.js');
 
 /* Global Variables */

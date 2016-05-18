@@ -4,18 +4,22 @@
 
 /* Imports */
 var Player = require('../../models/player');
+var Query = require('../routes/query');
 
 /* Variables */
-
-/* Functions */
 
 /* Routes */
 module.exports = function(Router) {
 
-    /* All players */
-    Router.get('/players', function(req, res) {
-        Player.find({}).limit(250).lean().exec(function(err, result) {
-            res.json(result);
-          });
-      });
+  /* All players */
+  Router.get('/api/players', function(request, response) {
+    Query.find(Player, {}, response);
+    });
+
+  /* Player by name */
+  Router.get('/api/players/:name', function(request, response) {
+      console.log(request.connection.remoteAddress)
+      Query.find(Player, {name : req.params.name}, response);
+  });
+
   };

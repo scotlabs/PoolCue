@@ -3,10 +3,6 @@
 /* NPM Packages*/
 var Mongoose = require('mongoose');
 
-/* Imports */
-
-/* Global Variables */
-
 /* Schema */
 var gameSchema = Mongoose.Schema({
   player1:    {type: String, required: true},
