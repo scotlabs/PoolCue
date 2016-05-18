@@ -15,13 +15,13 @@ module.exports = function(router) {
     // require('./itemData.routes')(router);
 
     /* Root Route */
-    router.get('/api', function(req, res) {
-        res.json({API: 'It\'s alive!'});
+    router.get('/api', function(request, response) {
+        response.json({API: 'It\'s alive!'});
       });
 
     /* 404 Route */
-    router.get('*', function(req, res) {
-        res.status(404).send('404');
+    router.get('*', function(request, response) {
+        response.status(404).send('404');
       });
 
   };

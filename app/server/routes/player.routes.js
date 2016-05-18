@@ -19,7 +19,7 @@ module.exports = function(Router) {
   /* Player by name */
   Router.get('/api/players/:name', function(request, response) {
       console.log(request.connection.remoteAddress)
-      Query.find(Player, {name : req.params.name}, response);
+      Query.find(Player, {name : request.params.name}, response);
   });
 
   };
