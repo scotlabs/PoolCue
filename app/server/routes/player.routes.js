@@ -23,6 +23,8 @@ module.exports = function(Router) {
       });
 
     Router.get('/api/players/:name/stats', function(request, response) {
+        console.log('here');
+        Query.getStats(Player, request.params.name, response);
         // Last 10 games
         // Longest win streak
         // Player most played
