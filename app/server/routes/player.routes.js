@@ -11,15 +11,25 @@ var Query = require('../routes/query');
 /* Routes */
 module.exports = function(Router) {
 
-  /* All players */
-  Router.get('/api/players', function(request, response) {
-    Query.find(Player, {}, response);
-    });
+    /* All players */
+    Router.get('/api/players', function(request, response) {
+        Query.find(Player, {}, response);
+      });
 
-  /* Player by name */
-  Router.get('/api/players/:name', function(request, response) {
-      console.log(request.connection.remoteAddress)
-      Query.find(Player, {name : request.params.name}, response);
-  });
+    /* Player by name */
+    Router.get('/api/players/:name', function(request, response) {
+        console.log(request.connection.remoteAddress);
+        Query.find(Player, {name: request.params.name}, response);
+      });
+
+    Router.get('/api/players/:name/stats', function(request, response) {
+        // Last 10 games
+        // Longest win streak
+        // Player most played
+        // Player most wins
+        // Player most losses
+        // Highest Elo
+        // Lowest Elo
+      });
 
   };

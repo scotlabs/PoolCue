@@ -12,7 +12,7 @@
 module.exports = function(router) {
     /* Sub Routes */
     require('./player.routes')(router);
-    // require('./itemData.routes')(router);
+    require('./game.routes')(router);
 
     /* Root Route */
     router.get('/api', function(request, response) {
