@@ -8,7 +8,7 @@ var Game = require('../../models/game');
 /* Variables */
 
 /* Functions */
-exports.find = function(collection, query, response) {
+exports.find = function(collection, query, sort, response) {
     collection.find({$and: [query]}, {_id: 0, __v: 0}).lean().exec(function(error, result) {
         response.json(result);
       });

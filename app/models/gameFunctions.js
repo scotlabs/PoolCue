@@ -58,10 +58,8 @@ function findOrCreatePlayer(playerName, game) {
 
     if (!game.player1) {
       game.player1 = player.name;
-      game.player1Elo = player.elo;
     }else {
       game.player2 = player.name;
-      game.player2Elo = player.elo;
     }
     game.save();
   });
