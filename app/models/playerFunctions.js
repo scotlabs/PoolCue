@@ -11,6 +11,8 @@ var Player = require('../models/player.js');
 var elo = new Elo();
 
 /* Functions */
+
+/* Import player from our hand written score system */
 exports.importPlayer = function(playerName, wins, losses) {
     var player = new Player({name: playerName});
 

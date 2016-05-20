@@ -4,7 +4,7 @@
 
 /* Imports */
 var Game = require('../../models/game');
-var Query = require('../routes/query');
+var Query = require('../../helpers/query');
 
 /* Variables */
 
@@ -27,7 +27,7 @@ module.exports = function(Router) {
                     {$or:
                         [{player1: request.params.name},
                         {player2: request.params.name}]
-        },
+                    },
                     {},
                     response);
       });
@@ -38,7 +38,7 @@ module.exports = function(Router) {
                     {$or:
                         [{player1: request.params.name, player2: request.query.opponent},
                         {player1: request.query.opponent, player2: request.params.name}]
-        },
+                    },
                     {},
                     response);
       });

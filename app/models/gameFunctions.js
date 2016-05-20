@@ -13,11 +13,14 @@ var Game = require('../models/game.js');
 var elo = new Elo();
 
 /* Functions */
+
+/* Add a game to the queue */
 exports.queue = function(player1, player2, response) {
     findOrCreatePlayer(player1, player2, response);
     Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
   };
 
+/* Remove the game from the queue */
 exports.abandon = function(gameId, response) {
     Game.findById(gameId, function(error, game) {
         game.winner = 'Abandoned';
@@ -27,6 +30,7 @@ exports.abandon = function(gameId, response) {
       });
   };
 
+/* Complete a game */
 exports.complete = function(gameId, winner, response) {
     Game.findById(gameId, function(error, game) {
           game.winner = winner;
@@ -47,6 +51,7 @@ exports.complete = function(gameId, winner, response) {
     response.redirect('/api/games/id/' + game._id);
   };
 
+/* Create helper function for game queue */
 function findOrCreatePlayer(player1Name, player2Name, response) {
   var game = new Game();
   Player.findOne({name: player1Name}, function(error, player1) {
@@ -71,6 +76,7 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
   });
 }
 
+/* Update helper function for game complete */
 function updatePlayers(winner, loser) {
   Alerts.logMessage('Start', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
   winner.elo = elo.ifWins(winner.elo, loser.elo);

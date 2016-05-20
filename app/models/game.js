@@ -3,12 +3,10 @@
 /* NPM Packages*/
 var Mongoose = require('mongoose');
 
-/* Schema */
+/* Game Schema */
 var gameSchema = Mongoose.Schema({
   player1:    {type: String, required: true},
-  player1Elo: {type: Number},
   player2:    {type: String, required: true},
-  player2Elo: {type: Number},
   time:       {type: Date, default: Date.now},
   winner:     {type: String}
 });

@@ -10,7 +10,7 @@ var Game = require('../../models/gameFunctions');
 /* Routes */
 module.exports = function(Router) {
 
-    /* All players */
+    /* Create a new game with params ie. /api/games/create?player1=Jamie&player2=NotJamie */
     Router.get('/api/games/create', function(request, response) {
         if (request.query.player1 && request.query.player2) {
           Game.queue(request.query.player1, request.query.player2, response);
@@ -19,19 +19,14 @@ module.exports = function(Router) {
         }
       });
 
-    /* Player by name */
-    Router.get('/api/games/delete/:id', function(request, response) {
+    /* Abandon game by ID. */
+    Router.get('/api/games/abandon/:id', function(request, response) {
         Game.abandon(request.params.id, response);
-        //Query.find(Player, {name: request.params.name}, {}, response);
       });
 
+    /* Complete a game. */
     Router.get('/api/games/complete/:id/:winner', function(request, response) {
         Game.complete(request.params.id, request.params.winner, response);
-        // Last 10 games
-        // Longest win streak
-        // Player most played
-        // Player most wins
-        // Player most losses
       });
 
   };

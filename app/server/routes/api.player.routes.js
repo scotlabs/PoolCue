@@ -4,7 +4,7 @@
 
 /* Imports */
 var Player = require('../../models/player');
-var Query = require('../routes/query');
+var Query = require('../../helpers/query');
 
 /* Variables */
 
@@ -18,10 +18,10 @@ module.exports = function(Router) {
 
     /* Player by name */
     Router.get('/api/players/:name', function(request, response) {
-        console.log(request.connection.remoteAddress);
         Query.find(Player, {name: request.params.name}, {}, response);
       });
 
+    /* Incomplete endpoint for player stats */
     Router.get('/api/players/:name/stats', function(request, response) {
         Query.getStats(Player, request.params.name, {}, response);
         // Last 10 games

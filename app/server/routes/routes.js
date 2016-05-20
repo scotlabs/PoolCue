@@ -11,9 +11,9 @@
 /* Routes */
 module.exports = function(router) {
     /* Sub Routes */
-    require('./game.routes')(router);
-    require('./play.routes')(router);
-    require('./player.routes')(router);
+    require('./api.game.routes')(router);
+    require('./api.play.routes')(router);
+    require('./api.player.routes')(router);
 
     /* Root Route */
     router.get('/api', function(request, response) {

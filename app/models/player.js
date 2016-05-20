@@ -3,7 +3,7 @@
 /* NPM Packages*/
 var Mongoose = require('mongoose');
 
-/* Schema */
+/* Player Schema */
 var playerSchema = Mongoose.Schema({
   name:   {type: String, unique: true},
   elo:    {type: Number, default: 1000},
