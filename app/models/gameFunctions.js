@@ -8,60 +8,66 @@ var Alerts   = require('../helpers/alerts');
 /* Imports */
 var Player = require('../models/player.js');
 var Game = require('../models/game.js');
-var PlayerFunctions = require('../models/playerFunctions.js');
 
 /* Global Variables */
 var elo = new Elo();
 
 /* Functions */
-exports.queue = function(player1, player2) {
-  var game = new Game();
-  findOrCreatePlayer(player1, game);
-  findOrCreatePlayer(player2, game);
-
-  Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
-};
-
-exports.abandon = function(gameId) {
-    var game = this.findById(gameId);
-    game.winner = 'Abandoned';
-    Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+exports.queue = function(player1, player2, response) {
+    findOrCreatePlayer(player1, player2, response);
+    Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
   };
 
-exports.complete = function(gameId, winner, loser) {
+exports.abandon = function(gameId, response) {
+    Game.findById(gameId, function(error, game) {
+        game.winner = 'Abandoned';
+        game.save();
+        response.redirect('/api/games/id/' + game._id);
+        Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+      });
+  };
 
-  var game = this.findById(gameId);
-  Player.find({name: {$in: [winner, loser]}}, function(error, players) {
-    if (players[0].name == winner) {
-      updatePlayers(players[0], players[1]);
-    }else {
-      updatePlayers(players[1], players[0]);
+exports.complete = function(gameId, winner, response) {
+    Game.findById(gameId, function(error, game) {
+          game.winner = winner;
+          game.save();
+          var loser = game.player2;
+          if (game.player1 != winner) {
+            loser = game.player1;
+          }
+
+          Player.find({name: {$in: [winner, loser]}}, function(error, players) {
+              if (players[0].name == winner) {
+                updatePlayers(players[0], players[1]);
+              }else {
+                updatePlayers(players[1], players[0]);
+              }
+            });
+        });
+    response.redirect('/api/games/id/' + game._id);
+  };
+
+function findOrCreatePlayer(player1Name, player2Name, response) {
+  var game = new Game();
+  Player.findOne({name: player1Name}, function(error, player1) {
+    if (!player1) {
+      player1 = new Player({name: player1});
+      player1.save();
+      Alerts.logMessage('Create', 'New player created: ' +  player1);
     }
-
-    game.winner = winner;
+    game.player1 = player1.name;
     game.save();
-  });
-};
 
-exports.findById = function(gameID) {
-  Game.findById(gameID, function(error, game) {
-      return game;
+    Player.findOne({name: player2Name}, function(error, player2) {
+      if (!player2) {
+        player2 = new Player({name: player2});
+        player2.save();
+        Alerts.logMessage('Create', 'New player created: ' +  player2);
+      }
+      game.player2 = player2.name;
+      response.redirect('/api/games/id/' + game._id);
+      game.save();
     });
-};
-
-function findOrCreatePlayer(playerName, game) {
-  Player.findOne({name: playerName}, function(error, player) {
-    if (!player) {
-      player = new Player({name: playerName}).save();
-      Alerts.logMessage('Create', 'New player created: ' +  playerName);
-    }
-
-    if (!game.player1) {
-      game.player1 = player.name;
-    }else {
-      game.player2 = player.name;
-    }
-    game.save();
   });
 }
 

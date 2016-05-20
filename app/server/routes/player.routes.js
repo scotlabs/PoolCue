@@ -13,7 +13,7 @@ module.exports = function(Router) {
 
     /* All players */
     Router.get('/api/players', function(request, response) {
-        Query.find(Player, {}, {elo : 'descending'}, response);
+        Query.find(Player, {}, {elo: 'descending'}, response);
       });
 
     /* Player by name */
@@ -29,8 +29,6 @@ module.exports = function(Router) {
         // Player most played
         // Player most wins
         // Player most losses
-        // Highest Elo
-        // Lowest Elo
       });
 
   };
