@@ -18,8 +18,8 @@ exports.warningMessage = function(string) {
   console.log(this.timeStamp() + Chalk.bgYellow.black('WARNING - ' + string));
 };
 
-exports.errorMessage = function(string) {
-  console.error(this.timeStamp() + Chalk.bgRed.white('ERROR - ' + string));
+exports.errorMessage = function(type, string) {
+  console.error(this.timeStamp() + Chalk.bgRed.white('[ERROR - ' + type.toUpperCase() + ']' + Chalk.bgBlack(' ' + string)));
 };
 
 exports.systemMessage = function(type, string) {

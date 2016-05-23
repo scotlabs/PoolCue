@@ -8,7 +8,7 @@ var Alerts = require('../helpers/alerts');
 var Player = require('../models/player.js');
 
 /* Global Variables */
-var elo = new Elo();
+var EloRanking = new Elo();
 
 /* Functions */
 
@@ -17,12 +17,12 @@ exports.importPlayer = function(playerName, wins, losses) {
     var player = new Player({name: playerName});
 
     for (var j = 0; j < losses; j++) {
-      player.elo = elo.ifLoses(player.elo, 1000);
+      player.elo = EloRanking.ifLoses(player.elo, 1000);
       player.losses++;
     }
 
     for (var i = 0; i < wins; i++) {
-      player.elo = elo.ifWins(player.elo, 1000);
+      player.elo = EloRanking.ifWins(player.elo, 1000);
       player.wins++;
     }
 

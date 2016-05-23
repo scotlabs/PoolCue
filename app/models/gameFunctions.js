@@ -10,7 +10,7 @@ var Player = require('../models/player.js');
 var Game = require('../models/game.js');
 
 /* Global Variables */
-var elo = new Elo();
+var EloRanking = new Elo();
 
 /* Functions */
 
@@ -79,11 +79,11 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
 /* Update helper function for game complete */
 function updatePlayers(winner, loser) {
   Alerts.logMessage('Start', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-  winner.elo = elo.ifWins(winner.elo, loser.elo);
+  winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
   winner.wins++;
   winner.save();
 
-  loser.elo = elo.ifLoses(loser.elo, winner.elo);
+  loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
   loser.losses++;
   loser.save();
   Alerts.logMessage(' End ', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);

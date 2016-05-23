@@ -9,8 +9,8 @@ var Https = require('https');
 var Alerts = require('../helpers/alerts');
 
 /* Global Variables */
-var router = Express.Router();
-var app = new Express();
+var Router = Express.Router();
+var App = new Express();
 
 /* Functions */
 
@@ -23,18 +23,18 @@ exports.start = function() {
     // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
   };
 
-  require('./routes/routes')(router);
+  require('./routes/routes')(Router);
   try {
-    app.use(new Helmet());
-    app.use(Helmet.hidePoweredBy());
+    App.use(new Helmet());
+    App.use(Helmet.hidePoweredBy());
 
-    Https.createServer(options, app).listen(httpsPort);
-    app.listen(httpPort);
-    app.use('/', router);
+    Https.createServer(options, App).listen(httpsPort);
+    App.listen(httpPort);
+    App.use('/', Router);
 
     Alerts.systemMessage('Starting', '@ https://localhost:' + httpsPort + '...');
 
-    return app;
+    return App;
   } catch (error) {
     console.log(Alerts.errorMessage('Server failed to start: ', error));
   }
