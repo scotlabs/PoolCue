@@ -7,6 +7,7 @@ var Https = require('https');
 
 /* Imports */
 var Alerts = require('../helpers/alerts');
+var Server = require('../helpers/server');
 
 /* Global Variables */
 var Router = Express.Router();
@@ -14,7 +15,7 @@ var App = new Express();
 
 /* Functions */
 
-exports.start = function() {
+exports.start = function(homeDirectory) {
   var httpPort  = process.env.port || 8080;
   var httpsPort = process.env.port || 8081;
   var options   = {
@@ -27,6 +28,10 @@ exports.start = function() {
   try {
     App.use(new Helmet());
     App.use(Helmet.hidePoweredBy());
+
+    //App.use(Server.requireHTTPS);
+    App.use('/', Express.static(homeDirectory + '/bower_components'));
+    App.set('view engine', 'ejs');
 
     Https.createServer(options, App).listen(httpsPort);
     App.listen(httpPort);
