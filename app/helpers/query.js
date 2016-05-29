@@ -10,7 +10,7 @@
 
 /* Nonone wants to write find raw find functions */
 exports.find = function(collection, query, sort, response) {
-    collection.find({$and: [query]}, {_id: 0, __v: 0}).lean().exec(function(error, result) {
+    collection.find({$and: [query]}, {_id: 0, __v: 0}).sort(sort).lean().exec(function(error, result) {
         response.json(result);
       });
   };

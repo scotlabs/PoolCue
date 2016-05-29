@@ -1,16 +1,21 @@
- 'use strict';
+'use strict';
 
- /* NPM Packages*/
+/* NPM Packages*/
 
- /* Imports */
+/* Imports */
+var Player = require('../../models/player.js');
 
- /* Variables */
+/* Variables */
 
- /* Routes */
- module.exports = function(Router) {
+/* Routes */
+module.exports = function(Router) {
 
-     Router.get('/', function(request, response) {
-          response.render('../app/views/index.ejs');
+    Router.get('/', function(request, response) {
+        response.render('../app/views/index.ejs');
       });
 
-};
+    Router.get('/table', function(request, response) {
+        response.render('../app/views/elements/table.ejs');
+      });
+
+  };
