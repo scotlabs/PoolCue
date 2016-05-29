@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player = require('../../models/player.js');
+var Players = require('../../models/playerQuery');
 
 /* Variables */
 
@@ -14,8 +14,8 @@ module.exports = function(Router) {
         response.render('../app/views/index.ejs');
       });
 
-    Router.get('/table', function(request, response) {
-        response.render('../app/views/elements/table.ejs');
+    Router.get('/table', Players.getAll, function(request, response) {
+        response.render('../app/views/elements/table.ejs', {players: request.result});
       });
 
   };

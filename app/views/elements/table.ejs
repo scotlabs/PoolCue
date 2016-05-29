@@ -1,5 +1,7 @@
-<%= players %>
+<%- include('../common/header'); %>
+
     <table class="table table-condensed table-striped">
+
       <thead class="thead-default">
         <tr>
           <th>#</th>
@@ -8,20 +10,20 @@
           <th>Elo</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Jamie</td>
-          <td>-5</td>
-          <td>1043</td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>Jamie</td>
-          <td>-5</td>
-          <td>1043</td>
-        </tr>
+
+          <% for(var i=0; i < players.length; i++) { %>
+           <tr scope="row">
+             <td><%= i+1 %></td>
+             <td><%= players[i].name %></td>
+             <td><%= players[i].wins - players[i].losses %></td>
+             <td><%= players[i].elo %></td>
+           </tr>
+        <% } %>
+        
       </tbody>
+
     </table>
 
 <%- include('../common/footer'); %>

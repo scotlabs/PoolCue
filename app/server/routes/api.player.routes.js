@@ -3,8 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player = require('../../models/player');
-var Query = require('../../helpers/query');
+var Player = require('../../models/playerQuery');
 
 /* Variables */
 
@@ -13,22 +12,23 @@ module.exports = function(Router) {
 
     /* All players */
     Router.get('/api/players', function(request, response) {
-        Query.find(Player, {}, {elo: 'descending'}, response);
+        Player.getAll(request, response);
       });
 
     /* Player by name */
     Router.get('/api/players/:name', function(request, response) {
-        Query.find(Player, {name: request.params.name}, {}, response);
+        Player.get(request.params.name, request, response);
       });
 
     /* Incomplete endpoint for player stats */
     Router.get('/api/players/:name/stats', function(request, response) {
-        Query.getStats(Player, request.params.name, {}, response);
+        Player.getStats(request.params.name, request, response);
         // Last 10 games
         // Longest win streak
         // Player most played
         // Player most wins
         // Player most losses
+        // Nemisis
       });
 
   };

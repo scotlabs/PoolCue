@@ -9,9 +9,14 @@
 /* Functions */
 
 /* Nonone wants to write find raw find functions */
-exports.find = function(collection, query, sort, response) {
+exports.find = function(collection, query, sort, request, response, next) {
     collection.find({$and: [query]}, {_id: 0, __v: 0}).sort(sort).lean().exec(function(error, result) {
-        response.json(result);
+        if (next) {
+          request.result = result;
+          next();
+        }else {
+          response.json(result);
+        }
       });
   };
 
