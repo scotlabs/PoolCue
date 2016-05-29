@@ -11,11 +11,15 @@ var Players = require('../../models/playerQuery');
 module.exports = function(Router) {
 
     Router.get('/', function(request, response) {
-        response.render('../app/views/index.ejs');
+        response.render('../app/views/index');
       });
 
     Router.get('/table', Players.getAll, function(request, response) {
-        response.render('../app/views/elements/table.ejs', {players: request.result});
+        response.render('../app/views/elements/table', {players: request.result});
+      });
+
+    Router.get('/queue', Players.getAll, function(request, response) {
+        response.render('../app/views/elements/queue', {players: request.result});
       });
 
   };
