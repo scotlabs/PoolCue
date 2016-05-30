@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-2 col-md-offset-2">
               <a href="/api/games/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
-                <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                <i class="fa fa-close fa-fw" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -25,7 +25,7 @@
           </div>
           <div class="col-md-2 col-md-offset-2">
             <a href="/api/games/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
-              <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+              <i class="fa fa-close fa-fw" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -33,5 +33,28 @@
   <% }%>
 
 <% } %>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+      <div class="row">
+            <form class="form-inline" action="/api/games/create">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <div class="form-group">
+                      <input type="text" class="form-control input-lg" name="player1" placeholder="Player 1">
+                    </div>
+                    <label for="exampleInputName3"><h4> vs.</h4></label>
+                    <div class="form-group">
+                      <input type="text" class="form-control input-lg" name="player2" placeholder="Player 2">
+                    </div>
+                </div>
+                <div class="col-md-2 col-md-offset-1">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+      </div>
+  </div>
+</div>
 
 <%- include('../common/footer'); %>

@@ -16,8 +16,8 @@ var EloRanking = new Elo();
 
 /* Add a game to the queue */
 exports.queue = function(player1, player2, response) {
-    Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
-    findOrCreatePlayer(player1, player2, response);
+      Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
+      findOrCreatePlayer(player1, player2, response);
     };
 
 /* Remove the game from the queue */

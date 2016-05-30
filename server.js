@@ -11,5 +11,5 @@ var Database = require('./app/server/databaseConfig').connect();
 /* Functions */
 
 // Test import
-var Player = require('./app/models/playerFunctions');
-Player.importPlayer('Jamie', 10, 10);
+//var Player = require('./app/models/playerFunctions');
+//Player.importPlayer('Jamie', 10, 10);
