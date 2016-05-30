@@ -21,12 +21,12 @@ exports.queue = function(player1, player2, response) {
   };
 
 /* Remove the game from the queue */
-exports.abandon = function(gameId, response) {
-    Game.findById(gameId, function(error, game) {
+exports.abandon = function(request, response, next) {
+    Game.findById(request, function(error, game) {
         game.winner = 'Abandoned';
         game.save();
-        response.redirect('/api/games/id/' + game._id);
         Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+        response.redirect('/queue');
       });
   };
 
@@ -56,24 +56,25 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
   var game = new Game();
   Player.findOne({name: player1Name}, function(error, player1) {
     if (!player1) {
-      player1 = new Player({name: player1});
+      player1 = new Player({name: player1Name});
       player1.save();
       Alerts.logMessage('Create', 'New player created: ' +  player1);
     }
     game.player1 = player1.name;
     game.save();
-
-    Player.findOne({name: player2Name}, function(error, player2) {
-      if (!player2) {
-        player2 = new Player({name: player2});
-        player2.save();
-        Alerts.logMessage('Create', 'New player created: ' +  player2);
-      }
-      game.player2 = player2.name;
-      response.redirect('/api/games/id/' + game._id);
-      game.save();
-    });
   });
+
+  Player.findOne({name: player2Name}, function(error, player2) {
+    if (!player2) {
+      player2 = new Player({name: player2Name});
+      player2.save();
+      Alerts.logMessage('Create', 'New player created: ' +  player2);
+    }
+    game.player2 = player2.name;
+    game.save();
+  });
+
+  response.redirect('/api/games/id/' + game._id);
 }
 
 /* Update helper function for game complete */

@@ -43,5 +43,5 @@ exports.getByPlayers = function(player1Name, player2Name, request, response, nex
   };
 
 exports.getQueue = function(request, response, next) {
-    Query.findWhereExists(Game, {}, {time: 'ascending'}, 'winner', request, response, next);
+    Query.find(Game, {winner: null}, {time: 'ascending'}, request, response, next);
   };

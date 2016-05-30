@@ -10,20 +10,8 @@
 
 /* Nonone wants to write find raw find functions */
 exports.find = function(collection, query, sort, request, response, next) {
-    collection.find({$and: [query]}, {_id: 0, __v: 0}).sort(sort).lean().exec(function(error, result) {
+    collection.find({$and: [query]}, {__v: 0}).sort(sort).lean().exec(function(error, result) {
         if (next) {
-          request.result = result;
-          next();
-        }else {
-          response.json(result);
-        }
-      });
-  };
-
-exports.findWhereNull = function(collection, query, sort, where, request, response, next) {
-    collection.find({$and: [query]}, {_id: 0, __v: 0}).where(where).equal(null).sort(sort).lean().exec(function(error, result) {
-        if (next) {
-          console.log(result);
           request.result = result;
           next();
         }else {

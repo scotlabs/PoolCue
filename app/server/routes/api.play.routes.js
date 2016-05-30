@@ -9,7 +9,6 @@ var Game = require('../../models/gameFunctions');
 
 /* Routes */
 module.exports = function(Router) {
-
     /* Create a new game with params ie. /api/games/create?player1=Jamie&player2=NotJamie */
     Router.get('/api/games/create', function(request, response) {
         if (request.query.player1 && request.query.player2) {

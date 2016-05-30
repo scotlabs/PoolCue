@@ -16,7 +16,7 @@ module.exports = function(Router) {
       });
 
     /* Game by ID */
-    Router.get('/api/games/:id', function(request, response) {
+    Router.get('/api/games/id/:id', function(request, response) {
         Game.get(request.params.id, request, response);
       });
 
