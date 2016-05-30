@@ -16,9 +16,9 @@ var EloRanking = new Elo();
 
 /* Add a game to the queue */
 exports.queue = function(player1, player2, response) {
-    findOrCreatePlayer(player1, player2, response);
     Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
-  };
+    findOrCreatePlayer(player1, player2, response);
+    };
 
 /* Remove the game from the queue */
 exports.abandon = function(request, response, next) {
@@ -58,7 +58,7 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
     if (!player1) {
       player1 = new Player({name: player1Name});
       player1.save();
-      Alerts.logMessage('Create', 'New player created: ' +  player1);
+      Alerts.logMessage('Create', 'New player created: ' +  player1.name);
     }
     game.player1 = player1.name;
     game.save();
@@ -68,7 +68,7 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
     if (!player2) {
       player2 = new Player({name: player2Name});
       player2.save();
-      Alerts.logMessage('Create', 'New player created: ' +  player2);
+      Alerts.logMessage('Create', 'New player created: ' +  player2.name);
     }
     game.player2 = player2.name;
     game.save();

@@ -21,6 +21,7 @@ module.exports = function(Router) {
       });
 
     Router.get('/queue', Games.getQueue, function(request, response) {
+      console.log(request.headers.host)
         response.render('../app/views/elements/queue', {queue: request.result});
       });
 
