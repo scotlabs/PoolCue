@@ -1,7 +1,7 @@
 <%- include('../common/header'); %>
-
+<div class="container-fluid">
     <table class="table table-condensed table-striped">
-
+        
       <thead class="thead-default">
         <tr>
           <th>#</th>
@@ -12,7 +12,6 @@
       </thead>
 
       <tbody>
-
           <% for(var i=0; i < players.length; i++) { %>
            <tr scope="row">
              <td><%= i+1 %></td>
@@ -21,9 +20,8 @@
              <td><%= players[i].elo %></td>
            </tr>
         <% } %>
-
       </tbody>
 
     </table>
-
+</div>
 <%- include('../common/footer'); %>

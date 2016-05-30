@@ -22,13 +22,15 @@ module.exports = function(Router) {
 
     Router.get('/queue', Games.getQueue, function(request, response) {
         response.render('../app/views/elements/queue', {queue: request.result});
-      }).post('/queue', Games.getQueue, function(request, response) {
-        response.render('../app/views/elements/queue', {queue: request.result});
       });
 
     Router.get('/queue/abandon/:id', GameFunctions.abandon, function(request, response) {
         // GameFunctions jumps in here.
         response.redirect('/queue');
+      });
+
+    Router.get('/playing', Games.getQueue,  function(request, response) {
+        response.render('../app/views/elements/playing', {queue: request.result});
       });
 
   };
