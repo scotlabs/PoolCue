@@ -20,6 +20,18 @@ exports.find = function(collection, query, sort, request, response, next) {
       });
   };
 
+exports.findWhereNull = function(collection, query, sort, where, request, response, next) {
+    collection.find({$and: [query]}, {_id: 0, __v: 0}).where(where).equal(null).sort(sort).lean().exec(function(error, result) {
+        if (next) {
+          console.log(result);
+          request.result = result;
+          next();
+        }else {
+          response.json(result);
+        }
+      });
+  };
+
 exports.getStats = function(collection, playerName, sort, response) {
     // Last 10 games
     // Longest win streak

@@ -4,6 +4,7 @@
 
 /* Imports */
 var Players = require('../../models/playerQuery');
+var Games = require('../../models/gameQuery');
 
 /* Variables */
 
@@ -18,8 +19,8 @@ module.exports = function(Router) {
         response.render('../app/views/elements/table', {players: request.result});
       });
 
-    Router.get('/queue', Players.getAll, function(request, response) {
-        response.render('../app/views/elements/queue', {players: request.result});
+    Router.get('/queue', Games.getQueue, function(request, response) {
+        response.render('../app/views/elements/queue', {queue: request.result});
       });
 
   };
