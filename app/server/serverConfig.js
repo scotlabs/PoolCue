@@ -33,11 +33,16 @@ exports.start = function(homeDirectory) {
     App.use('/', Express.static(homeDirectory + '/bower_components'));
     App.set('view engine', 'ejs');
 
-    Https.createServer(options, App).listen(httpsPort);
+    var Server = Https.createServer(options, App).listen(httpsPort);
     App.listen(httpPort);
     App.use('/', Router);
 
     Alerts.systemMessage('Starting', '@ https://localhost:' + httpsPort + '...');
+
+    // Database
+    require('../server/databaseConfig').connect();
+    //Sockets
+    require('../server/socketsConfig').connect(Server);
 
     return App;
   } catch (error) {

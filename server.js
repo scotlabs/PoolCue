@@ -4,7 +4,6 @@
 
 /* Imports */
 var Server   = require('./app/server/serverConfig').start(__dirname);
-var Database = require('./app/server/databaseConfig').connect();
 
 /* Global Variables */
 
