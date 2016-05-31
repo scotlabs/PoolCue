@@ -1,27 +1,32 @@
-<%- include('../common/header'); %>
 <div class="container-fluid">
+  <legend class="text-center"> Leaderboard </legend>
     <table class="table table-condensed table-striped">
-        
+
       <thead class="thead-default">
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th>Delta</th>
-          <th>Elo</th>
+          <th class="text-right">Wins</th>
+          <th class="text-right">Losses</th>
+          <th class="text-right">Delta</th>
+          <th class="text-right">Elo</th>
         </tr>
       </thead>
 
       <tbody>
+        <% if(players) { %>
           <% for(var i=0; i < players.length; i++) { %>
            <tr scope="row">
-             <td><%= i+1 %></td>
-             <td><%= players[i].name %></td>
-             <td><%= players[i].wins - players[i].losses %></td>
-             <td><%= players[i].elo %></td>
+             <td><b><%= i+1 %></b></td>
+             <td><b><%= players[i].name %></td>
+             <td class="text-right"><b><%= players[i].wins %></b></td>
+             <td class="text-right"><b><%= players[i].losses %></b></td>
+             <td class="text-right"><b><%= players[i].wins - players[i].losses %></b></td>
+             <td class="text-right"><b><%= players[i].elo %></b></td>
            </tr>
+           <% } %>
         <% } %>
       </tbody>
 
     </table>
 </div>
-<%- include('../common/footer'); %>

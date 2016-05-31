@@ -21,12 +21,12 @@ exports.queue = function(request, response) {
     };
 
 /* Remove the game from the queue */
-exports.abandon = function(request, response, next) {
+exports.abandon = function(request, response) {
     Game.findById(request, function(error, game) {
         game.winner = 'Abandoned';
         game.save();
         Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
-        response.redirect('/queue');
+        response.redirect('/');
       });
   };
 
@@ -48,7 +48,7 @@ exports.complete = function(gameId, winner, response) {
               }
             });
         });
-    response.redirect('/api/games/id/' + game._id);
+    response.redirect('/');
   };
 
 /* Create helper function for game queue */
@@ -72,7 +72,7 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
     }
     game.player2 = player2.name;
     game.save();
-    response.redirect('/queue');
+    response.redirect('/');
   });
 
 }

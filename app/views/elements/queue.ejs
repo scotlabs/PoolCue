@@ -1,5 +1,6 @@
-<%- include('../common/header'); %>
 <div class="container-fluid">
+  <legend class="text-center"> Queue </legend>
+  <% if (queue && queue.length > 1) {%>
     <% for(var i=1; i < queue.length; i++) { %>
 
       <% if (i%2 == 0) { %>
@@ -34,28 +35,29 @@
       <% }%>
 
     <% } %>
+    <hr >
+  <% } %>
 
     <div class="panel panel-default">
       <div class="panel-body">
-          <div class="row">
+              <div class="row">
                 <form class="form-inline" method="post" action="/queue">
-                    <div class="col-md-6 col-md-offset-3 text-center">
+                    <div class="col-md-8 col-md-offset-2 text-center">
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" name="player1" placeholder="Player 1">
+                          <input type="text" class="form-control" name="player1" placeholder="Player 1">
                         </div>
                         <label><h4> vs.</h4></label>
                         <div class="form-group">
-                          <input type="text" class="form-control input-lg" name="player2" placeholder="Player 2">
+                          <input type="text" class="form-control" name="player2" placeholder="Player 2">
                         </div>
                     </div>
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                         </button>
                     </div>
                 </form>
-          </div>
-      </div>
+              </div>
+        </div>
     </div>
 </div>
-<%- include('../common/footer'); %>

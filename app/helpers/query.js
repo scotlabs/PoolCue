@@ -3,6 +3,8 @@
 /* NPM Packages*/
 
 /* Imports */
+var Games = require('../models/game.js');
+var Players = require('../models/player.js');
 
 /* Variables */
 
@@ -20,6 +22,16 @@ exports.find = function(collection, query, sort, request, response, next) {
       });
   };
 
+exports.homePage = function(request, response, next){
+  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, queueResult) {
+    request.queue = queueResult;
+    });
+
+    Players.find({}, {__v: 0}).sort({elo: 'descending'}).lean().exec(function(error, playerResult) {
+      request.players = playerResult;
+      next();
+    });
+}
 exports.getStats = function(collection, playerName, sort, response) {
     // Last 10 games
     // Longest win streak

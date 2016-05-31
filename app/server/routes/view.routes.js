@@ -3,6 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
+var Query = require('../../helpers/query');
 var Players = require('../../models/playerQuery');
 var Games = require('../../models/gameQuery');
 var GameFunctions = require('../../models/gameFunctions');
@@ -12,11 +13,11 @@ var GameFunctions = require('../../models/gameFunctions');
 /* Routes */
 module.exports = function(Router) {
 
-    Router.get('/', function(request, response) {
-        response.render('../app/views/index');
+    Router.get('/', Query.homePage, function(request, response) {
+        response.render('../app/views/index', {queue: request.queue, players: request.players});
       });
 
-    Router.get('/table', Players.getAll, function(request, response) {
+    Router.get('/table', Players.getAll, function(request, response, next) {
         response.render('../app/views/elements/table', {players: request.result});
       });
 
@@ -25,7 +26,7 @@ module.exports = function(Router) {
           response.render('../app/views/elements/queue', {queue: request.result});
         })
       .post(GameFunctions.queue, function(request, response) {
-          response.redirect('/queue');
+          //
         });
 
 
