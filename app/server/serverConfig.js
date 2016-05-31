@@ -4,6 +4,7 @@
 var Express = require('express');
 var Helmet = require('helmet');
 var Https = require('https');
+var BodyParser = require('body-parser');
 
 /* Imports */
 var Alerts = require('../helpers/alerts');
@@ -32,6 +33,7 @@ exports.start = function(homeDirectory) {
     //App.use(Server.requireHTTPS);
     App.use('/', Express.static(homeDirectory + '/bower_components'));
     App.set('view engine', 'ejs');
+    App.use(BodyParser.urlencoded({ extended: true })); 
 
     var Server = Https.createServer(options, App).listen(httpsPort);
     App.listen(httpPort);

@@ -15,9 +15,9 @@ var EloRanking = new Elo();
 /* Functions */
 
 /* Add a game to the queue */
-exports.queue = function(player1, player2, response) {
-      Alerts.logMessage('Queue', player1 + ' vs. ' + player2);
-      findOrCreatePlayer(player1, player2, response);
+exports.queue = function(request, response) {
+      Alerts.logMessage('Queue', request.body.player1 + ' vs. ' + request.body.player2);
+      findOrCreatePlayer(request.body.player1, request.body.player2, response);
     };
 
 /* Remove the game from the queue */
@@ -72,9 +72,9 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
     }
     game.player2 = player2.name;
     game.save();
+    response.redirect('/queue');
   });
 
-  response.redirect('/api/games/id/' + game._id);
 }
 
 /* Update helper function for game complete */

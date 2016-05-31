@@ -20,9 +20,15 @@ module.exports = function(Router) {
         response.render('../app/views/elements/table', {players: request.result});
       });
 
-    Router.get('/queue', Games.getQueue, function(request, response) {
-        response.render('../app/views/elements/queue', {queue: request.result});
-      });
+    Router.route('/queue')
+      .get(Games.getQueue, function(request, response) {
+          response.render('../app/views/elements/queue', {queue: request.result});
+        })
+      .post(GameFunctions.queue, function(request, response) {
+          response.redirect('/queue');
+        });
+
+
 
     Router.get('/queue/abandon/:id', GameFunctions.abandon, function(request, response) {
         // GameFunctions jumps in here.
