@@ -5,9 +5,9 @@ var BodyParser = require('body-parser');
 var Express = require('express');
 var Helmet = require('helmet');
 var Https = require('https');
+var Http = require('http');
 
 /* Imports */
-var Server = require('../helpers/server');
 var Logger = require('../helpers/logger');
 
 /* Global Variables */
@@ -19,8 +19,6 @@ var App = new Express();
 exports.start = function(homeDirectory) {
     // Database
     require('../server/databaseConfig').connect();
-    // Sockets
-    require('../server/socketsConfig').connect(Server);
     var httpPort  = process.env.port || 8080;
     var httpsPort = process.env.port || 8081;
     var options   = {
@@ -37,16 +35,21 @@ exports.start = function(homeDirectory) {
       //App.use(Server.requireHTTPS);
       App.use('/', Express.static(homeDirectory + '/bower_components'));
       App.use('/', Express.static(homeDirectory + '/app/public'));
+      Express.static(homeDirectory + '/public');
       App.set('view engine', 'ejs');
       App.use(BodyParser.urlencoded({extended: true}));
 
-      var Server = Https.createServer(options, App).listen(httpsPort);
-      App.listen(httpPort);
+      var Server = Http.createServer(App).listen(8080);
       App.use('/', Router);
+
+      var sockets = require('../server/socketConfig');
+      sockets.connect(Server);
+      //io.listen(Server);
 
       Logger.info('Starting server @ https://localhost:' + httpsPort);
 
       return App;
+
     } catch (error) {
       Logger.fatal('Server failed to start: ' + error);
     }
