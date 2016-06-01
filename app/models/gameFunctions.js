@@ -3,11 +3,11 @@
 /* NPM Packages*/
 var Mongoose = require('mongoose');
 var Elo      = require('elo-js');
-var Alerts   = require('../helpers/alerts');
+var Logger   = require('../helpers/logger');
 
 /* Imports */
 var Player = require('../models/player.js');
-var Game = require('../models/game.js');
+var Game   = require('../models/game.js');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -17,10 +17,10 @@ var EloRanking = new Elo();
 /* Add a game to the queue */
 exports.queue = function(request, response, next) {
       if (request.body.player1 !== '' && request.body.player2 !== '' && request.body.player1 !== request.body.player2) {
-        Alerts.logMessage('Queue', request.body.player1 + ' vs. ' + request.body.player2);
+        Logger.info('Queue ' + request.body.player1 + ' vs. ' + request.body.player2);
         findOrCreatePlayer(request.body.player1, request.body.player2, response, next);
       }else {
-        Alerts.logMessage('Error', request.body.player1 + ' vs. ' + request.body.player2);
+        Logger.warn('Error ' + request.body.player1 + ' vs. ' + request.body.player2);
         next();
       }
     };
@@ -30,7 +30,7 @@ exports.abandon = function(request, response, next) {
     Game.findById(request.params.id, function(error, game) {
         game.winner = 'Abandoned';
         game.save();
-        Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+        Logger.logMessage('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         next();
       });
   };
@@ -64,7 +64,7 @@ function findOrCreatePlayer(player1Name, player2Name, response, next) {
     if (!player1) {
       player1 = new Player({name: player1Name});
       player1.save();
-      Alerts.logMessage('Create', 'New player created: ' +  player1.name);
+      Logger.info('Create new player: ' +  player1.name);
     }
     game.player1 = player1.name;
     game.save();
@@ -74,7 +74,7 @@ function findOrCreatePlayer(player1Name, player2Name, response, next) {
     if (!player2) {
       player2 = new Player({name: player2Name});
       player2.save();
-      Alerts.logMessage('Create', 'New player created: ' +  player2.name);
+      Logger.info('Create new player: ' +  player2.name);
     }
     game.player2 = player2.name;
     game.save();
@@ -85,7 +85,7 @@ function findOrCreatePlayer(player1Name, player2Name, response, next) {
 
 /* Update helper function for game complete */
 function updatePlayers(winner, loser) {
-  Alerts.logMessage('Start', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+  Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
   winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
   winner.wins++;
   winner.save();
@@ -93,5 +93,5 @@ function updatePlayers(winner, loser) {
   loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
   loser.losses++;
   loser.save();
-  Alerts.logMessage(' End ', winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+  Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
 };

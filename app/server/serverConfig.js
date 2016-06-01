@@ -7,8 +7,8 @@ var Https = require('https');
 var BodyParser = require('body-parser');
 
 /* Imports */
-var Alerts = require('../helpers/alerts');
 var Server = require('../helpers/server');
+var Logger = require('../helpers/logger');
 
 /* Global Variables */
 var Router = Express.Router();
@@ -17,38 +17,36 @@ var App = new Express();
 /* Functions */
 
 exports.start = function(homeDirectory) {
-  var Logger = require(homeDirectory + '/app/server/loggerConfig').logger(homeDirectory);
-  var httpPort  = process.env.port || 8080;
-  var httpsPort = process.env.port || 8081;
-  var options   = {
-    // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
-    // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
-    // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
-  };
-
-  require('./routes/routes')(Router, Logger);
-  try {
-    App.use(new Helmet());
-    App.use(Helmet.hidePoweredBy());
-
-    //App.use(Server.requireHTTPS);
-    App.use('/', Express.static(homeDirectory + '/bower_components'));
-    App.set('view engine', 'ejs');
-    App.use(BodyParser.urlencoded({extended: true}));
-
-    var Server = Https.createServer(options, App).listen(httpsPort);
-    App.listen(httpPort);
-    App.use('/', Router);
-
-    Alerts.systemMessage('Starting', '@ https://localhost:' + httpsPort + '...');
-
     // Database
     require('../server/databaseConfig').connect();
-    //Sockets
+    // Sockets
     require('../server/socketsConfig').connect(Server);
+    var httpPort  = process.env.port || 8080;
+    var httpsPort = process.env.port || 8081;
+    var options   = {
+      // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
+      // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
+      // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
+    };
 
-    return App;
-  } catch (error) {
-    console.log(Alerts.errorMessage('Server failed to start: ', error));
-  }
-};
+    require('./routes/routes')(Router, Logger);
+    try {
+      App.use(new Helmet());
+      App.use(Helmet.hidePoweredBy());
+
+      //App.use(Server.requireHTTPS);
+      App.use('/', Express.static(homeDirectory + '/bower_components'));
+      App.set('view engine', 'ejs');
+      App.use(BodyParser.urlencoded({extended: true}));
+
+      var Server = Https.createServer(options, App).listen(httpsPort);
+      App.listen(httpPort);
+      App.use('/', Router);
+
+      Logger.info('Starting server @ https://localhost:' + httpsPort);
+
+      return App;
+    } catch (error) {
+      Logger.fatal('Server failed to start: ' + error);
+    }
+  };

@@ -4,7 +4,7 @@
 var Mongoose = require('mongoose');
 
 /* Imports */
-var Alerts = require('../helpers/alerts');
+var Logger = require('../helpers/logger');
 
 /* Global Variables */
 
@@ -15,9 +15,9 @@ exports.connect = function() {
   var db = Mongoose.connection;
 
   db.on('error', function() {
-    Alerts.errorMessage('Database', 'Could not connect to database @ ' + connectionString);
+    Logger.error('Could not connect to database @ ' + connectionString);
   });
   db.once('open', function() {
-    Alerts.systemMessage('Database', 'connecting...');
+    Logger.info('Connected to database @ ' + connectionString);
   });
 };

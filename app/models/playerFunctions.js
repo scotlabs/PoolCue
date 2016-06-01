@@ -4,7 +4,7 @@
 var Elo = require('elo-js');
 
 /* Imports */
-var Alerts = require('../helpers/alerts');
+var Logger = require('../helpers/logger');
 var Player = require('../models/player.js');
 
 /* Global Variables */
@@ -26,6 +26,6 @@ exports.importPlayer = function(playerName, wins, losses) {
       player.wins++;
     }
 
-    Alerts.logMessage('Import', player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ' + '| (' + player.elo + ')');
+    Logger.info('Importing ' + player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ' + '| (' + player.elo + ')');
     player.save();
   };
