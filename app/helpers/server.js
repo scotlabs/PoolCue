@@ -7,14 +7,14 @@
 /* Variables */
 
 /* Functions */
-exports.requireHTTPS = function(req, res, next) {
-    if (req.secure) {
+exports.requireHTTPS = function(request, response, next) {
+    if (request.secure) {
       next();
     } else {
-      if (req.method === 'GET') {
-        res.redirect(301, 'https://' + req.headers.host + req.originalUrl);
+      if (request.method === 'GET') {
+        response.redirect(301, 'https://' + request.headers.host + request.originalUrl);
       } else {
-        res.status(403).send('Please use HTTPS when submitting data to this server.');
+        response.status(403).send('Please use HTTPS when submitting data to this server.');
       }
     }
   };
