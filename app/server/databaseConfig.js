@@ -12,12 +12,12 @@ var Logger = require('../helpers/logger');
 exports.connect = function() {
   var connectionString = 'mongodb://localhost:27017/EloEloElo';
   Mongoose.connect(connectionString);
-  var db = Mongoose.connection;
 
-  db.on('error', function() {
+  Mongoose.connection.on('error', function() {
     Logger.error('Could not connect to database @ ' + connectionString);
   });
-  db.once('open', function() {
+
+  Mongoose.connection.once('open', function() {
     Logger.info('Connected to database @ ' + connectionString);
   });
 };

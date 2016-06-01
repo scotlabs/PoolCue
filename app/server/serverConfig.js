@@ -1,10 +1,10 @@
 'use strict';
 
 /* NPM Packages*/
+var BodyParser = require('body-parser');
 var Express = require('express');
 var Helmet = require('helmet');
 var Https = require('https');
-var BodyParser = require('body-parser');
 
 /* Imports */
 var Server = require('../helpers/server');
@@ -36,6 +36,7 @@ exports.start = function(homeDirectory) {
 
       //App.use(Server.requireHTTPS);
       App.use('/', Express.static(homeDirectory + '/bower_components'));
+      App.use('/', Express.static(homeDirectory + '/app/public'));
       App.set('view engine', 'ejs');
       App.use(BodyParser.urlencoded({extended: true}));
 

@@ -19,12 +19,12 @@ exports.debug = function(string) {
 
 exports.info = function(string) {
     writeToFile(' info', string);
-    console.log(Chalk.green(timeStamp() + '[ INFO] - ' + Chalk.reset(string)));
+    console.log(Chalk.green(timeStamp() + '[INFO]  - ' + Chalk.reset(string)));
   };
 
 exports.warn = function(string) {
     writeToFile(' warn', string);
-    console.log(Chalk.yellow(timeStamp() + '[ WARN] - ' + Chalk.reset(string)));
+    console.log(Chalk.yellow(timeStamp() + '[WARN]  - ' + Chalk.reset(string)));
   };
 
 exports.error = function(string) {
@@ -39,8 +39,13 @@ exports.fatal = function(string) {
 
 function writeToFile(prefix, message) {
   var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
-  Fs.appendFileSync('logs/' + prefix.replace(/\s+/, '') + '.log', formattedMessage + '\n');
-  Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
+
+  try {
+    Fs.appendFileSync('logs/' + prefix.replace(' ', '') + '.log', formattedMessage + '\n');
+    Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
+  }catch (error) {
+    console.log(Chalk.magenta(timeStamp() + '[FATAL] - ' + Chalk.reset('Create a /logs folder first.')));
+  }
 }
 
 function timeStamp() {
