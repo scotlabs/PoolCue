@@ -11,7 +11,7 @@
                     <h4 class="text-center"><%= queue[i].player1 %> vs. <%= queue[i].player2 %></h4>
                 </div>
                 <div class="col-md-2 col-md-offset-2">
-                  <a href="/api/games/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
+                  <a href="/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
                     <i class="fa fa-close fa-fw" aria-hidden="true"></i>
                   </a>
                 </div>
@@ -26,7 +26,7 @@
                   <h4 class="text-center"><%= queue[i].player1 %> vs. <%= queue[i].player2 %></h4>
               </div>
               <div class="col-md-2 col-md-offset-2">
-                <a href="/api/games/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
+                <a href="/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
                   <i class="fa fa-close fa-fw" aria-hidden="true"></i>
                 </a>
               </div>

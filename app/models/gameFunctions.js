@@ -15,24 +15,25 @@ var EloRanking = new Elo();
 /* Functions */
 
 /* Add a game to the queue */
-exports.queue = function(request, response) {
+exports.queue = function(request, response, next) {
       Alerts.logMessage('Queue', request.body.player1 + ' vs. ' + request.body.player2);
-      findOrCreatePlayer(request.body.player1, request.body.player2, response);
+      findOrCreatePlayer(request.body.player1, request.body.player2, response, next);
     };
 
 /* Remove the game from the queue */
-exports.abandon = function(request, response) {
-    Game.findById(request, function(error, game) {
+exports.abandon = function(request, response, next) {
+    Game.findById(request.params.id, function(error, game) {
         game.winner = 'Abandoned';
         game.save();
         Alerts.logMessage('Abandon', 'Game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
-        response.redirect('/');
+        next();
       });
   };
 
 /* Complete a game */
-exports.complete = function(gameId, winner, response) {
-    Game.findById(gameId, function(error, game) {
+exports.complete = function(request, response, next) {
+    Game.findById(request.params.id, function(error, game) {
+          var winner = request.params.winner;
           game.winner = winner;
           game.save();
           var loser = game.player2;
@@ -47,12 +48,12 @@ exports.complete = function(gameId, winner, response) {
                 updatePlayers(players[1], players[0]);
               }
             });
+          next();
         });
-    response.redirect('/');
   };
 
 /* Create helper function for game queue */
-function findOrCreatePlayer(player1Name, player2Name, response) {
+function findOrCreatePlayer(player1Name, player2Name, response, next) {
   var game = new Game();
   Player.findOne({name: player1Name}, function(error, player1) {
     if (!player1) {
@@ -72,7 +73,7 @@ function findOrCreatePlayer(player1Name, player2Name, response) {
     }
     game.player2 = player2.name;
     game.save();
-    response.redirect('/');
+    next();
   });
 
 }

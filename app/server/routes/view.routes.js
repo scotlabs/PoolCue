@@ -17,27 +17,17 @@ module.exports = function(Router) {
         response.render('../app/views/index', {queue: request.queue, players: request.players});
       });
 
-    Router.get('/table', Players.getAll, function(request, response, next) {
-        response.render('../app/views/elements/table', {players: request.result});
-      });
-
     Router.route('/queue')
-      .get(Games.getQueue, function(request, response) {
-          response.render('../app/views/elements/queue', {queue: request.result});
-        })
-      .post(GameFunctions.queue, function(request, response) {
-          //
+      .post(GameFunctions.queue, function(request, response, next) {
+          response.redirect('/');
         });
 
-
-
-    Router.get('/queue/abandon/:id', GameFunctions.abandon, function(request, response) {
-        // GameFunctions jumps in here.
-        response.redirect('/queue');
+    Router.get('/abandon/:id', GameFunctions.abandon, function(request, response, next) {
+        response.redirect('/');
       });
 
-    Router.get('/playing', Games.getQueue,  function(request, response) {
-        response.render('../app/views/elements/playing', {queue: request.result});
+    Router.get('/complete/:id/:winner', GameFunctions.complete, function(request, response, next) {
+        response.redirect('/');
       });
 
   };
