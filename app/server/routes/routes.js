@@ -9,20 +9,20 @@
 /* Functions */
 
 /* Routes */
-module.exports = function(router) {
+module.exports = function(Router, Logger) {
     /* Sub Routes */
-    require('./api.game.routes')(router);
-    require('./api.play.routes')(router);
-    require('./api.player.routes')(router);
-    require('./view.routes')(router);
+    require('./api.game.routes')(Router, Logger);
+    require('./api.play.routes')(Router, Logger);
+    require('./api.player.routes')(Router, Logger);
+    require('./view.routes')(Router, Logger);
 
     /* Root Route */
-    router.get('/api', function(request, response) {
+    Router.get('/api', function(request, response) {
         response.json({API: 'It\'s alive!'});
       });
 
     /* 404 Route */
-    router.get('*', function(request, response) {
+    Router.get('*', function(request, response) {
         response.status(404).send('404');
       });
 

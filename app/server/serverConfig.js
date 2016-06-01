@@ -17,6 +17,7 @@ var App = new Express();
 /* Functions */
 
 exports.start = function(homeDirectory) {
+  var Logger = require(homeDirectory + '/app/server/loggerConfig').logger(homeDirectory);
   var httpPort  = process.env.port || 8080;
   var httpsPort = process.env.port || 8081;
   var options   = {
@@ -25,7 +26,7 @@ exports.start = function(homeDirectory) {
     // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
   };
 
-  require('./routes/routes')(Router);
+  require('./routes/routes')(Router, Logger);
   try {
     App.use(new Helmet());
     App.use(Helmet.hidePoweredBy());
@@ -33,7 +34,7 @@ exports.start = function(homeDirectory) {
     //App.use(Server.requireHTTPS);
     App.use('/', Express.static(homeDirectory + '/bower_components'));
     App.set('view engine', 'ejs');
-    App.use(BodyParser.urlencoded({ extended: true })); 
+    App.use(BodyParser.urlencoded({extended: true}));
 
     var Server = Https.createServer(options, App).listen(httpsPort);
     App.listen(httpPort);

@@ -9,7 +9,6 @@ var Query = require('../helpers/query');
 /* Variables */
 
 /* Functions */
-
 exports.getAll = function(request, response, next) {
     Query.find(Game, {}, {time: 'descending'}, request, response, next);
   };
