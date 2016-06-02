@@ -4,10 +4,12 @@ $(function() {
 
   // Initialize variables
   var $window = $(window);
-  var $usernameInput = $('.usernameInput'); // Input for username
+  var $createGameButton = $('#createGame');
+  var $player1 = $('.player1'); // Input for username
+  var $player1 = $('.player2');
+  var $usernameInput = $('.usernameInput');
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
-
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
 
@@ -52,13 +54,12 @@ $(function() {
     var player2 = cleanInput($player2.val());
     // if there is a non-empty message and a socket connection
     if (player1 && player2 && connected) {
-      $inputMessage.val('');
       addChatMessage({
-        username: username,
-        message: message
+        player1: player1,
+        player2: player2
       });
       // tell server to execute 'new message' and send along one parameter
-      socket.emit('new game', player1, player2);
+      socket.emit('create game', player1, player2);
     }
   }
 
@@ -170,21 +171,28 @@ $(function() {
   // Keyboard events
 
   $window.keydown(function(event) {
-    // Auto-focus the current input when a key is typed
-    if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-      $currentInput.focus();
-    }
-    // When the client hits ENTER on their keyboard
-    if (event.which === 13) {
-      if (username) {
+      console.log('keypress');
+      // Auto-focus the current input when a key is typed
+      if (!(event.ctrlKey || event.metaKey || event.altKey)) {
+        $currentInput.focus();
+      }
+      // When the client hits ENTER on their keyboard
+      if (event.which === 13) {
         sendMessage();
         socket.emit('stop typing');
         typing = false;
-      } else {
-        setUsername();
       }
-    }
+    });
+
+  $createGame.click(function(event) {
+    console.log('HERE');
   });
+  $(document).ready(function() {
+                  $('#createGame').click(function() {
+                      console.log('HERE');
+                      socket.emit('my event' ,'Hello World!');
+                    });
+                });
 
   $inputMessage.on('input', function() {
     updateTyping();

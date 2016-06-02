@@ -38,15 +38,14 @@ exports.start = function(homeDirectory) {
       Express.static(homeDirectory + '/public');
       App.set('view engine', 'ejs');
       App.use(BodyParser.urlencoded({extended: true}));
-
-      var Server = Http.createServer(App).listen(8080);
       App.use('/', Router);
+
+      var Server = Http.createServer(App).listen(httpPort);
 
       var sockets = require('../server/socketConfig');
       sockets.connect(Server);
-      //io.listen(Server);
 
-      Logger.info('Starting server @ https://localhost:' + httpsPort);
+      Logger.info('Starting server @ https://localhost:' + httpPort);
 
       return App;
 
