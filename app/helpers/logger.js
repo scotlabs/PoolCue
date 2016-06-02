@@ -5,8 +5,6 @@ var Chalk  = require('chalk');
 var Moment = require('moment');
 var Fs = require('fs');
 
-//fs.appendFileSync('log.txt', 'Hello', encoding = 'utf8');
-
 /* Imports */
 
 /* Variables */

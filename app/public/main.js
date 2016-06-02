@@ -4,9 +4,8 @@ $(function() {
 
   // Initialize variables
   var $window = $(window);
-  var $createGameButton = $('#createGame');
   var $player1 = $('.player1'); // Input for username
-  var $player1 = $('.player2');
+  var $player2 = $('.player2');
   var $usernameInput = $('.usernameInput');
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
@@ -184,15 +183,17 @@ $(function() {
       }
     });
 
-  $createGame.click(function(event) {
-    console.log('HERE');
-  });
   $(document).ready(function() {
-                  $('#createGame').click(function() {
-                      console.log('HERE');
-                      socket.emit('my event' ,'Hello World!');
-                    });
-                });
+    $('#createGame').click(function() {
+        console.log('HERE');
+        var player1 = $('.player1').val();
+        var player2 = cleanInput($player2.val());
+        console.log($player1);
+        alert($('#player1').val() + " " + $player2);
+        socket.emit('my event' ,'Hello World!');
+      });
+
+});
 
   $inputMessage.on('input', function() {
     updateTyping();
