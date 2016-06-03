@@ -32,6 +32,20 @@ exports.homePage = function(request, response, next) {
     next();
   });
 };
+
+exports.homePageSockets = function(io) {
+  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, queue) {
+    Players.find({}, {__v: 0}).sort({elo: 'descending'}).lean().exec(function(error, players) {
+      io.emit('update data', {
+        players: players,
+        queue: queue
+      });
+
+    });
+
+  });
+
+};
 exports.getStats = function(collection, playerName, sort, response) {
     // Last 10 games
     // Longest win streak

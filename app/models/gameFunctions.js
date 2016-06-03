@@ -3,12 +3,13 @@
 /* NPM Packages*/
 var Mongoose = require('mongoose');
 var Elo      = require('elo-js');
-var Logger   = require('../helpers/logger');
 
 /* Imports */
 var Player = require('../models/player.js');
 var Game   = require('../models/game.js');
 var GameQuery = require('../models/gameQuery');
+var Logger   = require('../helpers/logger');
+var Query   = require('../helpers/query');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -28,7 +29,6 @@ exports.queue = function(request, response, next) {
 
 exports.queue2 = function(player1, player2, io) {
       if (player1 !== '' && player2 !== '' && player1 !== player2) {
-        console.log('here');
         Logger.info('Queue ' + player1 + ' vs. ' + player2);
         findOrCreatePlayer2(player1, player2, io);
       }else {
@@ -41,7 +41,7 @@ exports.abandon = function(request, response, next) {
     Game.findById(request.params.id, function(error, game) {
         game.winner = 'Abandoned';
         game.save();
-        Logger.logMessage('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+        Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         next();
       });
   };
@@ -68,6 +68,14 @@ exports.complete = function(request, response, next) {
         });
   };
 
+exports.getLeaderboard = function(io){
+  Player.find({}).sort({elo: 'descending'}).exec(function(error, players) {
+      console.log(players);
+      io.emit('update leaderboard', {
+        players: players
+      });
+    });
+}
 /* Create helper function for game queue */
 function findOrCreatePlayer(player1Name, player2Name, response, next) {
   var game = new Game();
@@ -114,15 +122,13 @@ function findOrCreatePlayer2(player1Name, player2Name, io) {
     }
     game.player2 = player2.name;
     game.save();
-  });
 
-  Player.find({}).sort({elo: 'descending'}).exec(function(error, players) {
-      console.log(players);
-      io.emit('create game', {
-        game: game,
-        players: players
-      });
-    });
+    Query.homePageSockets(io);
+    // io.emit('create game', {
+    //   game: game
+    // });
+
+  });
 }
 
 /* Update helper function for game complete */

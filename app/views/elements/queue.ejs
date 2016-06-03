@@ -1,5 +1,6 @@
 <div class="container-fluid">
   <legend class="text-center"> Queue </legend>
+  <div class="queue">
   <% if (queue && queue.length > 1) {%>
     <% for(var i=1; i < queue.length; i++) { %>
         <div class="well">
@@ -16,7 +17,7 @@
         </div>
     <% } %>
   <% } %>
-  <div class="queue"></div>
+  </div>
 
     <div class="panel panel-default">
       <div class="panel-body">
