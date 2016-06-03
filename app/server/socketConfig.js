@@ -19,6 +19,10 @@ exports.connect = function(server) {
           Game.queue2(player1, player2, io);
         });
 
+        socket.on('delete game', function(gameId) {
+          Game.abandon2(gameId, io);
+        });
+
         socket.on('update leaderboard', function(player1, player2) {
           Game.getLeaderboard(io);
         });

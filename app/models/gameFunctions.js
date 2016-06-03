@@ -46,6 +46,15 @@ exports.abandon = function(request, response, next) {
       });
   };
 
+exports.abandon2 = function(id, io) {
+    Game.findById(id, function(error, game) {
+        game.winner = 'Abandoned';
+        game.save();
+        Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+        Query.homePageSockets(io);
+      });
+  };
+
 /* Complete a game */
 exports.complete = function(request, response, next) {
     Game.findById(request.params.id, function(error, game) {
@@ -68,14 +77,14 @@ exports.complete = function(request, response, next) {
         });
   };
 
-exports.getLeaderboard = function(io){
+exports.getLeaderboard = function(io) {
   Player.find({}).sort({elo: 'descending'}).exec(function(error, players) {
       console.log(players);
       io.emit('update leaderboard', {
         players: players
       });
     });
-}
+};
 /* Create helper function for game queue */
 function findOrCreatePlayer(player1Name, player2Name, response, next) {
   var game = new Game();
@@ -124,9 +133,6 @@ function findOrCreatePlayer2(player1Name, player2Name, io) {
     game.save();
 
     Query.homePageSockets(io);
-    // io.emit('create game', {
-    //   game: game
-    // });
 
   });
 }

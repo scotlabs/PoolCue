@@ -1,45 +1,56 @@
 $(function() {
   // Initialize variables
   var $window = $(window);
-  var $player1 = $('.player1'); // Input for username
-  var $player2 = $('.player2');
+  var $playing = $('.playing');
   var $queue = $('.queue');
   var $scoreboard = $('.scoreboard');
 
   var socket = io();
 
   /* Incoming socket data */
-  socket.on('create game', function(data) {
-    console.log('here')
-      addNewGameToQueue(data.game);
-    });
-
-  socket.on('update leaderboard', function(data) {
-      addNewLeaderboard(data.players);
-  });
-
   socket.on('update data', function(data) {
     addNewGameToQueue(data.queue);
     addNewLeaderboard(data.players);
-    addNewCurrentlyPlaying(data.players[0]);
+    addNewCurrentlyPlaying(data.queue[0]);
   });
+
   /* Button clicks */
   $(document).ready(function() {
     $('#createGame').click(function() {
         updateQueue();
       });
+
+    $(document).on('click','.btn-danger',function(e) {
+      deleteQueue(this.id);
+    });
+    //      .on("click",".sframe",function(e){
+    // var seat_number = this.id.match(/\d/g);
+    // alert(seat_number);
+    // }
+
+    $('.btn-standard').click(function() {
+        console.log('stuff');
+        alert(this.id + $(this).attr('value'));
+      });
+
   });
 
-
-  function updateLeaderboard(){
+  function updateLeaderboard() {
     socket.emit('update leaderboard');
   }
 
-  function updateQueue(){
+  function updateQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
+    $('#player1').val('');
+    $('#player2').val('');
 
     socket.emit('create game', player1, player2);
+  }
+
+  function deleteQueue(gameId) {
+    console.log(gameId);
+    socket.emit('delete game', gameId);
   }
 
   function addNewGameToQueue(queue) {
@@ -57,10 +68,8 @@ $(function() {
                           '</div>' +
                       '</div>' +
                   '</div>');
-        $newQueue += $game;
-        //console.log($game)
-      }
-    //  console.log($newQueue)
+      $newQueue += $game;
+    }
     $queue.html($newQueue);
   }
 
@@ -68,7 +77,7 @@ $(function() {
     var $newTable = '';
     for (var i = 0; i < players.length; i++) {
       var $delta = (players[i].wins - players[i].losses);
-      var $position = i+1;
+      var $position = i + 1;
       var $tableRow = ('<tr scope="row">' +
                            '<td><b>' + $position + '</b></td>' +
                            '<td><b>' + players[i].name + '</td>' +
@@ -78,42 +87,47 @@ $(function() {
                            '<td class="text-right"><b>' + players[i].elo + '</b></td>' +
                         '</tr>'
                        );
-        $newTable += $tableRow;
+      $newTable += $tableRow;
     }
 
     $scoreboard.html($newTable);
   }
 
-function addNewCurrentlyPlaying(player){
- //  <% if(queue && queue[0]) { %>
- //  <% for(var i=0; i < 1; i++) { %>
- //  <div class="col-md-6 col-md-offset-3 text-center">
- //    <a href="/complete/<%= queue[i]._id %>/<%= queue[i].player1 %>" type="button" class="btn btn-lg btn-primary">
- //      <%= queue[i].player1 %>
- //      <i class="fa fa-trophy fa-lg fa-fw text-right"></i>
- //    </a>
- //    <label><h4> vs. </h4></label>
- //    <a href="/complete/<%= queue[i]._id %>/<%= queue[i].player2 %>" type="button" class="btn btn-lg btn-primary">
- //      <i class="fa fa-trophy fa-lg fa-fw text-left"></i>
- //      <%= queue[i].player2 %>
- //    </a>
- //  </div>
- //  <div class="col-md-1 col-md-offset-2">
- //    <a href="/abandon/<%= queue[i]._id %>" class="btn btn-lg btn-danger" role="button">
- //      <i class="fa fa-close fa-fw" aria-hidden="true"></i>
- //    </a>
- //  </div>
- //  <% } %>
- //  <% } else { %>
- //    <div class="row text-center">
- //      <h3> Naebody vs. Naebody<h3>
- //    </div>
- //    <div class="row text-center">
- //      <p> Why not queue? </p>
- //    </div>
- // <% } %>
-}
- /* Helpers */
+  function addNewCurrentlyPlaying(queue) {
+    $currentlyPlaying = (
+        '<div class="col-md-6 col-md-offset-3 text-center">' +
+            '<a href="/complete/' + queue._id + '/' + queue.player1 + '" type="button" class="btn btn-lg btn-primary">' +
+                queue.player1 +
+                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
+            '</a>' +
+            '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
+            '<a href="/complete/' + queue._id + '/' + queue.player2 + '" type="button" class="btn btn-lg btn-primary">' +
+                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
+                queue.player2 +
+            '</a>' +
+        '</div>' +
+        '<div class="col-md-1 col-md-offset-2">' +
+            '<a href="/abandon/' + queue._id + '" class="btn btn-lg btn-danger" role="button">' +
+                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+            '</a>' +
+        '</div>'
+    );
+
+    $noonePlaying = (
+        '<div class="row text-center">' +
+            '<h3> Naebody vs. Naebody<h3>' +
+        '</div>' +
+        '<div class="row text-center">' +
+            '<p> Why not queue? </p>' +
+        '</div>'
+    );
+    if (queue && queue._id) {
+      $playing.html($currentlyPlaying);
+    }else {
+      $playing.html($noonePlaying);
+    }
+  }
+  /* Helpers */
   function cleanInput(input) {
     return $('<div/>').text(input).text();
   }
