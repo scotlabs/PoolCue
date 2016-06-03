@@ -21,15 +21,10 @@ $(function() {
       });
 
     $(document).on('click','.btn-danger',function(e) {
-      deleteQueue(this.id);
-    });
-    //      .on("click",".sframe",function(e){
-    // var seat_number = this.id.match(/\d/g);
-    // alert(seat_number);
-    // }
+        deleteQueue(this.id);
+      });
 
     $('.btn-standard').click(function() {
-        console.log('stuff');
         alert(this.id + $(this).attr('value'));
       });
 
@@ -49,7 +44,6 @@ $(function() {
   }
 
   function deleteQueue(gameId) {
-    console.log(gameId);
     socket.emit('delete game', gameId);
   }
 
@@ -94,25 +88,6 @@ $(function() {
   }
 
   function addNewCurrentlyPlaying(queue) {
-    $currentlyPlaying = (
-        '<div class="col-md-6 col-md-offset-3 text-center">' +
-            '<a href="/complete/' + queue._id + '/' + queue.player1 + '" type="button" class="btn btn-lg btn-primary">' +
-                queue.player1 +
-                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
-            '</a>' +
-            '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
-            '<a href="/complete/' + queue._id + '/' + queue.player2 + '" type="button" class="btn btn-lg btn-primary">' +
-                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
-                queue.player2 +
-            '</a>' +
-        '</div>' +
-        '<div class="col-md-1 col-md-offset-2">' +
-            '<a href="/abandon/' + queue._id + '" class="btn btn-lg btn-danger" role="button">' +
-                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-            '</a>' +
-        '</div>'
-    );
-
     $noonePlaying = (
         '<div class="row text-center">' +
             '<h3> Naebody vs. Naebody<h3>' +
@@ -122,7 +97,7 @@ $(function() {
         '</div>'
     );
     if (queue && queue._id) {
-      $playing.html($currentlyPlaying);
+      $playing.html(nowPlayingTemplate(queue));
     }else {
       $playing.html($noonePlaying);
     }
@@ -138,4 +113,23 @@ $(function() {
       }
     });
 
+  function nowPlayingTemplate(queue) {
+    return $currentlyPlaying = (
+        '<div class="col-md-6 col-md-offset-3 text-center">' +
+            '<a href="/complete/' + queue._id + '/' + queue.player1 + '" type="button" class="btn btn-lg btn-primary">' +
+                queue.player1 +
+                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
+            '</a>' +
+            '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
+            '<a href="/complete/' + queue._id + '/' + queue.player2 + '" type="button" class="btn btn-lg btn-primary">' +
+                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
+                queue.player2 +
+            '</a>' +
+        '</div>' +
+        '<div class="col-md-1 col-md-offset-2">' +
+            '<a id="' + queue._id + '" class="btn btn-lg btn-danger" role="button">' +
+                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+            '</a>' +
+        '</div>'
+    );}
 });

@@ -79,7 +79,6 @@ exports.complete = function(request, response, next) {
 
 exports.getLeaderboard = function(io) {
   Player.find({}).sort({elo: 'descending'}).exec(function(error, players) {
-      console.log(players);
       io.emit('update leaderboard', {
         players: players
       });
