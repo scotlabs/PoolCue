@@ -16,8 +16,11 @@ exports.connect = function(server) {
         Logger.debug('New socket connection.');
 
         socket.on('create game', function(player1, player2) {
-          console.log('A MESSAGE!');
           Game.queue2(player1, player2, io);
+        });
+
+        socket.on('update leaderboard', function(player1, player2) {
+          Game.getLeaderboard(io);
         });
 
       });
