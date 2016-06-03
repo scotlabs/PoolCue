@@ -21,6 +21,7 @@ $(function() {
   socket.on('update data', function(data) {
     addNewGameToQueue(data.queue);
     addNewLeaderboard(data.players);
+    addNewCurrentlyPlaying(data.players[0]);
   });
   /* Button clicks */
   $(document).ready(function() {
@@ -83,6 +84,35 @@ $(function() {
     $scoreboard.html($newTable);
   }
 
+function addNewCurrentlyPlaying(player){
+ //  <% if(queue && queue[0]) { %>
+ //  <% for(var i=0; i < 1; i++) { %>
+ //  <div class="col-md-6 col-md-offset-3 text-center">
+ //    <a href="/complete/<%= queue[i]._id %>/<%= queue[i].player1 %>" type="button" class="btn btn-lg btn-primary">
+ //      <%= queue[i].player1 %>
+ //      <i class="fa fa-trophy fa-lg fa-fw text-right"></i>
+ //    </a>
+ //    <label><h4> vs. </h4></label>
+ //    <a href="/complete/<%= queue[i]._id %>/<%= queue[i].player2 %>" type="button" class="btn btn-lg btn-primary">
+ //      <i class="fa fa-trophy fa-lg fa-fw text-left"></i>
+ //      <%= queue[i].player2 %>
+ //    </a>
+ //  </div>
+ //  <div class="col-md-1 col-md-offset-2">
+ //    <a href="/abandon/<%= queue[i]._id %>" class="btn btn-lg btn-danger" role="button">
+ //      <i class="fa fa-close fa-fw" aria-hidden="true"></i>
+ //    </a>
+ //  </div>
+ //  <% } %>
+ //  <% } else { %>
+ //    <div class="row text-center">
+ //      <h3> Naebody vs. Naebody<h3>
+ //    </div>
+ //    <div class="row text-center">
+ //      <p> Why not queue? </p>
+ //    </div>
+ // <% } %>
+}
  /* Helpers */
   function cleanInput(input) {
     return $('<div/>').text(input).text();
