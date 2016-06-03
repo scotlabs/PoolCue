@@ -17,24 +17,20 @@ $(function() {
   /* Button clicks */
   $(document).ready(function() {
     $('#createGame').click(function() {
-        updateQueue();
+        addToQueue();
       });
 
-    $(document).on('click','.btn-danger',function(e) {
+    $(document).on('click','.deleteGame',function(e) {
         deleteQueue(this.id);
       });
 
-    $('.btn-standard').click(function() {
-        alert(this.id + $(this).attr('value'));
+    $(document).on('click','.completeGame',function(e) {
+        completeGame(this.id, $(this).attr('value'));
       });
 
   });
 
-  function updateLeaderboard() {
-    socket.emit('update leaderboard');
-  }
-
-  function updateQueue() {
+  function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
     $('#player1').val('');
@@ -47,6 +43,10 @@ $(function() {
     socket.emit('delete game', gameId);
   }
 
+  function completeGame(gameId, winner) {
+    socket.emit('complete game', gameId, winner);
+  }
+
   function addNewGameToQueue(queue) {
     var $newQueue = '';
     for (var i = 1; i < queue.length; i++) {
@@ -56,7 +56,7 @@ $(function() {
                               '<h4 class="text-center">' + queue[i].player1 + ' vs. ' + queue[i].player2 + '</h4>' +
                           '</div>' +
                           '<div class="col-md-2 col-md-offset-2">' +
-                              '<a class="btn btn-danger" role="button" id="' + queue[i]._id + '">' +
+                              '<a class="btn btn-danger deleteGame" role="button" id="' + queue[i]._id + '">' +
                                   '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
                               '</a>' +
                           '</div>' +
@@ -109,25 +109,25 @@ $(function() {
 
   $window.keydown(function(event) {
       if (event.which === 13) {
-        updateQueue();
+        addToQueue();
       }
     });
 
   function nowPlayingTemplate(queue) {
     return $currentlyPlaying = (
         '<div class="col-md-6 col-md-offset-3 text-center">' +
-            '<a href="/complete/' + queue._id + '/' + queue.player1 + '" type="button" class="btn btn-lg btn-primary">' +
+            '<a id="' + queue._id + '" value="' + queue.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
                 queue.player1 +
                 '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
             '</a>' +
             '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
-            '<a href="/complete/' + queue._id + '/' + queue.player2 + '" type="button" class="btn btn-lg btn-primary">' +
+            '<a id="' + queue._id + '" value="' + queue.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
                 '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
                 queue.player2 +
             '</a>' +
         '</div>' +
         '<div class="col-md-1 col-md-offset-2">' +
-            '<a id="' + queue._id + '" class="btn btn-lg btn-danger" role="button">' +
+            '<a id="' + queue._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
                 '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
             '</a>' +
         '</div>'

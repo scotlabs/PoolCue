@@ -16,11 +16,15 @@ exports.connect = function(server) {
         Logger.debug('New socket connection.');
 
         socket.on('create game', function(player1, player2) {
-          Game.queue2(player1, player2, io);
+          Game.queue(player1, player2, io);
         });
 
         socket.on('delete game', function(gameId) {
-          Game.abandon2(gameId, io);
+          Game.abandon(gameId, io);
+        });
+
+        socket.on('complete game', function(gameId, winner) {
+          Game.complete(gameId, winner, io);
         });
 
         socket.on('update leaderboard', function(player1, player2) {
