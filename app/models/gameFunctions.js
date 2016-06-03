@@ -8,6 +8,7 @@ var Logger   = require('../helpers/logger');
 /* Imports */
 var Player = require('../models/player.js');
 var Game   = require('../models/game.js');
+var GameQuery = require('../models/gameQuery');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -22,6 +23,16 @@ exports.queue = function(request, response, next) {
       }else {
         Logger.warn('Error ' + request.body.player1 + ' vs. ' + request.body.player2);
         next();
+      }
+    };
+
+exports.queue2 = function(player1, player2, io) {
+      if (player1 !== '' && player2 !== '' && player1 !== player2) {
+        console.log('here');
+        Logger.info('Queue ' + player1 + ' vs. ' + player2);
+        findOrCreatePlayer2(player1, player2, io);
+      }else {
+        Logger.warn('Error ' + player1 + ' vs. ' + player2);
       }
     };
 
@@ -80,7 +91,38 @@ function findOrCreatePlayer(player1Name, player2Name, response, next) {
     game.save();
     next();
   });
+}
 
+/* Create helper function for game queue */
+function findOrCreatePlayer2(player1Name, player2Name, io) {
+  var game = new Game();
+  Player.findOne({name: player1Name}, function(error, player1) {
+    if (!player1) {
+      player1 = new Player({name: player1Name});
+      player1.save();
+      Logger.info('Create new player: ' +  player1.name);
+    }
+    game.player1 = player1.name;
+    game.save();
+  });
+
+  Player.findOne({name: player2Name}, function(error, player2) {
+    if (!player2) {
+      player2 = new Player({name: player2Name});
+      player2.save();
+      Logger.info('Create new player: ' +  player2.name);
+    }
+    game.player2 = player2.name;
+    game.save();
+  });
+
+  Player.find({}).sort({elo: 'descending'}).exec(function(error, players) {
+      console.log(players);
+      io.emit('create game', {
+        game: game,
+        players: players
+      });
+    });
 }
 
 /* Update helper function for game complete */

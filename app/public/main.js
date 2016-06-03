@@ -6,6 +6,8 @@ $(function() {
   var $window = $(window);
   var $player1 = $('.player1'); // Input for username
   var $player2 = $('.player2');
+  var $queue = $('.queue');
+  var $scoreboard = $('.scoreboard');
   var $usernameInput = $('.usernameInput');
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
@@ -20,6 +22,59 @@ $(function() {
   var $currentInput = $usernameInput.focus();
 
   var socket = io();
+
+  socket.on('create game', function(data) {
+      addGameToQueue(data.game);
+      updateTable(data.players);
+    });
+
+  $(document).ready(function() {
+    $('#createGame').click(function() {
+        socket.emit('create game', cleanInput($('#player1').val()), cleanInput($('#player2').val()));
+      });
+  });
+
+  function addGameToQueue(game) {
+    var $game = $('<div class="well">' +
+                    '<div class="row">' +
+                        '<div class="col-md-4 col-md-offset-4 text-center">' +
+                            '<h4 class="text-center">' + game.player1 + ' vs. ' + game.player2 + '</h4>' +
+                        '</div>' +
+                        '<div class="col-md-2 col-md-offset-2">' +
+                            '<a class="btn btn-danger" role="button" id="' + game._id + '">' +
+                                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
+
+    $queue.append($game);
+  }
+
+  function updateTable(players) {
+    var $newTable = '';
+    for (var i = 0; i < players.length; i++) {
+      var $tableRow = ('<tr scope="row" />' +
+                           '<td><b>' + (i + 1) + '</b></td>' +
+                           '<td><b>' + players[i].name + '</td>' +
+                           '<td class="text-right"><b>' + players[i].wins + '</b></td>' +
+                           '<td class="text-right"><b>' + players[i].losses + '</b></td>' +
+                           '<td class="text-right"><b>' + players[i].wins - players[i].losses + '</b></td>' +
+                           '<td class="text-right"><b>' + players[i].elo + '</b></td>' +
+                        '</tr>'
+                       );
+      $newTable = $tableRow;
+
+      if (i == players.length - 1) {
+        $scoreboard = $newTable;
+      }
+    }
+  }
+
+  // Prevents input from having injected markup
+  function cleanInput(input) {
+    return $('<div/>').text(input).text();
+  }
 
   function addParticipantsMessage(data) {
     var message = '';
@@ -182,18 +237,6 @@ $(function() {
         typing = false;
       }
     });
-
-  $(document).ready(function() {
-    $('#createGame').click(function() {
-        console.log('HERE');
-        var player1 = $('.player1').val();
-        var player2 = cleanInput($player2.val());
-        console.log($player1);
-        alert($('#player1').val() + " " + $player2);
-        socket.emit('my event' ,'Hello World!');
-      });
-
-});
 
   $inputMessage.on('input', function() {
     updateTyping();

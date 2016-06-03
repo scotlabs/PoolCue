@@ -2,24 +2,6 @@
   <legend class="text-center"> Queue </legend>
   <% if (queue && queue.length > 1) {%>
     <% for(var i=1; i < queue.length; i++) { %>
-
-      <% if (i%2 == 0) { %>
-        <div class="panel panel-default">
-          <div class="panel-body">
-              <div class="row">
-                <div class="col-md-4 col-md-offset-4 text-center">
-                    <h4 class="text-center"><%= queue[i].player1 %> vs. <%= queue[i].player2 %></h4>
-                </div>
-                <div class="col-md-2 col-md-offset-2">
-                  <a href="/abandon/<%= queue[i]._id %>" class="btn btn-danger" role="button">
-                    <i class="fa fa-close fa-fw" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-          </div>
-        </div>
-
-      <% }else{ %>
         <div class="well">
             <div class="row">
               <div class="col-md-4 col-md-offset-4 text-center">
@@ -32,16 +14,14 @@
               </div>
             </div>
         </div>
-      <% }%>
-
     <% } %>
+    <div class="queue"></div>
     <hr >
   <% } %>
 
     <div class="panel panel-default">
       <div class="panel-body">
               <div class="row">
-                <!-- <form class="form-inline" method="post" action="/queue"> -->
                 <form class="form-inline">
                     <div class="col-md-8 col-md-offset-2 text-center">
                         <div class="form-group">
@@ -54,9 +34,6 @@
                     </div>
                 </form>
                 <div class="col-md-2">
-                    <!-- <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    </button> -->
                     <button id="createGame" class="btn btn-primary">
                         <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                     </button>

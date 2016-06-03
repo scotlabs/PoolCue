@@ -4,6 +4,7 @@
 
 /* Imports */
 var Logger = require('../helpers/logger');
+var Game = require('../models/gameFunctions');
 
 /* Global Variables */
 
@@ -16,9 +17,7 @@ exports.connect = function(server) {
 
         socket.on('create game', function(player1, player2) {
           console.log('A MESSAGE!');
-          socket.broadcast.emit('new message', {
-
-          });
+          Game.queue2(player1, player2, io);
         });
 
       });
