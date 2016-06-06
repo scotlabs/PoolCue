@@ -19,7 +19,6 @@ $(function() {
 
   /* Incoming socket data */
   socket.on('update data', function(data) {
-      substringMatcher = null;
       addPlayerTypeAhead(data.players);
       addNewGameToQueue(data.queue);
       addNewLeaderboard(data.players);
@@ -160,14 +159,18 @@ $(function() {
 
   **/
 
-  function addPlayerTypeAhead(playerData) {
-    substringMatcher = null;
-    var playerNames = [];
-    for (var i in playerData) {
-      playerNames.push(playerData[i].name);
+  function addPlayerTypeAhead(players) {
+    playerNames = [];
+    if ($('#player1').typeahead && $('#player2').typeahead) {
+      $('#player1').typeahead('destroy');
+      $('#player2').typeahead('destroy');
     }
 
-    var substringMatcher = function(strs) {
+    for (var i in players) {
+      playerNames.push(players[i].name);
+    }
+
+    substringMatcher = function(strs) {
         return function findMatches(q, cb) {
           var matches;
           var substringRegex;
@@ -186,7 +189,7 @@ $(function() {
       };
 
     $('#player1').typeahead({
-      hint: true,
+      hint: false,
       highlight: true,
       minLength: 1
     },
@@ -195,8 +198,8 @@ $(function() {
       source: substringMatcher(playerNames)
     });
 
-    $('#player2').typeahead({
-      hint: true,
+    var player2Typeahead = $('#player2').typeahead({
+      hint: false,
       highlight: true,
       minLength: 1
     },
