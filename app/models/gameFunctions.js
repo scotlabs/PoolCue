@@ -5,11 +5,11 @@ var Mongoose = require('mongoose');
 var Elo      = require('elo-js');
 
 /* Imports */
-var Player = require('../models/player.js');
-var Game   = require('../models/game.js');
+var Player    = require('../models/player.js');
+var Game      = require('../models/game.js');
 var GameQuery = require('../models/gameQuery');
-var Logger   = require('../helpers/logger');
-var Query   = require('../helpers/query');
+var Logger    = require('../helpers/logger');
+var Query     = require('../helpers/query');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -18,9 +18,14 @@ var EloRanking = new Elo();
 
 /* Add a game to the queue */
 exports.queue = function(player1, player2, io) {
+      player1 = formatName(player1);
+      player2 = formatName(player2);
       if (player1 !== '' && player2 !== '' && player1 !== player2) {
         Logger.info('Queue ' + player1 + ' vs. ' + player2);
-        findOrCreatePlayer(player1, player2, io);
+
+        var game = new Game();
+        findOrCreatePlayer(game, player1, io);
+        findOrCreatePlayer(game, player2, io);
       }else {
         Logger.warn('Error ' + player1 + ' vs. ' + player2);
       }
@@ -32,6 +37,9 @@ exports.abandon = function(id, io) {
         game.winner = 'Abandoned';
         game.save();
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+        removeInactivePlayer(game.player1);
+        removeInactivePlayer(game.player2);
+
         Query.homePageSockets(io);
       });
   };
@@ -48,44 +56,35 @@ exports.complete = function(gameId, winner, io) {
 
           Player.find({name: {$in: [winner, loser]}}, function(error, players) {
               if (players[0].name == winner) {
-                updatePlayers(players[0], players[1]);
+                updatePlayers(players[0], players[1], io);
               }else {
-                updatePlayers(players[1], players[0]);
+                updatePlayers(players[1], players[0], io);
               }
             });
-          Query.homePageSockets(io);
         });
   };
 
 /* Create helper function for game queue */
-function findOrCreatePlayer(player1Name, player2Name, io) {
-  var game = new Game();
-  Player.findOne({name: player1Name}, function(error, player1) {
-    if (!player1) {
-      player1 = new Player({name: player1Name});
-      player1.save();
-      Logger.info('Create new player: ' +  player1.name);
+function findOrCreatePlayer(game, playerName, io) {
+  Player.findOne({name: playerName}, function(error, player) {
+    if (!player) {
+      player = new Player({name: playerName});
+      player.save();
+      Logger.info('Create new player: ' +  player.name);
     }
-    game.player1 = player1.name;
-    game.save();
-  });
 
-  Player.findOne({name: player2Name}, function(error, player2) {
-    if (!player2) {
-      player2 = new Player({name: player2Name});
-      player2.save();
-      Logger.info('Create new player: ' +  player2.name);
+    if (!game.player1) {
+      game.player1 = player.name;
+      game.save();
+    }else {
+      game.player2 = player.name;
+      game.save();
+      Query.homePageSockets(io);
     }
-    game.player2 = player2.name;
-    game.save();
-
-    Query.homePageSockets(io);
-
   });
 }
-
 /* Update helper function for game complete */
-function updatePlayers(winner, loser) {
+function updatePlayers(winner, loser, io) {
   Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
   winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
   winner.wins++;
@@ -95,4 +94,20 @@ function updatePlayers(winner, loser) {
   loser.losses++;
   loser.save();
   Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+
+  Query.homePageSockets(io);
 };
+
+/* Removes player if 0 wins & 0 losses */
+function removeInactivePlayer(playerName) {
+  Player.findOne({name: playerName}).exec(function(error, result) {
+      if (result && result.wins === 0 && result.losses === 0) {
+        Logger.info('Removing player: ' +  playerName);
+        Player.find({name: playerName}).remove().exec();
+      }
+    });
+}
+
+function formatName(playerName) {
+  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).substring(0, 50);
+}
