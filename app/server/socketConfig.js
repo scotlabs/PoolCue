@@ -27,8 +27,8 @@ exports.connect = function(server) {
           Game.complete(gameId, winner, io);
         });
 
-        socket.on('update leaderboard', function(player1, player2) {
-          Game.getLeaderboard(io);
+        socket.on('update all', function() {
+          Game.updateAll(io);
         });
 
       });

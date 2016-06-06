@@ -11,7 +11,7 @@ var GameFunctions = require('../../models/gameFunctions');
 /* Routes */
 module.exports = function(Router) {
 
-    Router.get('/', Query.homePage, function(request, response, next) {
+    Router.get('/', function(request, response, next) {
         response.render('../app/views/index', {queue: request.queue, players: request.players});
       });
 

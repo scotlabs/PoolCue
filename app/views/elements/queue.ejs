@@ -1,23 +1,8 @@
 <div class="container-fluid">
-  <legend class="text-center"> Queue </legend>
-  <div class="queue">
-  <% if (queue && queue.length > 1) {%>
-    <% for(var i=1; i < queue.length; i++) { %>
-        <div class="well">
-            <div class="row">
-              <div class="col-md-4 col-md-offset-4 text-center">
-                  <h4 class="text-center"><%= queue[i].player1 %> vs. <%= queue[i].player2 %></h4>
-              </div>
-              <div class="col-md-2 col-md-offset-2">
-                <a class="btn btn-danger deleteGame" role="button" id="<%= queue[i]._id %>">
-                  <i class="fa fa-close fa-fw" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-        </div>
-    <% } %>
-  <% } %>
-  </div>
+    <legend class="text-center"> Queue </legend>
+    <div class="queue">
+
+    </div>
 
     <div class="panel panel-default">
       <div class="panel-body">

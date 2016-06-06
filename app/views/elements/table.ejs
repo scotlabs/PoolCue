@@ -14,18 +14,7 @@
       </thead>
 
       <tbody class="scoreboard">
-          <% if(players) { %>
-            <% for(var i=0; i < players.length; i++) { %>
-             <tr scope="row">
-               <td><b><%= i+1 %></b></td>
-               <td><b><%= players[i].name %></td>
-               <td class="text-right"><b><%= players[i].wins %></b></td>
-               <td class="text-right"><b><%= players[i].losses %></b></td>
-               <td class="text-right"><b><%= players[i].wins - players[i].losses %></b></td>
-               <td class="text-right"><b><%= players[i].elo %></b></td>
-             </tr>
-             <% } %>
-          <% } %>
+
       </tbody>
 
     </table>

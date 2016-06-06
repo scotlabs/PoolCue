@@ -4,31 +4,44 @@ $(function() {
   var $playing = $('.playing');
   var $queue = $('.queue');
   var $scoreboard = $('.scoreboard');
-
+  var playerNames = [];
   var socket = io();
+
+  /**
+  _____               _           _       _
+ /  ___|             | |         | |     (_)
+ \ `--.   ___    ___ | | __  ___ | |_     _   ___
+  `--. \ / _ \  / __|| |/ / / _ \| __|   | | / _ \
+ /\__/ /| (_) || (__ |   < |  __/| |_  _ | || (_) |
+ \____/  \___/  \___||_|\_\ \___| \__|(_)|_| \___/
+
+  **/
 
   /* Incoming socket data */
   socket.on('update data', function(data) {
-    addNewGameToQueue(data.queue);
-    addNewLeaderboard(data.players);
-    addNewCurrentlyPlaying(data.queue[0]);
-  });
+      substringMatcher = null;
+      addPlayerTypeAhead(data.players);
+      addNewGameToQueue(data.queue);
+      addNewLeaderboard(data.players);
+      addNewCurrentlyPlaying(data.queue[0]);
+    });
 
   /* Button clicks */
   $(document).ready(function() {
-    $('#createGame').click(function() {
-        addToQueue();
-      });
+      socket.emit('update all');
 
-    $(document).on('click','.deleteGame',function(e) {
-        deleteQueue(this.id);
-      });
+      $('#createGame').click(function() {
+          addToQueue();
+        });
 
-    $(document).on('click','.completeGame',function(e) {
-        completeGame(this.id, $(this).attr('value'));
-      });
+      $(document).on('click','.deleteGame',function(e) {
+          deleteQueue(this.id);
+        });
 
-  });
+      $(document).on('click','.completeGame',function(e) {
+          completeGame(this.id, $(this).attr('value'));
+        });
+    });
 
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
@@ -133,4 +146,64 @@ $(function() {
             '</a>' +
         '</div>'
     );}
+
+  /**
+
+  _                               _                       _       _
+ | |                             | |                     | |     (_)
+ | |_  _   _  _ __    ___   __ _ | |__    ___   __ _   __| |      _  ___
+ | __|| | | || '_ \  / _ \ / _` || '_ \  / _ \ / _` | / _` |     | |/ __|
+ | |_ | |_| || |_) ||  __/| (_| || | | ||  __/| (_| || (_| | _   | |\__ \
+  \__| \__, || .__/  \___| \__,_||_| |_| \___| \__,_| \__,_|(_)  | ||___/
+        __/ || |                                                _/ |
+       |___/ |_|                                               |__/
+
+  **/
+
+  function addPlayerTypeAhead(playerData) {
+    substringMatcher = null;
+    var playerNames = [];
+    for (var i in playerData) {
+      playerNames.push(playerData[i].name);
+    }
+
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+          var matches;
+          var substringRegex;
+
+          matches = [];
+          substrRegex = new RegExp(q, 'i');
+
+          $.each(strs, function(i, str) {
+            if (substrRegex.test(str)) {
+              matches.push(str);
+            }
+          });
+
+          cb(matches);
+        };
+      };
+
+    $('#player1').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'playerNames',
+      source: substringMatcher(playerNames)
+    });
+
+    $('#player2').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'playerNames',
+      source: substringMatcher(playerNames)
+    });
+  }
+
 });

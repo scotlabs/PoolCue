@@ -47,6 +47,10 @@ exports.abandon = function(gameId, io) {
       });
   };
 
+exports.updateAll = function(io) {
+    Query.homePageSockets(io);
+  };
+
 /* Complete a game */
 exports.complete = function(gameId, winner, io) {
     Game.findById(gameId, function(error, game) {
