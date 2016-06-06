@@ -35,6 +35,7 @@ $(function() {
     var player2 = cleanInput($('#player2').val());
     $('#player1').val('');
     $('#player2').val('');
+    $('#player1').focus();
 
     socket.emit('create game', player1, player2);
   }

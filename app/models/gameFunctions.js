@@ -32,11 +32,14 @@ exports.queue = function(player1, player2, io) {
     };
 
 /* Remove the game from the queue */
-exports.abandon = function(id, io) {
-    Game.findById(id, function(error, game) {
+exports.abandon = function(gameId, io) {
+    Game.findById(gameId, function(error, game) {
+        if (error) {
+          Logger.error('Problem fiding game: ' + gameId + ' to abandon.');
+        }
+        Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
         game.save();
-        Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         removeInactivePlayer(game.player1);
         removeInactivePlayer(game.player2);
 
@@ -47,6 +50,9 @@ exports.abandon = function(id, io) {
 /* Complete a game */
 exports.complete = function(gameId, winner, io) {
     Game.findById(gameId, function(error, game) {
+          if (error) {
+            Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game.');
+          }
           game.winner = winner;
           game.save();
           var loser = game.player2;
@@ -67,21 +73,25 @@ exports.complete = function(gameId, winner, io) {
 /* Create helper function for game queue */
 function findOrCreatePlayer(game, playerName, io) {
   Player.findOne({name: playerName}, function(error, player) {
-    if (!player) {
-      player = new Player({name: playerName});
-      player.save();
-      Logger.info('Create new player: ' +  player.name);
-    }
+      if (error) {
+        Logger.error('Problem finding player: ' + playerName + ' to find or create.');
+      }
+      if (!player) {
+        player = new Player({name: playerName});
+        player.save();
+        Logger.info('Create new player: ' +  player.name);
+      }
 
-    if (!game.player1) {
-      game.player1 = player.name;
-      game.save();
-    }else {
-      game.player2 = player.name;
-      game.save();
-      Query.homePageSockets(io);
-    }
-  });
+      if (!game.player1) {
+        game.player1 = player.name;
+        game.save();
+      }else {
+        game.player2 = player.name;
+        game.save();
+
+        Query.homePageSockets(io);
+      }
+    });
 }
 /* Update helper function for game complete */
 function updatePlayers(winner, loser, io) {
@@ -101,6 +111,9 @@ function updatePlayers(winner, loser, io) {
 /* Removes player if 0 wins & 0 losses */
 function removeInactivePlayer(playerName) {
   Player.findOne({name: playerName}).exec(function(error, result) {
+      if (error) {
+        Logger.error('Problem finding player: ' + playerName + ' to check if active.');
+      }
       if (result && result.wins === 0 && result.losses === 0) {
         Logger.info('Removing player: ' +  playerName);
         Player.find({name: playerName}).remove().exec();
