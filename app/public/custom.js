@@ -23,6 +23,7 @@ $(function() {
       addNewGameToQueue(data.queue);
       addNewLeaderboard(data.players);
       addNewCurrentlyPlaying(data.queue[0]);
+      resetInputBoxText();
     });
 
   /* Button clicks */
@@ -45,9 +46,6 @@ $(function() {
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
-    $('#player1').val('');
-    $('#player2').val('');
-    $('#player1').focus();
 
     socket.emit('create game', player1, player2);
   }
@@ -120,6 +118,11 @@ $(function() {
     return $('<div/>').text(input).text();
   }
 
+  function resetInputBoxText(){
+    $('#player1').val('');
+    $('#player2').val('');
+  }
+  
   $window.keydown(function(event) {
       if (event.which === 13) {
         addToQueue();

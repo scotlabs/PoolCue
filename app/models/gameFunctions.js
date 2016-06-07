@@ -33,16 +33,16 @@ exports.queue = function(player1, player2, io) {
 
 /* Remove the game from the queue */
 exports.abandon = function(gameId, io) {
-    Game.findById(gameId, function(error, game) {
+      Game.findById(gameId, function(error, game) {
         if (error) {
           Logger.error('Problem fiding game: ' + gameId + ' to abandon.');
         }
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
         game.save();
-        removeInactivePlayer(game.player1);
-        removeInactivePlayer(game.player2);
-
+        removeInactivePlayer(game.player1, io);
+        removeInactivePlayer(game.player2, io);
+        Game.findById(gameId).remove().exec();
         Query.homePageSockets(io);
       });
   };
@@ -113,18 +113,21 @@ function updatePlayers(winner, loser, io) {
 };
 
 /* Removes player if 0 wins & 0 losses */
-function removeInactivePlayer(playerName) {
-  Player.findOne({name: playerName}).exec(function(error, result) {
-      if (error) {
-        Logger.error('Problem finding player: ' + playerName + ' to check if active.');
-      }
-      if (result && result.wins === 0 && result.losses === 0) {
-        Logger.info('Removing player: ' +  playerName);
-        Player.find({name: playerName}).remove().exec();
-      }
-    });
+function removeInactivePlayer(playerName, io) {
+  Game.find({$or:[{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
+    if(result.length <= 1){
+      Player.findOne({name: playerName}).exec(function(error, result) {
+          if (error) {
+            Logger.error('Problem finding player: ' + playerName + ' to check if active.');
+          }
+            Logger.info('Removing player: ' +  playerName);
+            Player.find({name: playerName}).remove().exec();
+            Query.homePageSockets(io);
+        });
+    }
+  });
 }
 
 function formatName(playerName) {
-  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).substring(0, 50);
+  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, "").substring(0, 50);
 }
