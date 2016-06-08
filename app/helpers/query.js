@@ -23,11 +23,11 @@ exports.find = function(collection, query, sort, request, response, next) {
   };
 
 exports.homePageSockets = function(io) {
-  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, queue) {
+  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, games) {
     Players.find({}, {__v: 0}).sort({elo: 'descending'}).lean().exec(function(error, players) {
       io.emit('update data', {
         players: players,
-        queue: queue
+        games: games
       });
     });
   });

@@ -7,22 +7,16 @@ $(function() {
   var playerNames = [];
   var socket = io();
 
-  /**
-  _____               _           _       _
- /  ___|             | |         | |     (_)
- \ `--.   ___    ___ | | __  ___ | |_     _   ___
-  `--. \ / _ \  / __|| |/ / / _ \| __|   | | / _ \
- /\__/ /| (_) || (__ |   < |  __/| |_  _ | || (_) |
- \____/  \___/  \___||_|\_\ \___| \__|(_)|_| \___/
-
-  **/
+  /*------------------------------
+    Socket.io --------------------
+  ------------------------------*/
 
   /* Incoming socket data */
   socket.on('update data', function(data) {
       addPlayerTypeAhead(data.players);
-      addNewGameToQueue(data.queue);
+      addNewGameToQueue(data.games);
       addNewLeaderboard(data.players);
-      addNewCurrentlyPlaying(data.queue[0]);
+      addNewCurrentlyPlaying(data.games[0]);
       resetInputBoxText();
     });
 
@@ -58,44 +52,21 @@ $(function() {
     socket.emit('complete game', gameId, winner);
   }
 
-  function addNewGameToQueue(queue) {
+  function addNewGameToQueue(games) {
     var $newQueue = '';
-    for (var i = 1; i < queue.length; i++) {
-      var $game = ('<div class="well">' +
-                      '<div class="row">' +
-                          '<div class="col-md-4 col-md-offset-4 text-center">' +
-                              '<h4 class="text-center">' + queue[i].player1 + ' vs. ' + queue[i].player2 + '</h4>' +
-                          '</div>' +
-                          '<div class="col-md-2 col-md-offset-2">' +
-                              '<a class="btn btn-danger deleteGame" role="button" id="' + queue[i]._id + '">' +
-                                  '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-                              '</a>' +
-                          '</div>' +
-                      '</div>' +
-                  '</div>');
-      $newQueue += $game;
+    for (var i = 1; i < games.length; i++) {
+      $newQueue += queuedGameTemplate(games[i]);
     }
     $queue.html($newQueue);
   }
 
   function addNewLeaderboard(players) {
-    var $newTable = '';
+    var $leaderboardTemp = '';
     for (var i = 0; i < players.length; i++) {
-      var $delta = (players[i].wins - players[i].losses);
-      var $position = i + 1;
-      var $tableRow = ('<tr scope="row">' +
-                           '<td><b>' + $position + '</b></td>' +
-                           '<td><b>' + players[i].name + '</td>' +
-                           '<td class="text-right"><b>' + players[i].wins + '</b></td>' +
-                           '<td class="text-right"><b>' + players[i].losses + '</b></td>' +
-                           '<td class="text-right"><b>' + $delta + '</b></td>' +
-                           '<td class="text-right"><b>' + players[i].elo + '</b></td>' +
-                        '</tr>'
-                       );
-      $newTable += $tableRow;
+      $leaderboardTemp += leaderboardRowTemplate(players[i], i);
     }
 
-    $scoreboard.html($newTable);
+    $scoreboard.html($leaderboardTemp);
   }
 
   function addNewCurrentlyPlaying(queue) {
@@ -122,45 +93,68 @@ $(function() {
     $('#player1').val('');
     $('#player2').val('');
   }
-  
+
   $window.keydown(function(event) {
       if (event.which === 13) {
         addToQueue();
       }
     });
 
-  function nowPlayingTemplate(queue) {
+  /*------------------------------
+    Templates --------------------
+  ------------------------------*/
+
+  function nowPlayingTemplate(game) {
     return $currentlyPlaying = (
         '<div class="col-md-6 col-md-offset-3 text-center">' +
-            '<a id="' + queue._id + '" value="' + queue.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
-                queue.player1 +
+            '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
+                game.player1 +
                 '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
             '</a>' +
             '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
-            '<a id="' + queue._id + '" value="' + queue.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
+            '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
                 '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
-                queue.player2 +
+                game.player2 +
             '</a>' +
         '</div>' +
         '<div class="col-md-1 col-md-offset-2">' +
-            '<a id="' + queue._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
+            '<a id="' + game._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
                 '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
             '</a>' +
-        '</div>'
-    );}
+        '</div>');
+      }
 
-  /**
+      function queuedGameTemplate(game){
+        return $game = ('<div class="well">' +
+                        '<div class="row">' +
+                            '<div class="col-md-4 col-md-offset-4 text-center">' +
+                                '<h4 class="text-center">' + game.player1 + ' vs. ' + game.player2 + '</h4>' +
+                            '</div>' +
+                            '<div class="col-md-2 col-md-offset-2">' +
+                                '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '">' +
+                                    '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+                                '</a>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
+      }
 
-  _                               _                       _       _
- | |                             | |                     | |     (_)
- | |_  _   _  _ __    ___   __ _ | |__    ___   __ _   __| |      _  ___
- | __|| | | || '_ \  / _ \ / _` || '_ \  / _ \ / _` | / _` |     | |/ __|
- | |_ | |_| || |_) ||  __/| (_| || | | ||  __/| (_| || (_| | _   | |\__ \
-  \__| \__, || .__/  \___| \__,_||_| |_| \___| \__,_| \__,_|(_)  | ||___/
-        __/ || |                                                _/ |
-       |___/ |_|                                               |__/
+      function leaderboardRowTemplate(player, i) {
+        var $delta = (player.wins - player.losses);
+        var $position = i + 1;
+        return $tableRow = ('<tr scope="row">' +
+                               '<td><b>' + $position + '</b></td>' +
+                               '<td><b>' + player.name + '</td>' +
+                               '<td class="text-right"><b>' + player.wins + '</b></td>' +
+                               '<td class="text-right"><b>' + player.losses + '</b></td>' +
+                               '<td class="text-right"><b>' + $delta + '</b></td>' +
+                               '<td class="text-right"><b>' + player.elo + '</b></td>' +
+                            '</tr>');
+      }
 
-  **/
+  /*------------------------------
+    Typeahead.js -----------------
+  ------------------------------*/
 
   function addPlayerTypeAhead(players) {
     playerNames = [];
