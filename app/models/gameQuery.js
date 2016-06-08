@@ -9,15 +9,15 @@ var Query = require('../helpers/query');
 /* Variables */
 
 /* Functions */
-exports.getAll = function(request, response, next) {
-    Query.find(Game, {}, {time: 'descending'}, request, response, next);
+exports.getAll = function(request, response) {
+    Query.find(Game, {}, {time: 'descending'}, request, response);
   };
 
-exports.get = function(gameId, request, response, next) {
-    Query.find(Game, {_id: request.params.id}, {}, request, response, next);
+exports.get = function(gameId, request, response) {
+    Query.find(Game, {_id: request.params.id}, {}, request, response);
   };
 
-exports.getByPlayer = function(playerName, request, response, next) {
+exports.getByPlayer = function(playerName, request, response) {
     Query.find(Game,
                 {$or:
                     [{player1: playerName},
@@ -25,11 +25,10 @@ exports.getByPlayer = function(playerName, request, response, next) {
                 },
                 {time: 'descending'},
                 request,
-                response,
-                next);
+                response);
   };
 
-exports.getByPlayers = function(player1Name, player2Name, request, response, next) {
+exports.getByPlayers = function(player1Name, player2Name, request, response) {
     Query.find(Game,
                 {$or:
                     [{player1: player1Name, player2: player2Name},
@@ -37,10 +36,9 @@ exports.getByPlayers = function(player1Name, player2Name, request, response, nex
                 },
                 {time: 'descending'},
                 request,
-                response,
-                next);
+                response);
   };
 
-exports.getQueue = function(request, response, next) {
-    Query.find(Game, {winner: null}, {time: 'ascending'}, request, response, next);
+exports.getQueue = function(request, response) {
+    Query.find(Game, {winner: null}, {time: 'ascending'}, request, response);
   };
