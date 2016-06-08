@@ -45,12 +45,12 @@ exports.abandon = function(gameId, io) {
         removeInactivePlayer(game.player2, io);
         Game.findById(gameId).remove().exec();
 
-        Query.homePageSockets(io);
+        Query.pushDataToSockets(io);
       });
   };
 
 exports.updateAll = function(io) {
-    Query.homePageSockets(io);
+    Query.pushDataToSockets(io);
   };
 
 /* Complete a game */
@@ -95,7 +95,7 @@ function findOrCreatePlayer(game, playerName, io) {
         game.player2 = player.name;
         game.save();
 
-        Query.homePageSockets(io);
+        Query.pushDataToSockets(io);
       }
     });
 }
@@ -110,8 +110,8 @@ function updatePlayers(winner, loser, io) {
   loser.losses++;
   loser.save();
   Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-
-  Query.homePageSockets(io);
+  
+  Query.pushDataToSockets(io);
 };
 
 /* Removes player if 0 wins & 0 losses */
@@ -124,7 +124,7 @@ function removeInactivePlayer(playerName, io) {
           }
             Logger.info('Removing player: ' +  playerName);
             Player.find({name: playerName}).remove().exec();
-            Query.homePageSockets(io);
+            Query.pushDataToSockets(io);
         });
     }
   });
