@@ -37,7 +37,6 @@ exports.fatal = function(string) {
 
 function writeToFile(prefix, message) {
   var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
-
   try {
     Fs.appendFileSync('logs/' + prefix.replace(' ', '') + '.log', formattedMessage + '\n');
     Fs.appendFileSync('logs/master.log', formattedMessage + '\n');

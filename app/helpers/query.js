@@ -13,12 +13,7 @@ var Players = require('../models/player.js');
 /* Nonone wants to write find raw find functions */
 exports.find = function(collection, query, sort, request, response, next) {
     collection.find({$and: [query]}, {__v: 0}).sort(sort).lean().exec(function(error, result) {
-        if (next) {
-          request.result = result;
-          next();
-        }else {
           response.json(result);
-        }
       });
   };
 
