@@ -2,9 +2,6 @@ $(function() {
   // Initialize variables
   var $window = $(window);
   var $playing = $('.playing');
-  var $queue = $('.queue');
-  var $scoreboard = $('.scoreboard');
-  var playerNames = [];
   var socket = io();
 
   /*------------------------------
@@ -57,7 +54,7 @@ $(function() {
     for (var i = 1; i < games.length; i++) {
       $newQueue += queuedGameTemplate(games[i]);
     }
-    $queue.html($newQueue);
+    $('.queue').html($newQueue);
   }
 
   function addNewLeaderboard(players) {
@@ -66,22 +63,14 @@ $(function() {
       $leaderboardTemp += leaderboardRowTemplate(players[i], i);
     }
 
-    $scoreboard.html($leaderboardTemp);
+    $('.scoreboard').html($leaderboardTemp);
   }
 
   function addNewCurrentlyPlaying(queue) {
-    $noonePlaying = (
-        '<div class="row text-center">' +
-            '<h3> Naebody vs. Naebody<h3>' +
-        '</div>' +
-        '<div class="row text-center">' +
-            '<p> Why not queue? </p>' +
-        '</div>'
-    );
     if (queue && queue._id) {
-      $playing.html(nowPlayingTemplate(queue));
+      $('.playing').html(nowPlayingTemplate(queue));
     }else {
-      $playing.html($noonePlaying);
+      $('.playing').html(noOnePlayingTemplate());
     }
   }
   /* Helpers */
@@ -152,12 +141,23 @@ $(function() {
                             '</tr>');
       }
 
+      function noOnePlayingTemplate(){
+        return $noonePlaying = (
+            '<div class="row text-center">' +
+                '<h3> Naebody vs. Naebody<h3>' +
+            '</div>' +
+            '<div class="row text-center">' +
+                '<p> Why not queue? </p>' +
+            '</div>'
+        );
+      }
+
   /*------------------------------
     Typeahead.js -----------------
   ------------------------------*/
 
   function addPlayerTypeAhead(players) {
-    playerNames = [];
+    var playerNames = [];
     if ($('#player1').typeahead && $('#player2').typeahead) {
       $('#player1').typeahead('destroy');
       $('#player2').typeahead('destroy');
@@ -185,25 +185,21 @@ $(function() {
         };
       };
 
-    $('#player1').typeahead({
-      hint: false,
-      highlight: true,
-      minLength: 1
-    },
-    {
+    var datasource = {
       name: 'playerNames',
       source: substringMatcher(playerNames)
-    });
+    };
 
-    var player2Typeahead = $('#player2').typeahead({
-      hint: false,
+    $('#player1').typeahead({
       highlight: true,
       minLength: 1
-    },
-    {
-      name: 'playerNames',
-      source: substringMatcher(playerNames)
-    });
+    }, datasource);
+
+    $('#player2').typeahead({
+      highlight: true,
+      minLength: 1
+    }, datasource);
+    
   }
 
 });

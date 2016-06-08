@@ -40,9 +40,11 @@ exports.abandon = function(gameId, io) {
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
         game.save();
+
         removeInactivePlayer(game.player1, io);
         removeInactivePlayer(game.player2, io);
         Game.findById(gameId).remove().exec();
+
         Query.homePageSockets(io);
       });
   };
