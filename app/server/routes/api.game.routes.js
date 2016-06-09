@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Game = require('../../models/gameQuery');
+var Game = require('../../query/game');
 
 /* Variables */
 

@@ -22,7 +22,7 @@ exports.getByPlayer = function(playerName, request, response) {
                 {$or:
                     [{player1: playerName},
                     {player2: playerName}]
-    },
+                },
                 {time: 'descending'},
                 request,
                 response);
@@ -33,7 +33,7 @@ exports.getByPlayers = function(player1Name, player2Name, request, response) {
                 {$or:
                     [{player1: player1Name, player2: player2Name},
                     {player1: player2Name, player2: player1Name}]
-    },
+                },
                 {time: 'descending'},
                 request,
                 response);
