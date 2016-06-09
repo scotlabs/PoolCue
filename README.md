@@ -1,9 +1,6 @@
 # EloEloElo
 *What's all this then?*
 
-#####Features:
-
-
 ---
 
 #####Stack:
@@ -14,20 +11,20 @@
 
 #####Getting up and running
 
-- Clone or download the repository and navigate to the folder.
+- Clone or download the repository.
+- Open a terminal window within the repository folder.
 
-
-- Install the required node modules:
+- Install the required node modules with:
 ```
 npm install
 ```
 
-- Install the required bower components:
+- Install the required bower components with:
 ```
 bower install
 ```
 
-- Start it up
+- Start it up with:
 ```
 node index.js
 ```
