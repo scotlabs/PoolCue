@@ -1,8 +1,8 @@
 $(function() {
   // Initialize variables
-  var $window = $(window);
+  var $window  = $(window);
   var $playing = $('.playing');
-  var socket = io();
+  var socket   = io();
 
   /*------------------------------
     Socket.io --------------------
@@ -78,7 +78,7 @@ $(function() {
     return $('<div/>').text(input).text();
   }
 
-  function resetInputBoxText(){
+  function resetInputBoxText() {
     $('#player1').val('');
     $('#player2').val('');
   }
@@ -111,46 +111,46 @@ $(function() {
                 '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
             '</a>' +
         '</div>');
-      }
+  }
 
-      function queuedGameTemplate(game){
-        return $game = ('<div class="well">' +
-                        '<div class="row">' +
-                            '<div class="col-md-4 col-md-offset-4 text-center">' +
-                                '<h4 class="text-center">' + game.player1 + ' vs. ' + game.player2 + '</h4>' +
-                            '</div>' +
-                            '<div class="col-md-2 col-md-offset-2">' +
-                                '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '">' +
-                                    '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-                                '</a>' +
-                            '</div>' +
+  function queuedGameTemplate(game) {
+    return $game = ('<div class="well">' +
+                    '<div class="row">' +
+                        '<div class="col-md-4 col-md-offset-4 text-center">' +
+                            '<h4 class="text-center">' + game.player1 + ' vs. ' + game.player2 + '</h4>' +
                         '</div>' +
-                    '</div>');
-      }
+                        '<div class="col-md-2 col-md-offset-2">' +
+                            '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '">' +
+                                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
+  }
 
-      function leaderboardRowTemplate(player, i) {
-        var $delta = (player.wins - player.losses);
-        var $position = i + 1;
-        return $tableRow = ('<tr scope="row">' +
-                               '<td><b>' + $position + '</b></td>' +
-                               '<td><b>' + player.name + '</td>' +
-                               '<td class="text-right"><b>' + player.wins + '</b></td>' +
-                               '<td class="text-right"><b>' + player.losses + '</b></td>' +
-                               '<td class="text-right"><b>' + $delta + '</b></td>' +
-                               '<td class="text-right"><b>' + player.elo + '</b></td>' +
-                            '</tr>');
-      }
+  function leaderboardRowTemplate(player, i) {
+    var $delta = (player.wins - player.losses);
+    var $position = i + 1;
+    return $tableRow = ('<tr scope="row">' +
+                           '<td><b>' + $position + '</b></td>' +
+                           '<td><b>' + player.name + '</td>' +
+                           '<td class="text-right"><b>' + player.wins + '</b></td>' +
+                           '<td class="text-right"><b>' + player.losses + '</b></td>' +
+                           '<td class="text-right"><b>' + $delta + '</b></td>' +
+                           '<td class="text-right"><b>' + player.elo + '</b></td>' +
+                        '</tr>');
+  }
 
-      function noOnePlayingTemplate(){
-        return $noonePlaying = (
-            '<div class="row text-center">' +
-                '<h3> Naebody vs. Naebody<h3>' +
-            '</div>' +
-            '<div class="row text-center">' +
-                '<p> Why not queue? </p>' +
-            '</div>'
-        );
-      }
+  function noOnePlayingTemplate() {
+    return $noonePlaying = (
+        '<div class="row text-center">' +
+            '<h3> Naebody vs. Naebody<h3>' +
+        '</div>' +
+        '<div class="row text-center">' +
+            '<p> Why not queue? </p>' +
+        '</div>'
+    );
+  }
 
   /*------------------------------
     Typeahead.js -----------------
@@ -199,7 +199,7 @@ $(function() {
       highlight: true,
       minLength: 1
     }, datasource);
-    
+
   }
 
 });

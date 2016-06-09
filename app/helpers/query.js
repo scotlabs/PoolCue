@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Games = require('../models/game.js');
+var Games   = require('../models/game.js');
 var Players = require('../models/player.js');
 
 /* Variables */
@@ -14,7 +14,7 @@ var Players = require('../models/player.js');
 exports.find = function(collection, query, sort, request, response, next) {
     collection.find({$and: [query]}, {__v: 0}).sort(sort).lean().exec(function(error, result) {
           response.json(result);
-      });
+        });
   };
 
 exports.pushDataToSockets = function(io) {

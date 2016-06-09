@@ -44,7 +44,7 @@ exports.abandon = function(gameId, io) {
 
         Query.pushDataToSockets(io);
       });
-  };
+    };
 
 exports.updateAll = function(io) {
     Query.pushDataToSockets(io);

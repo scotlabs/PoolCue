@@ -1,12 +1,12 @@
 
 /* NPM Packages*/
-var Elo      = require('elo-js');
+var Elo = require('elo-js');
 
 /* Imports */
-var Player     = require('../models/player.js');
-var Game       = require('../models/game.js');
-var Logger     = require('../helpers/logger');
-var Query      = require('../helpers/query');
+var Player = require('../models/player.js');
+var Game   = require('../models/game.js');
+var Logger = require('../helpers/logger');
+var Query  = require('../helpers/query');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -33,7 +33,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
         Query.pushDataToSockets(io);
       }
     });
-}
+};
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
   Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
@@ -51,20 +51,20 @@ exports.updatePlayers = function(winner, loser, io) {
 
 /* Removes player if 0 wins & 0 losses */
 exports.removeInactivePlayer = function(playerName, io) {
-  Game.find({$or:[{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
-    if(result.length <= 1){
+  Game.find({$or: [{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
+    if (result.length <= 1) {
       Player.findOne({name: playerName}).exec(function(error, result) {
           if (error) {
             Logger.error('Problem finding player: ' + playerName + ' to check if active.');
           }
-            Logger.info('Removing player: ' +  playerName);
-            Player.find({name: playerName}).remove().exec();
-            Query.pushDataToSockets(io);
+          Logger.info('Removing player: ' +  playerName);
+          Player.find({name: playerName}).remove().exec();
+          Query.pushDataToSockets(io);
         });
     }
   });
-}
+};
 
 exports.formatName = function(playerName) {
-  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, "").substring(0, 50);
-}
+  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, '').substring(0, 50);
+};

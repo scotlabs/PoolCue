@@ -4,7 +4,7 @@
 
 /* Imports */
 var Logger = require('../helpers/logger');
-var Game = require('../models/gameFunctions');
+var Game   = require('../models/gameFunctions');
 
 /* Global Variables */
 

@@ -3,7 +3,7 @@
 /* NPM Packages*/
 var Chalk  = require('chalk');
 var Moment = require('moment');
-var Fs = require('fs');
+var Fs     = require('fs');
 
 /* Imports */
 

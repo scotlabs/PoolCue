@@ -2,10 +2,10 @@
 
 /* NPM Packages*/
 var BodyParser = require('body-parser');
-var Express = require('express');
-var Helmet = require('helmet');
-var Https = require('https');
-var Http = require('http');
+var Express    = require('express');
+var Helmet     = require('helmet');
+var Https      = require('https');
+var Http       = require('http');
 
 /* Imports */
 var Logger = require('../helpers/logger');

@@ -4,7 +4,7 @@
 
 /* Imports */
 var Player = require('../models/player');
-var Query = require('../helpers/query');
+var Query  = require('../helpers/query');
 
 /* Variables */
 
