@@ -3,11 +3,11 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player     = require('../models/player.js');
-var Game       = require('../models/game.js');
-var Logger     = require('../helpers/logger');
-var Query      = require('../helpers/query');
-var GameHelper = require('../helpers/game');
+var Player     = require('../../models/player.js');
+var Game       = require('../../models/game.js');
+var Logger     = require('../../helpers/logger');
+var Query      = require('../../helpers/query');
+var GameHelper = require('../../helpers/game');
 
 /* Global Variables */
 
@@ -17,7 +17,7 @@ var GameHelper = require('../helpers/game');
 exports.queue = function(player1, player2, io) {
       player1 = GameHelper.formatName(player1);
       player2 = GameHelper.formatName(player2);
-      if (player1 !== '' && player2 !== '' && player1 !== player2) {
+      if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
         Logger.info('Queue ' + player1 + ' vs. ' + player2);
 
         var game = new Game();
