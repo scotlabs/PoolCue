@@ -1,6 +1,8 @@
 # EloEloElo
 *What's all this then?*
 
+- [To-do list](https://trello.com/b/bMOfstdY/elo-elo-elo)
+
 ---
 
 #####Stack:

@@ -19,9 +19,11 @@ exports.get = function(playerName, request, response) {
 
 exports.getStats = function(playerName, request, response) {
     Query.getStats(Player, request.params.name, {}, request, response);
-    // Last 10 games
-    // Longest win streak
-    // Player most played
-    // Player most wins
-    // Player most losses
+    // Last 10 games. (WLLLWWWLWW)
+    // Longest win streak.
+    // Player most played. (Wins - Losses)
+    // Nemisis
+    // Tournament wins.
+    // Tournament entries.
+    // Tournament best round.
   };
