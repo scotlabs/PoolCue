@@ -93,20 +93,34 @@ $(function() {
     Templates --------------------
   ------------------------------*/
 
+  // <div class="col-xs-4 col-xs-offset-1 text-right">
+  //     <input type="text" class="form-control" id="player1" name="player1" minlength="2" maxlength="50" placeholder="Player 1">
+  // </div>
+  // <div class="col-xs-1 text-center">
+  //     <label><h4>vs.</h4></label>
+  // </div>
+  // <div class="col-xs-4 text-left">
+  //       <input style="width:100%;" type="text" class="form-control" id="player2" name="player2" minlength="2" maxlength="50" placeholder="Player 2">
+  // </div>
+  //
+  // <div class="col-xs-2 text-center">
+  //     <button id="createGame" class="btn btn-primary"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
+  // </div>
   function nowPlayingTemplate(game) {
     return $currentlyPlaying = (
-        '<div class="col-md-6 col-md-offset-3 text-center">' +
+        '<div class="col-xs-3 col-xs-offset-2 text-right">' +
             '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
-                game.player1 +
-                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
-            '</a>' +
-            '<label><h4>' + '&nbsp;' + 'vs.' + '&nbsp;' + '</h4></label>' +
-            '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
-                '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-left"></i>&nbsp;' +
-                game.player2 +
+                game.player1 + '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
             '</a>' +
         '</div>' +
-        '<div class="col-md-1 col-md-offset-2">' +
+        '<div class="col-xs-2 text-center">' +
+            '<h4>' + 'vs.' + '</h4>' +
+        '</div>' +
+        '<div class="col-xs-3 text-left">' +
+            '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
+                '<i class="fa fa-trophy fa-lg fa-fw text-left"></i>' + game.player2 + '</a>' +
+        '</div>' +
+        '<div class="col-xs-2 text-center">' +
             '<a id="' + game._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
                 '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
             '</a>' +
@@ -115,17 +129,21 @@ $(function() {
 
   function queuedGameTemplate(game) {
     return $game = ('<div class="well">' +
-                    '<div class="row">' +
-                        '<div class="col-md-4 col-md-offset-4 text-center">' +
-                            '<h4 class="text-center">' + game.player1 + ' vs. ' + game.player2 + '</h4>' +
+                        '<div class="row">' +
+                            '<div class="col-xs-4 col-xs-offset-1 text-right">' +
+                                '<h4>' + game.player1 + '</h4>' +
+                            '</div>' +
+                            '<div class="col-xs-1 text-center">' +
+                                '<h4> vs. </h4>' +
+                            '</div>' +
+                            '<div class="col-xs-4 text-left">' +
+                                '<h4>' + game.player2 + '</h4>' +
+                            '</div>' +
+                            '<div class="col-xs-2 text-center">' +
+                                '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '"><i class="fa fa-close fa-fw" aria-hidden="true"></i></a>' +
+                            '</div>' +
                         '</div>' +
-                        '<div class="col-md-2 col-md-offset-2">' +
-                            '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '">' +
-                                '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-                            '</a>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>');
+                    '</div>');
   }
 
   function leaderboardRowTemplate(player, i) {
