@@ -23,9 +23,10 @@ exports.start = function(homeDirectory) {
     // Routes
     require('./routes/routes')(Router, Logger);
     // Port config
-    var httpPort  = process.env.port || 8080;
-    var httpsPort = process.env.port || 8081;
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV !== 'production') {
+      var httpPort  = process.env.port || 8080;
+      var httpsPort = process.env.port || 8081;
+    }else {
       httpPort = 80;
       httpsPort = 443;
       var options   = {
