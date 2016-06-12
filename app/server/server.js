@@ -25,11 +25,15 @@ exports.start = function(homeDirectory) {
     // Port config
     var httpPort  = process.env.port || 8080;
     var httpsPort = process.env.port || 8081;
-    var options   = {
-      // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
-      // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
-      // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
-    };
+    if (process.env.NODE_ENV == 'production') {
+      httpPort = 80;
+      httpsPort = 443;
+      var options   = {
+        // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
+        // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
+        // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
+      };
+    }
 
     try {
       // Security
