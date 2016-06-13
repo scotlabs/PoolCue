@@ -11,8 +11,8 @@ $(function() {
   /* Incoming socket data */
   socket.on('update data', function(data) {
       addPlayerTypeAhead(data.players);
-      addNewGameToQueue(data.games);
       addNewLeaderboard(data.players);
+      addNewGameToQueue(data.games);
       addNewCurrentlyPlaying(data.games[0]);
       resetInputBoxText();
     });
@@ -50,20 +50,24 @@ $(function() {
   }
 
   function addNewGameToQueue(games) {
-    var $newQueue = '';
-    for (var i = 1; i < games.length; i++) {
-      $newQueue += queuedGameTemplate(games[i]);
+    if (games) {
+      var $newQueue = '';
+      for (var i = 1; i < games.length; i++) {
+        $newQueue += queuedGameTemplate(games[i]);
+      }
+      $('.queue').html($newQueue);
     }
-    $('.queue').html($newQueue);
   }
 
   function addNewLeaderboard(players) {
     var $leaderboardTemp = '';
-    for (var i = 0; i < players.length; i++) {
-      $leaderboardTemp += leaderboardRowTemplate(players[i], i);
-    }
+    if (players) {
+      for (var i = 0; i < players.length; i++) {
+        $leaderboardTemp += leaderboardRowTemplate(players[i], i);
+      }
 
-    $('.scoreboard').html($leaderboardTemp);
+      $('.scoreboard').html($leaderboardTemp);
+    }
   }
 
   function addNewCurrentlyPlaying(queue) {
