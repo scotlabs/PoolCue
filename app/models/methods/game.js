@@ -32,7 +32,7 @@ exports.queue = function(player1, player2, io) {
 exports.abandon = function(gameId, io) {
       Game.findById(gameId, function(error, game) {
         if (error) {
-          Logger.error('Problem fiding game: ' + gameId + ' to abandon.');
+          Logger.error('Problem fiding game: ' + gameId + ' to abandon: ' + error);
         }
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
@@ -54,7 +54,7 @@ exports.updateAll = function(io) {
 exports.complete = function(gameId, winner, io) {
     Game.findById(gameId, function(error, game) {
           if (error) {
-            Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game.');
+            Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
           game.winner = winner;
           game.save();
