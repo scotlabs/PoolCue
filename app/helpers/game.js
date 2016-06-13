@@ -15,7 +15,7 @@ var EloRanking = new Elo();
 exports.findOrCreatePlayer = function(game, playerName, io) {
   Player.findOne({name: playerName}, function(error, player) {
       if (error) {
-        Logger.error('Problem finding player: ' + playerName + ' to find or create.');
+        Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
       }
       if (!player) {
         player = new Player({name: playerName});
@@ -55,7 +55,7 @@ exports.removeInactivePlayer = function(playerName, io) {
     if (result.length <= 1) {
       Player.findOne({name: playerName}).exec(function(error, result) {
           if (error) {
-            Logger.error('Problem finding player: ' + playerName + ' to check if active.');
+            Logger.error('Problem finding player: ' + playerName + ' to check if active: ' + error);
           }
           Logger.info('Removing player: ' +  playerName);
           Player.find({name: playerName}).remove().exec();
