@@ -10,6 +10,7 @@ var Http        = require('http');
 
 /* Imports */
 var Logger = require('../helpers/logger');
+var ServerHelper = require('../helpers/server');
 
 /* Global Variables */
 var Router = Express.Router();
@@ -26,10 +27,11 @@ exports.start = function(homeDirectory) {
     if (process.env.NODE_ENV !== 'production') {
       var httpPort  = process.env.port || 8080;
       var httpsPort = process.env.port || 8081;
+      var options = {};
     }else {
       httpPort = 80;
       httpsPort = 443;
-      var options   = {
+      options   = {
         // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
         // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
         // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
@@ -40,9 +42,11 @@ exports.start = function(homeDirectory) {
       // Security
       App.use(new Helmet());
       App.use(Helmet.hidePoweredBy());
+      //App.use(ServerHelper.requireHTTPS);
+
       // Compression
       App.use(Compression());
-      //App.use(Server.requireHTTPS);
+
       // Static Files
       App.use('/', Express.static(homeDirectory + '/bower_components'));
       App.use('/', Express.static(homeDirectory + '/app/public'));
@@ -52,12 +56,14 @@ exports.start = function(homeDirectory) {
       App.use(BodyParser.urlencoded({extended: true}));
       App.use('/', Router);
 
-      var Server = Http.createServer(App).listen(httpPort);
-
+      var Server = Http.createServer(App);
+      //Https.createServer(App);
       var sockets = require('../server/sockets');
       sockets.connect(Server);
 
-      Logger.info('Starting server @ https://localhost:' + httpPort);
+      Server.listen(httpPort, function() {
+        Logger.info('Starting server @ http://localhost:' + httpPort);
+      });
 
       return App;
 
