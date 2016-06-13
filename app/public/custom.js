@@ -23,6 +23,10 @@ $(function() {
 
   /* Button clicks */
   $(document).ready(function() {
+
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        alert("Mobile Users: Use this in landscape for now - mobile design WIP");
+    }
       socket.emit('update all');
 
       $('#createGame').click(function() {
