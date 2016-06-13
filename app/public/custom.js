@@ -10,10 +10,14 @@ $(function() {
 
   /* Incoming socket data */
   socket.on('update data', function(data) {
-      addPlayerTypeAhead(data.players);
-      addNewLeaderboard(data.players);
-      addNewGameToQueue(data.games);
-      addNewCurrentlyPlaying(data.games[0]);
+      if (data.players) {
+        addPlayerTypeAhead(data.players);
+        addNewLeaderboard(data.players);
+      }
+      if (data.games) {
+        addNewGameToQueue(data.games);
+        addNewCurrentlyPlaying(data.games[0]);
+      }
       resetInputBoxText();
     });
 
@@ -50,24 +54,20 @@ $(function() {
   }
 
   function addNewGameToQueue(games) {
-    if (games) {
-      var $newQueue = '';
-      for (var i = 1; i < games.length; i++) {
-        $newQueue += queuedGameTemplate(games[i]);
-      }
-      $('.queue').html($newQueue);
+    var $newQueue = '';
+    for (var i = 1; i < games.length; i++) {
+      $newQueue += queuedGameTemplate(games[i]);
     }
+    $('.queue').html($newQueue);
   }
 
   function addNewLeaderboard(players) {
     var $leaderboardTemp = '';
-    if (players) {
-      for (var i = 0; i < players.length; i++) {
-        $leaderboardTemp += leaderboardRowTemplate(players[i], i);
-      }
-
-      $('.scoreboard').html($leaderboardTemp);
+    for (var i = 0; i < players.length; i++) {
+      $leaderboardTemp += leaderboardRowTemplate(players[i], i);
     }
+
+    $('.scoreboard').html($leaderboardTemp);
   }
 
   function addNewCurrentlyPlaying(queue) {
@@ -96,20 +96,6 @@ $(function() {
   /*------------------------------
     Templates --------------------
   ------------------------------*/
-
-  // <div class="col-xs-4 col-xs-offset-1 text-right">
-  //     <input type="text" class="form-control" id="player1" name="player1" minlength="2" maxlength="50" placeholder="Player 1">
-  // </div>
-  // <div class="col-xs-1 text-center">
-  //     <label><h4>vs.</h4></label>
-  // </div>
-  // <div class="col-xs-4 text-left">
-  //       <input style="width:100%;" type="text" class="form-control" id="player2" name="player2" minlength="2" maxlength="50" placeholder="Player 2">
-  // </div>
-  //
-  // <div class="col-xs-2 text-center">
-  //     <button id="createGame" class="btn btn-primary"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
-  // </div>
   function nowPlayingTemplate(game) {
     return $currentlyPlaying = (
         '<div class="col-xs-3 col-xs-offset-2 text-right">' +
