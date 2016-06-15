@@ -50,16 +50,16 @@ exports.getStats = function(playerName) {
                   console.log(opponents);
 
                   var frequency = {};
-                  var max = 0;
-                  var result;
+                  var numberOfGames = 0;
+                  var mostPlayedPlayer;
                   for (var i in opponents) {
                     frequency[opponents[i]] = (frequency[opponents[i]] || 0) + 1;
-                    if (frequency[opponents[i]] > max) {
-                      max = frequency[opponents[i]];
-                      result = opponents[i];
+                    if (frequency[opponents[i]] > numberOfGames) {
+                      numberOfGames = frequency[opponents[i]];
+                      mostPlayedPlayer = opponents[i];
                     }
                   }
-                  console.log(result + ' ' + max);
+                  console.log(mostPlayedPlayer + ' ' + numberOfGames);
                   // Longest win streak.
                   for (var i = 0; i < games.length; i++) {
 
