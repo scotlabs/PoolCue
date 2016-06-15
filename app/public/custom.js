@@ -27,14 +27,17 @@ $(function() {
 
       $('#createGame').click(function() {
           addToQueue();
+          disableButtons();
         });
 
       $(document).on('click','.deleteGame',function(e) {
           deleteQueue(this.id);
+          disableButtons();
         });
 
       $(document).on('click','.completeGame',function(e) {
           completeGame(this.id, $(this).attr('value'));
+          disableButtons();
         });
     });
 
@@ -55,6 +58,7 @@ $(function() {
         $('button').prop('disabled',false);
       }, 2000);
   }
+
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
