@@ -56,19 +56,24 @@ exports.complete = function(gameId, winner, io) {
           if (error) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
-          game.winner = winner;
-          game.save();
-          var loser = game.player2;
-          if (game.player1 != winner) {
-            loser = game.player1;
-          }
 
-          Player.find({name: {$in: [winner, loser]}}, function(error, players) {
-              if (players[0].name == winner) {
-                GameHelper.updatePlayers(players[0], players[1], io);
-              }else {
-                GameHelper.updatePlayers(players[1], players[0], io);
-              }
-            });
+          if(game.winner){
+            updateAll(io);
+          }else{
+            game.winner = winner;
+            game.save();
+            var loser = game.player2;
+            if (game.player1 != winner) {
+              loser = game.player1;
+            }
+
+            Player.find({name: {$in: [winner, loser]}}, function(error, players) {
+                if (players[0].name == winner) {
+                  GameHelper.updatePlayers(players[0], players[1], io);
+                }else {
+                  GameHelper.updatePlayers(players[1], players[0], io);
+                }
+              });
+          }
         });
   };
