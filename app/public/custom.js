@@ -14,6 +14,7 @@ $(function() {
         addNewLeaderboard(data.players);
         addNewGameToQueue(data.games);
         addNewCurrentlyPlaying(data.games[0]);
+        disableButtons();
       });
 
   /* Button clicks */
@@ -37,6 +38,23 @@ $(function() {
         });
     });
 
+  function disableButtons() {
+    $('.completeGame').attr('disabled','disabled');
+    $('.completeGame').prop('disabled',true);
+    $('.deleteGame').attr('disabled', 'disabled');
+    $('.deleteGame').prop('disabled',true);
+    $('button').attr('disabled','disabled');
+    $('button').prop('disabled',true);
+
+    setTimeout(function() {
+        $('.completeGame').removeAttr('disabled');
+        $('.completeGame').prop('disabled', false);
+        $('.deleteGame').removeAttr('disabled');
+        $('.deleteGame').prop('disabled',false);
+        $('button').removeAttr('disabled');
+        $('button').prop('disabled',false);
+      }, 2000);
+  }
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
