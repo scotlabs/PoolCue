@@ -10,23 +10,18 @@ $(function() {
 
   /* Incoming socket data */
   socket.on('update data', function(data) {
-      if (data.players) {
         addPlayerTypeAhead(data.players);
         addNewLeaderboard(data.players);
-      }
-      if (data.games) {
         addNewGameToQueue(data.games);
         addNewCurrentlyPlaying(data.games[0]);
-      }
-      resetInputBoxText();
-    });
+      });
 
   /* Button clicks */
   $(document).ready(function() {
 
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        alert("Mobile Users: Use this in landscape for now - mobile design WIP");
-    }
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        alert('Mobile Users: Use this in landscape for now - mobile design WIP');
+      }
       socket.emit('update all');
 
       $('#createGame').click(function() {
@@ -45,7 +40,7 @@ $(function() {
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
-
+    resetInputBoxText();
     socket.emit('create game', player1, player2);
   }
 
