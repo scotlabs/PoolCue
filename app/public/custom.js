@@ -185,9 +185,9 @@ $(function() {
     return $tableRow = ('<tr scope="row">' +
                            '<td><b>' + $position + '</b></td>' +
                            '<td><b>' + player.name + '</td>' +
-                           '<td class="text-right hidden-xs"><b>' + player.wins + '</b></td>' +
-                           '<td class="text-right hidden-xs"><b>' + player.losses + '</b></td>' +
-                           '<td class="text-right"><b>' + $delta + '</b></td>' +
+                           '<td class="text-right"><b>' + player.wins + '</b></td>' +
+                           '<td class="text-right"><b>' + player.losses + '</b></td>' +
+                           '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +
                            '<td class="text-right"><b>' + player.elo + '</b></td>' +
                         '</tr>');
   }
