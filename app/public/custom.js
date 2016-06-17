@@ -27,7 +27,7 @@ $(function() {
         });
 
       $(document).on('click','.deleteGame',function(e) {
-          deleteQueue(this.id);
+          deleteFromQueue(this.id);
           toggleButtons();
         });
 
@@ -42,10 +42,9 @@ $(function() {
     var player2 = cleanInput($('#player2').val());
     resetInputBoxText();
     socket.emit('create game', player1, player2);
-    resetInputBoxText();
   }
 
-  function deleteQueue(gameId) {
+  function deleteFromQueue(gameId) {
     socket.emit('delete game', gameId);
   }
 
@@ -83,8 +82,9 @@ $(function() {
   }
 
   function resetInputBoxText() {
-    $('#player1').val('');
     $('#player2').val('');
+    $('#player1').val('');
+    reset();
   }
 
   function disableButtons() {
@@ -113,19 +113,19 @@ $(function() {
   $window.keydown(function(event) {
       if (event.which === 13) {
         addToQueue();
+        resetInputBoxText();
       }
     });
 
   // For window focus
-  $window.focus(function(){
+  $window.focus(function() {
     socket.emit('update all');
     console.log('updating');
   });
 
-  $window.blur(function(){
+  $window.blur(function() {
     disableButtons();
   });
-
 
   /*------------------------------
     Templates --------------------

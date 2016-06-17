@@ -57,9 +57,9 @@ exports.complete = function(gameId, winner, io) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
 
-          if(game.winner){
+          if (game.winner) {
             updateAll(io);
-          }else{
+          }else {
             game.winner = winner;
             game.save();
             var loser = game.player2;
