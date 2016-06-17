@@ -14,7 +14,7 @@ $(function() {
         addNewLeaderboard(data.players);
         addNewGameToQueue(data.games);
         addNewCurrentlyPlaying(data.games[0]);
-        disableButtons();
+        toggleButtons();
       });
 
   /* Button clicks */
@@ -23,43 +23,26 @@ $(function() {
 
       $('#createGame').click(function() {
           addToQueue();
-          disableButtons();
+          toggleButtons();
         });
 
       $(document).on('click','.deleteGame',function(e) {
           deleteQueue(this.id);
-          disableButtons();
+          toggleButtons();
         });
 
       $(document).on('click','.completeGame',function(e) {
           completeGame(this.id, $(this).attr('value'));
-          disableButtons();
+          toggleButtons();
         });
     });
-
-  function disableButtons() {
-    $('.completeGame').attr('disabled','disabled');
-    $('.completeGame').prop('disabled',true);
-    $('.deleteGame').attr('disabled', 'disabled');
-    $('.deleteGame').prop('disabled',true);
-    $('button').attr('disabled','disabled');
-    $('button').prop('disabled',true);
-
-    setTimeout(function() {
-        $('.completeGame').removeAttr('disabled');
-        $('.completeGame').prop('disabled', false);
-        $('.deleteGame').removeAttr('disabled');
-        $('.deleteGame').prop('disabled',false);
-        $('button').removeAttr('disabled');
-        $('button').prop('disabled',false);
-      }, 2000);
-  }
 
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
     resetInputBoxText();
     socket.emit('create game', player1, player2);
+    resetInputBoxText();
   }
 
   function deleteQueue(gameId) {
@@ -104,11 +87,45 @@ $(function() {
     $('#player2').val('');
   }
 
+  function disableButtons() {
+    $('.completeGame').attr('disabled','disabled');
+    $('.completeGame').prop('disabled',true);
+    $('.deleteGame').attr('disabled', 'disabled');
+    $('.deleteGame').prop('disabled',true);
+    $('button').attr('disabled','disabled');
+    $('button').prop('disabled',true);
+  }
+
+  function toggleButtons() {
+    disableButtons();
+
+    setTimeout(function() {
+        $('.completeGame').removeAttr('disabled');
+        $('.completeGame').prop('disabled', false);
+        $('.deleteGame').removeAttr('disabled');
+        $('.deleteGame').prop('disabled',false);
+        $('button').removeAttr('disabled');
+        $('button').prop('disabled',false);
+      }, 2000);
+  }
+
+  //Return Key
   $window.keydown(function(event) {
       if (event.which === 13) {
         addToQueue();
       }
     });
+
+  // For window focus
+  $window.focus(function(){
+    socket.emit('update all');
+    console.log('updating');
+  });
+
+  $window.blur(function(){
+    disableButtons();
+  });
+
 
   /*------------------------------
     Templates --------------------

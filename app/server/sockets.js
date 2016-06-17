@@ -28,7 +28,7 @@ exports.connect = function(server) {
         });
 
         socket.on('update all', function() {
-          Game.updateAll(io);
+          Game.updateAll(socket);
         });
 
       });

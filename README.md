@@ -6,7 +6,7 @@
 ---
 
 #####Stack:
-- [Node.js](https://nodejs.org/)
+- [Node.js](https://nodejs.org/) - (v4 or later)
 - [MongoDB](https://www.mongodb.com/) <sup>(Sorry)</sup>
 
 ---
