@@ -10,11 +10,15 @@ var Query  = require('../helpers/query');
 
 /* Functions */
 exports.getAll = function(request, response) {
-    Query.find(Player, {}, {elo: 'descending'}, request, response);
+    Player.find({}, {__v: 0}).sort({elo: 'descending'}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.get = function(playerName, request, response) {
-    Query.find(Player, {name: playerName}, {}, request, response);
+    Player.find({name: playerName}, {__v: 0}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.getStats = function(playerName, request, response) {

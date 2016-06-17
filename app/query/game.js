@@ -10,35 +10,37 @@ var Query = require('../helpers/query');
 
 /* Functions */
 exports.getAll = function(request, response) {
-    Query.find(Game, {}, {time: 'descending'}, request, response);
+    Game.find({}, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.get = function(gameId, request, response) {
-    Query.find(Game, {_id: request.params.id}, {}, request, response);
+    Game.find({_id: request.params.id}, {__v: 0}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.getByPlayer = function(playerName, request, response) {
-    Query.find(Game,
-                {$or:
-                    [{player1: playerName},
-                    {player2: playerName}]
-                },
-                {time: 'descending'},
-                request,
-                response);
+    Game.find({$or: [{player1: playerName},
+                    {player2: playerName}]},
+                    {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.getByPlayers = function(player1Name, player2Name, request, response) {
-    Query.find(Game,
-                {$or:
+    console.log(player2Name);
+    Game.find({$and: [{$or:
                     [{player1: player1Name, player2: player2Name},
-                    {player1: player2Name, player2: player1Name}]
-                },
-                {time: 'descending'},
-                request,
-                response);
+                    {player1: player2Name, player2: player1Name}]}]},
+                    {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };
 
 exports.getQueue = function(request, response) {
-    Query.find(Game, {winner: null}, {time: 'ascending'}, request, response);
+    Game.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, result) {
+          response.json(result);
+        });
   };

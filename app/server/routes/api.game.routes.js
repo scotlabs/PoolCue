@@ -22,6 +22,7 @@ module.exports = function(Router) {
 
     /* Games by player name */
     Router.get('/api/games/player/:name', function(request, response) {
+        console.log(request.params.name);
         Game.getByPlayer(request.params.name, request, response);
       });
 
