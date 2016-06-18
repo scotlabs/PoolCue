@@ -40,8 +40,8 @@ $(function() {
   function addToQueue() {
     var player1 = cleanInput($('#player1').val());
     var player2 = cleanInput($('#player2').val());
-    resetInputBoxText();
     socket.emit('create game', player1, player2);
+    resetInputBoxText();
   }
 
   function deleteFromQueue(gameId) {
@@ -82,9 +82,7 @@ $(function() {
   }
 
   function resetInputBoxText() {
-    $('#player2').val('');
-    $('#player1').val('');
-    reset();
+    $('input[type=text]').val('');
   }
 
   function disableButtons() {
@@ -120,7 +118,6 @@ $(function() {
   // For window focus
   $window.focus(function() {
     socket.emit('update all');
-    console.log('updating');
   });
 
   $window.blur(function() {
