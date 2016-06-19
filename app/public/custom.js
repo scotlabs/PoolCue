@@ -195,6 +195,11 @@ $(function() {
 
   function leaderboardRowTemplate(player, i) {
     var $delta = (player.wins - player.losses);
+    if ($delta > 0) {
+      $delta = '+ ' + $delta;
+    }else if ($delta < 0) {
+      $delta = '- ' + Math.abs($delta);
+    }
     var $position = i + 1;
     return $tableRow = ('<tr scope="row">' +
                            '<td><b>' + $position + '</b></td>' +
