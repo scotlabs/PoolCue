@@ -36,18 +36,18 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
 };
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
-  Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-  winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
-  winner.wins++;
-  winner.save();
+    Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+    winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
+    winner.wins++;
+    winner.save();
 
-  loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
-  loser.losses++;
-  loser.save();
-  Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+    loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
+    loser.losses++;
+    loser.save();
+    Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
 
-  Query.pushDataToSockets(io);
-};
+    Query.pushDataToSockets(io);
+  };
 
 /* Removes player if 0 wins & 0 losses */
 exports.removeInactivePlayer = function(playerName, io) {

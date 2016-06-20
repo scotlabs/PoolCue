@@ -30,7 +30,6 @@ exports.getByPlayer = function(playerName, request, response) {
   };
 
 exports.getByPlayers = function(player1Name, player2Name, request, response) {
-    console.log(player2Name);
     Game.find({$and: [{$or:
                     [{player1: player1Name, player2: player2Name},
                     {player1: player2Name, player2: player1Name}]}]},
