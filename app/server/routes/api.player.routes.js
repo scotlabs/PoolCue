@@ -4,6 +4,7 @@
 
 /* Imports */
 var Player = require('../../query/player');
+var GameHelper = require('../../helpers/game');
 
 /* Variables */
 
@@ -17,12 +18,14 @@ module.exports = function(Router) {
 
     /* Player by name */
     Router.get('/api/players/:name', function(request, response) {
-        Player.get(request.params.name, request, response);
+        var playerName = GameHelper.formatName(request.params.name);
+        Player.get(playerName, request, response);
       });
 
     /* Incomplete endpoint for player stats */
     Router.get('/api/players/:name/stats', function(request, response) {
-        Player.getStats(request.params.name, request, response);
+        var playerName = GameHelper.formatName(request.params.name);
+        Player.getStats(playerName, request, response);
         // Last 10 games
         // Longest win streak
         // Player most played

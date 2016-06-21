@@ -10,7 +10,7 @@ var Players = require('../models/player.js');
 
 /* Functions */
 exports.pushDataToSockets = function(io) {
-  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).lean().exec(function(error, games) {
+  Games.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).limit(25).lean().exec(function(error, games) {
     Players.find({}, {__v: 0}).sort({elo: 'descending'}).lean().exec(function(error, players) {
       io.emit('update data', {
         players: players,

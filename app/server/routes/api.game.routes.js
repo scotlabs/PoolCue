@@ -4,6 +4,7 @@
 
 /* Imports */
 var Game = require('../../query/game');
+var GameHelper = require('../../helpers/game');
 
 /* Variables */
 
@@ -15,20 +16,35 @@ module.exports = function(Router) {
         Game.getAll(request, response);
       });
 
+    /* Games in the queue */
+    Router.get('/api/games/queue', function(request, response) {
+        Game.getQueue(request, response);
+    });
+
+    /* Games currently playing */
+    Router.get('/api/games/current', function(request, response) {
+        Game.getPlaying(request, response);
+    });
+
+    /* Games that are complete */
+    Router.get('/api/games/complete', function(request, response) {
+        Game.getComplete(request, response);
+    });
+
     /* Game by ID */
     Router.get('/api/games/id/:id', function(request, response) {
         Game.get(request.params.id, request, response);
       });
 
-    /* Games by player name */
+    /* Find games by player name - with the option for opponents as a param ie. ?opponent= */
     Router.get('/api/games/player/:name', function(request, response) {
-        console.log(request.params.name);
-        Game.getByPlayer(request.params.name, request, response);
-      });
-
-    /* Find player by name - with the option for opponents as a param ie. ?opponent= */
-    Router.get('/api/games/players/:name', function(request, response) {
-        Game.getByPlayers(request.params.name, request.query.opponent, request, response);
-      });
+      var playerName = GameHelper.formatName(request.params.name);
+      if(request.query.opponent){
+        var opponentName = GameHelper.formatName(request.query.opponent);
+        Game.getByPlayers(playerName, opponentName, request, response);
+      }else{
+        Game.getByPlayer(playerName, request, response);
+      }
+    });
 
   };
