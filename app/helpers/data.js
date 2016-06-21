@@ -26,12 +26,11 @@ function generateScoreFromGames() {
   Game.find({}).sort({time: 'ascending'}).exec(function(error, games) {
       for (var i = 0; i < games.length; i++) {
         var game = games[i];
-        Player.find({$or: [{name: games[i].player1}, {name: games[i].player2}]}).lean().exec(function(error, result) {
-              if (game.winner === result[0].name) {
-                // Pass reults + game and the call save on results?
-                Helpers.updatePlayers(result[0], result[1], null);
-              }else if (game.winner === result[1].name) {
-                Helpers.updatePlayers(result[1], result[0], null);
+        Player.find({name: {$in: [games[i].player1, games[i].player2]}}, function(error, players) {
+              if (players[0].name == game.winner) {
+                Helpers.updatePlayers(players[0], players[1], null);
+              }else if (players[1].name == game.winner) {
+                Helpers.updatePlayers(players[1], players[0], null);
               }
             });
       }

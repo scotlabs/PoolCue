@@ -11,5 +11,5 @@ require('./app/server/server').start(__dirname);
 // var player = require('./app/models/methods/player');
 // player.getStats('Jamie');
 
-// var Data = require('./app/helpers/data');
-// Data.createPlayersFromGames();
+var Data = require('./app/helpers/data');
+Data.createPlayersFromGames();
