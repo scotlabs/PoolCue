@@ -17,13 +17,13 @@ module.exports = function(Router) {
       });
 
     /* Player by name */
-    Router.get('/api/players/:name', function(request, response) {
+    Router.get('/api/player/:name', function(request, response) {
         var playerName = GameHelper.formatName(request.params.name);
         Player.get(playerName, request, response);
       });
 
     /* Incomplete endpoint for player stats */
-    Router.get('/api/players/:name/stats', function(request, response) {
+    Router.get('/api/player/:name/stats', function(request, response) {
         var playerName = GameHelper.formatName(request.params.name);
         Player.getStats(playerName, request, response);
         // Last 10 games

@@ -19,11 +19,3 @@ exports.pushDataToSockets = function(io) {
     });
   });
 };
-
-exports.getStats = function(collection, playerName, sort, response) {
-    // Last 10 games
-    // Longest win streak
-    // Player most played
-    // Player most wins
-    // Player most losses
-  };

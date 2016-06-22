@@ -22,20 +22,15 @@ exports.get = function(gameId, request, response) {
   };
 
 exports.getByPlayer = function(playerName, request, response) {
-    Game.find({$or: [{player1: playerName},
-                    {player2: playerName}
-                    ]
-              },
-              {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
+    var searchParams = {$or: [{player1: playerName}, {player2: playerName}]};
+    Game.find(searchParams, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
           response.json(result);
         });
   };
 
 exports.getByPlayers = function(player1Name, player2Name, request, response) {
-    Game.find({$and: [{$or: [{player1: player1Name, player2: player2Name},
-                             {player1: player2Name, player2: player1Name}]}]
-              },
-              {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
+    var searchParams = {$and: [{$or: [{player1: player1Name, player2: player2Name}, {player1: player2Name, player2: player1Name}]}]};
+    Game.find(searchParams, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
           response.json(result);
         });
   };
@@ -53,7 +48,7 @@ exports.getPlaying = function(request, response) {
   };
 
 exports.getComplete = function(request, response) {
-    Game.find({winner: {$ne: null }}, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
+    Game.find({winner: {$ne: null}}, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
           response.json(result);
         });
   };

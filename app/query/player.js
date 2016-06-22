@@ -4,6 +4,7 @@
 
 /* Imports */
 var Player = require('../models/player');
+var PlayerMethods = require('../models/methods/player');
 var Query  = require('../helpers/query');
 
 /* Variables */
@@ -22,12 +23,5 @@ exports.get = function(playerName, request, response) {
   };
 
 exports.getStats = function(playerName, request, response) {
-    Query.getStats(Player, request.params.name, {}, request, response);
-    // Last 10 games. (WLLLWWWLWW)
-    // Longest win streak.
-    // Player most played. (Wins - Losses)
-    // Nemisis
-    // Tournament wins.
-    // Tournament entries.
-    // Tournament best round.
+    PlayerMethods.getStats(playerName, request, response);
   };
