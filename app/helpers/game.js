@@ -3,8 +3,8 @@
 var Elo = require('elo-js');
 
 /* Imports */
-var Player = require('../models/player.js');
-var Game   = require('../models/game.js');
+var Game   = require('../models/game');
+var Player = require('../models/player');
 var Logger = require('../helpers/logger');
 var Query  = require('../helpers/query');
 

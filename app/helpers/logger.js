@@ -1,9 +1,9 @@
 'use strict';
 
 /* NPM Packages*/
+var Fs     = require('fs');
 var Chalk  = require('chalk');
 var Moment = require('moment');
-var Fs     = require('fs');
 
 /* Imports */
 

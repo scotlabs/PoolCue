@@ -9,7 +9,7 @@ var Https       = require('https');
 var Http        = require('http');
 
 /* Imports */
-var Logger = require('../helpers/logger');
+var Logger       = require('../helpers/logger');
 var ServerHelper = require('../helpers/server');
 
 /* Global Variables */

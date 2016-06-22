@@ -4,7 +4,6 @@
 
 /* Imports */
 var Game  = require('../models/game');
-var Query = require('../helpers/query');
 
 /* Variables */
 

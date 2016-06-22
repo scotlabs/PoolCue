@@ -3,9 +3,8 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player = require('../models/player');
+var Player        = require('../models/player');
 var PlayerMethods = require('../models/methods/player');
-var Query  = require('../helpers/query');
 
 /* Variables */
 

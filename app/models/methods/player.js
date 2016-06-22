@@ -5,8 +5,8 @@ var Elo = require('elo-js');
 
 /* Imports */
 var Logger = require('../../helpers/logger');
-var Player = require('../../models/player.js');
-var Game = require('../../models/game.js');
+var Player = require('../../models/player');
+var Game   = require('../../models/game');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -23,23 +23,18 @@ exports.importPlayer = function(playerName, importedWins, importedLosses) {
 
 /* Complete a game */
 exports.getStats = function(playerName, request, response) {
-          console.log(response);
           Player.findOne({name: playerName}, function(error, player) {
               Game.find({$or: [{player1: playerName}, {player2: playerName}]}).sort('descending').lean().exec(function(error, games) {
-                  //Player
+
                   var playerStats = {
                       stats: {
                         player: player,
-                        winPercentage: player.wins / (player.wins + player.losses) * 100,
-                        // Last 10 games. (WLLLWWWLWW)
                         last10games: getLast10Games(playerName, games),
-                        // Player most played. (Wins - Losses)
                         playerMostPlayed: getPlayerMostPlayed(playerName, games),
-                        // Longest win streak.
                         winStreak: getWinStreak(playerName, games)
+                        // Nemisis
                       }
                     };
-                  // Nemisis
 
                   response.json(playerStats);
                 });
@@ -77,7 +72,6 @@ function getPlayerMostPlayed(playerName, games) {
   var numberOfGames = 0;
   var mostPlayedPlayer;
   for (var i in opponents) {
-    console.log(opponents);
     frequency[opponents[i]] = (frequency[opponents[i]] || 0) + 1;
     if (frequency[opponents[i]] > numberOfGames) {
       numberOfGames = frequency[opponents[i]];
