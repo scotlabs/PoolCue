@@ -17,6 +17,10 @@ $(function() {
         toggleButtons();
       });
 
+  socket.on('player stats', function(stats) {
+      console.log(stats);
+    });
+
   /* Button clicks */
   $(document).ready(function() {
       socket.emit('update all');
@@ -35,6 +39,10 @@ $(function() {
           completeGame(this.id, $(this).attr('value'));
           toggleButtons();
         });
+
+      $(document).on('click','.playerRow',function(e) {
+          getPlayerStats(this.id);
+        });
     });
 
   function addToQueue() {
@@ -50,6 +58,10 @@ $(function() {
 
   function completeGame(gameId, winner) {
     socket.emit('complete game', gameId, winner);
+  }
+
+  function getPlayerStats(playerName) {
+    socket.emit('player stats', playerName);
   }
 
   function addNewGameToQueue(games) {
@@ -203,7 +215,7 @@ $(function() {
     var $position = i + 1;
     return $tableRow = ('<tr scope="row">' +
                            '<td><b>' + $position + '</b></td>' +
-                           '<td><b>' + player.name + '</td>' +
+                           '<td><b class="playerRow" id="' + player.name + '">' + player.name + '</td>' +
                            '<td class="text-right"><b>' + player.wins + '</b></td>' +
                            '<td class="text-right"><b>' + player.losses + '</b></td>' +
                            '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +

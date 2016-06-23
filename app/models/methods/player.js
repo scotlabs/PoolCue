@@ -22,7 +22,7 @@ exports.importPlayer = function(playerName, importedWins, importedLosses) {
   };
 
 /* Complete a game */
-exports.getStats = function(playerName, request, response) {
+exports.getStats = function(playerName, socket, request, response) {
           Player.findOne({name: playerName}, function(error, player) {
               Game.find({$or: [{player1: playerName}, {player2: playerName}]}).sort('descending').lean().exec(function(error, games) {
 
@@ -35,8 +35,11 @@ exports.getStats = function(playerName, request, response) {
                         // Nemisis
                       }
                     };
-
-                  response.json(playerStats);
+                  if (socket) {
+                    socket.emit('player stats', {stats: playerStats});
+                  }else {
+                    response.json(playerStats);
+                  }
                 });
             });
         };
@@ -52,9 +55,7 @@ function getLast10Games(playerName, games) {
       }
     }
   }
-  // return new Object({
-  //     last10games: last10games
-  //   });
+
   return last10games;
 }
 

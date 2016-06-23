@@ -22,5 +22,5 @@ exports.get = function(playerName, request, response) {
   };
 
 exports.getStats = function(playerName, request, response) {
-    PlayerMethods.getStats(playerName, request, response);
+    PlayerMethods.getStats(playerName, null, request, response);
   };

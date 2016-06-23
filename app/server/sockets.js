@@ -5,6 +5,7 @@
 /* Imports */
 var Logger = require('../helpers/logger');
 var Game   = require('../models/methods/game');
+var Player = require('../models/methods/player');
 
 /* Global Variables */
 
@@ -30,6 +31,10 @@ exports.connect = function(server) {
         socket.on('update all', function() {
           Game.updateAll(socket);
         });
+
+        socket.on('player stats', function(playerName) {
+            Player.getStats(playerName, socket);
+          });
 
       });
   };
