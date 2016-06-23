@@ -17,8 +17,10 @@ $(function() {
         toggleButtons();
       });
 
-  socket.on('player stats', function(stats) {
-      console.log(stats);
+  socket.on('player stats', function(data) {
+      console.log(data);
+      console.log(data.stats.player);
+      $('.data.stats.player.name').attr('text-right');
     });
 
   /* Button clicks */
@@ -43,6 +45,8 @@ $(function() {
       $(document).on('click','.playerRow',function(e) {
           getPlayerStats(this.id);
         });
+
+      $('[data-toggle="popover"]').popover();
     });
 
   function addToQueue() {
@@ -215,7 +219,7 @@ $(function() {
     var $position = i + 1;
     return $tableRow = ('<tr scope="row">' +
                            '<td><b>' + $position + '</b></td>' +
-                           '<td><b class="playerRow" id="' + player.name + '">' + player.name + '</td>' +
+                           '<td><b class="playerRow" data-toggle="popover" data-container="body" id="' + player.name + '">' + player.name + '</td>' +
                            '<td class="text-right"><b>' + player.wins + '</b></td>' +
                            '<td class="text-right"><b>' + player.losses + '</b></td>' +
                            '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +

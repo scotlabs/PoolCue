@@ -26,21 +26,19 @@ exports.getStats = function(playerName, socket, request, response) {
           Player.findOne({name: playerName}, function(error, player) {
               Game.find({$or: [{player1: playerName}, {player2: playerName}]}).sort('descending').lean().exec(function(error, games) {
 
-                  var playerStats = {
-                      stats: {
+                    var playerStats = {
                         player: player,
                         last10games: getLast10Games(playerName, games),
                         playerMostPlayed: getPlayerMostPlayed(playerName, games),
                         winStreak: getWinStreak(playerName, games)
                         // Nemisis
-                      }
-                    };
-                  if (socket) {
-                    socket.emit('player stats', {stats: playerStats});
-                  }else {
-                    response.json(playerStats);
-                  }
-                });
+                      };
+                    if (socket) {
+                      socket.emit('player stats', {stats: playerStats});
+                    }else {
+                      response.json(playerStats);
+                    }
+                  });
             });
         };
 
