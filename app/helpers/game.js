@@ -46,7 +46,7 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.save();
     Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
 
-    if(io){
+    if (io) {
       Query.pushDataToSockets(io);
     }
   };
@@ -67,5 +67,5 @@ exports.removeInactivePlayer = function(playerName, io) {
 };
 
 exports.formatName = function(playerName) {
-  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, '').substring(0, 50);
+  return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, '').substring(0, 50).trim();
 };
