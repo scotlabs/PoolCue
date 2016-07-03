@@ -110,7 +110,7 @@ $(function() {
                             'Win %:' +
                         '</div>' +
                         '<div class="col-xs-6 text-left">' +
-                            stats.player.wins / (stats.player.wins + stats.player.losses) * 100 + ' %' +
+                            getWinPercentage(stats.player) + ' %' +
                         '</div>' +
                     '</div>' +
                     '<div class="row">' +
@@ -146,6 +146,14 @@ $(function() {
                         '</div>' +
                     '</div>';
     return winstreak;
+  }
+
+  function getWinPercentage(player) {
+    if (player.wins > 0 || player.wins > 0) {
+      return Math.round(player.wins / (player.wins + player.losses) * 100);
+    }else {
+      return '0';
+    }
   }
 
   function last10games(games) {
