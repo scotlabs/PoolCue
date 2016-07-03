@@ -18,9 +18,7 @@ $(function() {
       });
 
   socket.on('player stats', function(data) {
-      console.log(data);
-      console.log(data.stats.player);
-      $('.data.stats.player.name').attr('text-right');
+      addDataToPlayerStatsModal(data.stats);
     });
 
   /* Button clicks */
@@ -46,7 +44,6 @@ $(function() {
           getPlayerStats(this.id);
         });
 
-      $('[data-toggle="popover"]').popover();
     });
 
   function addToQueue() {
@@ -92,6 +89,77 @@ $(function() {
       $('.playing').html(noOnePlayingTemplate());
     }
   }
+
+  function addDataToPlayerStatsModal(stats) {
+    console.log(stats);
+    $('#modalLabel').text(stats.player.name);
+    $('#modalContent').html(functionName(stats));
+    // Most played<br/>
+  }
+
+  function functionName(stats) {
+    last10games(stats.last10games);
+    var winstreak = '<div class="row">' +
+                        '<div class="text-center">' +
+                            '&nbsp;&nbsp;&nbsp;&nbsp;(Wins) ' + stats.player.wins + '&nbsp; - &nbsp;' +
+                            stats.player.losses + ' (Losses)' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                        '<div class="col-xs-6 text-right">' +
+                            'Win %:' +
+                        '</div>' +
+                        '<div class="col-xs-6 text-left">' +
+                            stats.player.wins / (stats.player.wins + stats.player.losses) * 100 + ' %' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                        '<div class="col-xs-6 text-right">' +
+                            'Elo:' +
+                        '</div>' +
+                        '<div class="col-xs-6 text-left">' +
+                            stats.player.elo +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                        '<div class="col-xs-6 text-right">' +
+                            'Last 10:' +
+                        '</div>' +
+                        '<div class="col-xs-6 text-left">' +
+                            last10games(stats.last10games) +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                        '<div class="col-xs-6 text-right">' +
+                            'Win Streak:' +
+                        '</div>' +
+                        '<div class="col-xs-6 text-left">' +
+                            stats.winStreak +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="row">' +
+                        '<div class="col-xs-6 text-right">' +
+                            'Most Played:' +
+                        '</div>' +
+                        '<div class="col-xs-6 text-left">' +
+                            stats.playerMostPlayed.player + ' (' + stats.playerMostPlayed.games + ')' +
+                        '</div>' +
+                    '</div>';
+    return winstreak;
+  }
+
+  function last10games(games) {
+    var gameString = '';
+    for (var i = 0; i < games.length; i++) {
+      if (games[i]) {
+        gameString += '<span class="text-success">W</span>';
+      }else {
+        gameString += '<span class="text-danger">L</span>';
+      }
+    }
+    return gameString;
+  }
+
   /* Helpers */
   function cleanInput(input) {
     return $('<div/>').text(input).text();
@@ -217,9 +285,9 @@ $(function() {
       $delta = '- ' + Math.abs($delta);
     }
     var $position = i + 1;
-    return $tableRow = ('<tr scope="row">' +
+    return $tableRow = ('<tr scope="row" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
                            '<td><b>' + $position + '</b></td>' +
-                           '<td><b class="playerRow" data-toggle="popover" data-container="body" id="' + player.name + '">' + player.name + '</td>' +
+                           '<td><b>' + player.name + '</td>' +
                            '<td class="text-right"><b>' + player.wins + '</b></td>' +
                            '<td class="text-right"><b>' + player.losses + '</b></td>' +
                            '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +
