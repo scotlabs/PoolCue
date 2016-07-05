@@ -96,51 +96,51 @@ $(function() {
   function formatPlayerlayerStats(stats) {
     last10games(stats.last10games);
     return '<div class="row">' +
-                        '<div class="text-center">' +
-                            '&nbsp;&nbsp;&nbsp;&nbsp;(Wins) ' + stats.player.wins + '&nbsp; - &nbsp;' +
-                            stats.player.losses + ' (Losses)' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                        '<div class="col-xs-6 text-right">' +
-                            'Win %:' +
-                        '</div>' +
-                        '<div class="col-xs-6 text-left">' +
-                            getWinPercentage(stats.player) + ' %' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                        '<div class="col-xs-6 text-right">' +
-                            'Elo:' +
-                        '</div>' +
-                        '<div class="col-xs-6 text-left">' +
-                            stats.player.elo +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                        '<div class="col-xs-6 text-right">' +
-                            'Last 10:' +
-                        '</div>' +
-                        '<div class="col-xs-6 text-left">' +
-                            last10games(stats.last10games) +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                        '<div class="col-xs-6 text-right">' +
-                            'Win Streak:' +
-                        '</div>' +
-                        '<div class="col-xs-6 text-left">' +
-                            stats.winStreak +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="row">' +
-                        '<div class="col-xs-6 text-right">' +
-                            'Most Played:' +
-                        '</div>' +
-                        '<div class="col-xs-6 text-left">' +
-                            stats.playerMostPlayed.player + ' (' + stats.playerMostPlayed.games + ')' +
-                        '</div>' +
-                    '</div>';
+                '<div class="text-center">' +
+                    '&nbsp;&nbsp;&nbsp;&nbsp;(Wins) ' + stats.player.wins + '&nbsp; - &nbsp;' +
+                    stats.player.losses + ' (Losses)' +
+                '</div>' +
+            '</div>' +
+            '<div class="row">' +
+                '<div class="col-xs-6 text-right">' +
+                    'Win %:' +
+                '</div>' +
+                '<div class="col-xs-6 text-left">' +
+                    getWinPercentage(stats.player) + ' %' +
+                '</div>' +
+            '</div>' +
+            '<div class="row">' +
+                '<div class="col-xs-6 text-right">' +
+                    'Elo:' +
+                '</div>' +
+                '<div class="col-xs-6 text-left">' +
+                    stats.player.elo +
+                '</div>' +
+            '</div>' +
+            '<div class="row">' +
+                '<div class="col-xs-6 text-right">' +
+                    'Last 10:' +
+                '</div>' +
+                '<div class="col-xs-6 text-left">' +
+                    last10games(stats.last10games) +
+                '</div>' +
+            '</div>' +
+            '<div class="row">' +
+                '<div class="col-xs-6 text-right">' +
+                    'Win Streak:' +
+                '</div>' +
+                '<div class="col-xs-6 text-left">' +
+                    stats.winStreak +
+                '</div>' +
+            '</div>' +
+            '<div class="row">' +
+                '<div class="col-xs-6 text-right">' +
+                    'Most Played:' +
+                '</div>' +
+                '<div class="col-xs-6 text-left">' +
+                    stats.playerMostPlayed.player + ' (' + stats.playerMostPlayed.games + ')' +
+                '</div>' +
+            '</div>';
   }
 
   function getWinPercentage(player) {
