@@ -22,16 +22,10 @@ module.exports = function(Router) {
         Player.get(playerName, request, response);
       });
 
-    /* Incomplete endpoint for player stats */
+    /* Player stats */
     Router.get('/api/player/:name/stats', function(request, response) {
         var playerName = GameHelper.formatName(request.params.name);
         Player.getStats(playerName, request, response);
-        // Last 10 games
-        // Longest win streak
-        // Player most played
-        // Player most wins
-        // Player most losses
-        // Nemisis
       });
 
   };

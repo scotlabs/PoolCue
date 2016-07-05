@@ -50,7 +50,7 @@ exports.start = function(homeDirectory) {
       // Static Files
       App.use('/', Express.static(homeDirectory + '/bower_components'));
       App.use('/', Express.static(homeDirectory + '/app/public'));
-      Express.static(homeDirectory + '/public');
+      App.use('/', Express.static(homeDirectory + '/public'));
 
       App.set('view engine', 'ejs');
       App.use(BodyParser.urlencoded({extended: true}));

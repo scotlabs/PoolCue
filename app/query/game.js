@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-var Game  = require('../models/game');
+var Game = require('../models/game');
 
 /* Variables */
 
