@@ -293,7 +293,7 @@ $(function() {
       $delta = '- ' + Math.abs($delta);
     }
     var $position = i + 1;
-    return $tableRow = ('<tr scope="row" href="#" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
+    return $tableRow = ('<tr scope="row" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
                            '<td><b>' + $position + '</b></td>' +
                            '<td><b>' + player.name + '</td>' +
                            '<td class="text-right"><b>' + player.wins + '</b></td>' +
