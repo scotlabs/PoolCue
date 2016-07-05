@@ -284,10 +284,16 @@ $(function() {
     }else if ($delta < 0) {
       $delta = '- ' + Math.abs($delta);
     }
+    var playername;
+    if (player.liberated) {
+      playername = '☠ - ' + player.name;
+    }else {
+      playername = player.name;
+    }
     var $position = i + 1;
     return '<tr scope="row" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
                '<td><b>' + $position + '</b></td>' +
-               '<td><b>' + player.name + '</td>' +
+               '<td><b>' + playername + '</td>' +
                '<td class="text-right"><b>' + player.wins + '</b></td>' +
                '<td class="text-right"><b>' + player.losses + '</b></td>' +
                '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +
