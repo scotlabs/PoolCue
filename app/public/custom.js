@@ -1,7 +1,5 @@
 $(function() {
-  // Initialize variables
   var $window  = $(window);
-  var $playing = $('.playing');
   var socket   = io();
 
   /*------------------------------
@@ -91,15 +89,13 @@ $(function() {
   }
 
   function addDataToPlayerStatsModal(stats) {
-    console.log(stats);
     $('#modalLabel').text(stats.player.name);
-    $('#modalContent').html(functionName(stats));
-    // Most played<br/>
+    $('#modalContent').html(formatPlayerlayerStats(stats));
   }
 
-  function functionName(stats) {
+  function formatPlayerlayerStats(stats) {
     last10games(stats.last10games);
-    var winstreak = '<div class="row">' +
+    return '<div class="row">' +
                         '<div class="text-center">' +
                             '&nbsp;&nbsp;&nbsp;&nbsp;(Wins) ' + stats.player.wins + '&nbsp; - &nbsp;' +
                             stats.player.losses + ' (Losses)' +
@@ -145,7 +141,6 @@ $(function() {
                             stats.playerMostPlayed.player + ' (' + stats.playerMostPlayed.games + ')' +
                         '</div>' +
                     '</div>';
-    return winstreak;
   }
 
   function getWinPercentage(player) {
@@ -220,69 +215,66 @@ $(function() {
     Templates --------------------
   ------------------------------*/
   function nowPlayingTemplate(game) {
-    return $currentlyPlaying = (
-        '<div class="hidden-xs">' +
-            '<div class="col-xs-3 col-xs-offset-2 text-right">' +
-                '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
-                    game.player1 + '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
-                '</a>' +
+    return '<div class="hidden-xs">' +
+                '<div class="col-xs-3 col-xs-offset-2 text-right">' +
+                    '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
+                        game.player1 + '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
+                    '</a>' +
+                '</div>' +
+                '<div class="col-xs-1 text-center">' +
+                    '<h4>' + 'vs.' + '</h4>' +
+                '</div>' +
+                '<div class="col-xs-3 text-left">' +
+                    '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
+                        '<i class="fa fa-trophy fa-lg fa-fw text-left"></i>' + game.player2 + '</a>' +
+                '</div>' +
+                '<div class="col-xs-2 text-center col-xs-offset-1">' +
+                    '<a id="' + game._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
+                        '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+                    '</a>' +
+                '</div>' +
             '</div>' +
-            '<div class="col-xs-2 text-center">' +
-                '<h4>' + 'vs.' + '</h4>' +
-            '</div>' +
-            '<div class="col-xs-3 text-left">' +
-                '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-lg btn-primary completeGame">' +
-                    '<i class="fa fa-trophy fa-lg fa-fw text-left"></i>' + game.player2 + '</a>' +
-            '</div>' +
-            '<div class="col-xs-2 text-center">' +
-                '<a id="' + game._id + '" class="btn btn-lg btn-danger deleteGame" role="button">' +
-                    '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-                '</a>' +
-            '</div>' +
-        '</div>' +
 
-        /* Small layout*/
-        '<div class="visible-xs">' +
-            '<div class="col-xs-4">' +
-                '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-primary completeGame">' +
-                    game.player1 + '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
-                '</a>' +
-            '</div>' +
-            '<div class="col-xs-1">' +
-                '<h5>' + 'vs.' + '</h5>' +
-            '</div>' +
-            '<div class="col-xs-4">' +
-                '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-primary completeGame">' +
-                    '<i class="fa fa-trophy fa-lg fa-fw text-left"></i>' + game.player2 + '</a>' +
-            '</div>' +
-            '<div class="col-xs-2">' +
-                '<a id="' + game._id + '" class="btn btn-danger deleteGame" role="button">' +
-                    '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
-                '</a>' +
-            '</div>' +
-        '</div>'
-    );
+            /* Small layout*/
+            '<div class="visible-xs">' +
+                '<div class="col-xs-4">' +
+                    '<a id="' + game._id + '" value="' + game.player1 + '" type="button" class="btn btn-primary completeGame">' +
+                        game.player1 + '&nbsp;<i class="fa fa-trophy fa-lg fa-fw text-right"></i>&nbsp;' +
+                    '</a>' +
+                '</div>' +
+                '<div class="col-xs-1">' +
+                    '<h5>' + 'vs.' + '</h5>' +
+                '</div>' +
+                '<div class="col-xs-4">' +
+                    '<a id="' + game._id + '" value="' + game.player2 + '" type="button" class="btn btn-primary completeGame">' +
+                        '<i class="fa fa-trophy fa-lg fa-fw text-left"></i>' + game.player2 + '</a>' +
+                '</div>' +
+                '<div class="col-xs-2">' +
+                    '<a id="' + game._id + '" class="btn btn-danger deleteGame" role="button">' +
+                        '<i class="fa fa-close fa-fw" aria-hidden="true"></i>' +
+                    '</a>' +
+                '</div>' +
+            '</div>';
   }
 
   function queuedGameTemplate(game) {
-    return $game = ('<div class="well">' +
-                        '<div class="row">' +
-                            '<div class="col-xs-1 hidden-xs"></div>' +
-                            '<div class="col-xs-4 text-right">' +
-                                '<h4>' + game.player1 + '</h4>' +
-                            '</div>' +
-                            '<div class="col-xs-1 text-center">' +
-                                '<h4> vs. </h4>' +
-                            '</div>' +
-                            '<div class="col-xs-4 text-left">' +
-                                '<h4>' + game.player2 + '</h4>' +
-                            '</div>' +
-                            '<div class="col-xs-2 text-center">' +
-                                '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '"><i class="fa fa-close fa-fw" aria-hidden="true"></i></a>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-                );
+    return '<div class="well">' +
+                '<div class="row">' +
+                    '<div class="col-xs-1 hidden-xs"></div>' +
+                    '<div class="col-xs-4 text-right">' +
+                        '<h4>' + game.player1 + '</h4>' +
+                    '</div>' +
+                    '<div class="col-xs-1 text-center">' +
+                        '<h4> vs. </h4>' +
+                    '</div>' +
+                    '<div class="col-xs-4 text-left">' +
+                        '<h4>' + game.player2 + '</h4>' +
+                    '</div>' +
+                    '<div class="col-xs-2 text-center">' +
+                        '<a class="btn btn-danger deleteGame queueDeleteGame" role="button" id="' + game._id + '"><i class="fa fa-close fa-fw" aria-hidden="true"></i></a>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
   }
 
   function leaderboardRowTemplate(player, i) {
@@ -293,31 +285,28 @@ $(function() {
       $delta = '- ' + Math.abs($delta);
     }
     var $position = i + 1;
-    return $tableRow = ('<tr scope="row" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
-                           '<td><b>' + $position + '</b></td>' +
-                           '<td><b>' + player.name + '</td>' +
-                           '<td class="text-right"><b>' + player.wins + '</b></td>' +
-                           '<td class="text-right"><b>' + player.losses + '</b></td>' +
-                           '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +
-                           '<td class="text-right"><b>' + player.elo + '</b></td>' +
-                        '</tr>');
+    return '<tr scope="row" class="playerRow"  data-toggle="modal" data-target="#myModal" id="' + player.name + '">' +
+               '<td><b>' + $position + '</b></td>' +
+               '<td><b>' + player.name + '</td>' +
+               '<td class="text-right"><b>' + player.wins + '</b></td>' +
+               '<td class="text-right"><b>' + player.losses + '</b></td>' +
+               '<td class="text-right hidden-xs"><b>' + $delta + '</b></td>' +
+               '<td class="text-right"><b>' + player.elo + '</b></td>' +
+            '</tr>';
   }
 
   function noOnePlayingTemplate() {
-    return $noonePlaying = (
-        '<div class="row text-center">' +
-            '<h3> Naebody vs. Naebody<h3>' +
-        '</div>' +
-        '<div class="row text-center">' +
-            '<p> Why not queue? </p>' +
-        '</div>'
-    );
+    return '<div class="row text-center">' +
+                '<h3> Naebody vs. Naebody<h3>' +
+            '</div>' +
+            '<div class="row text-center">' +
+                '<p> Why not queue? </p>' +
+            '</div>';
   }
 
   /*------------------------------
     Typeahead.js -----------------
   ------------------------------*/
-
   function addPlayerTypeAhead(players) {
     var playerNames = [];
     if ($('#player1').typeahead && $('#player2').typeahead) {
