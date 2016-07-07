@@ -1,16 +1,19 @@
 <%- include('common/header'); %>
-
-<div class="row">
-    <div class="col-md-6 hidden-xs">
+<%- include('elements/playing'); %>
+<div>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#panel-game" aria-controls="home" role="tab" data-toggle="tab">Game</a></li>
+    <li role="presentation"><a href="#panel-leaderboard" aria-controls="home" role="tab" data-toggle="tab">Leaderboard</a></li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" id="panel-game" class="tab-pane active">
+      <%- include('elements/waiting'); %>
+      <%- include('elements/queue'); %>
+    </div>
+    <div role="tabpanel" id="panel-leaderboard" class="tab-pane">
         <%- include('elements/table'); %>
     </div>
-    <div class="col-md-6">
-        <%- include('elements/playing'); %>
-        <%- include('elements/queue'); %>
-    </div>
-    <div class="col-md-6 visible-xs">
-        <%- include('elements/table'); %>
-    </div>
+  </div>
 </div>
 
 <%- include('elements/modal'); %>
