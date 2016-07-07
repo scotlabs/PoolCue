@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/durandal/durandal.d.ts",
+    "raw": "registry:dt/durandal#1.1.1+20160316155526",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/durandal/durandal.d.ts"
+  }
+}

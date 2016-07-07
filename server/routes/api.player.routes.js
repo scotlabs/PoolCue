@@ -3,8 +3,8 @@
 /* NPM Packages*/
 
 /* Imports */
-var Player     = require('../../query/player');
-var GameHelper = require('../../helpers/game');
+var Player     = require('../query/player');
+var GameHelper = require('../helpers/game');
 
 /* Variables */
 

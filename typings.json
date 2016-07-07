@@ -5,6 +5,7 @@
     "jquery": "registry:dt/jquery#1.10.0+20160704162008",
     "knockout": "registry:dt/knockout#0.0.0+20160512130947",
     "node": "registry:dt/node#6.0.0+20160621231320",
-    "socket.io": "registry:dt/socket.io#1.4.4+20160317120654"
+    "socket.io": "registry:dt/socket.io#1.4.4+20160317120654",
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
   }
 }

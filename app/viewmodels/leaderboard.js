@@ -1,10 +1,15 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", 'knockout', '../datamodels/gamedata'], function (require, exports, ko, gamedata) {
     "use strict";
-    var Leaderboard = (function () {
-        function Leaderboard() {
+    var LeaderboardView = (function () {
+        function LeaderboardView() {
+            var _this = this;
+            this.PlayerData = gamedata.Players;
+            _this.HasPlayers = ko.computed(function () {
+                return gamedata.Players().length > 0;
+            });
         }
-        return Leaderboard;
+        return LeaderboardView;
     }());
-    return Leaderboard;
+    return LeaderboardView;
 });
 //# sourceMappingURL=leaderboard.js.map

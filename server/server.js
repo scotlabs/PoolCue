@@ -9,9 +9,9 @@ var Https       = require('https');
 var Http        = require('http');
 
 /* Imports */
-var Logger       = require('../helpers/logger');
-var ServerHelper = require('../helpers/server');
-var Sockets      = require('../server/sockets');
+var Logger       = require('./helpers/logger');
+var ServerHelper = require('./helpers/server');
+var Sockets      = require('./sockets');
 
 /* Global Variables */
 var Router = Express.Router();
@@ -21,7 +21,7 @@ var App = new Express();
 
 exports.start = function(homeDirectory) {
     // Database
-    require('../server/database').connect();
+    require('./database').connect();
     // Routes
     require('./routes/routes')(Router, Logger);
     // Port config

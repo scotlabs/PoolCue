@@ -3,7 +3,7 @@
 /* NPM Packages*/
 
 /* Imports */
-require('./app/server/server').start(__dirname);
+require('./server/server').start(__dirname);
 
 /* Global Variables */
 

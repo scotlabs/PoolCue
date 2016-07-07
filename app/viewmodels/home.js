@@ -1,17 +1,14 @@
-define(["require", "exports", 'durandal/app'], function (require, exports, app) {
+define(["require", "exports"], function (require, exports) {
     "use strict";
-    var Home = (function () {
-        function Home() {
-            this.sayHello = function () {
-                app.showMessage('Hesllo ' + this.name() + '! Nice to meet you.', 'Greetings');
-            };
+    var HomeView = (function () {
+        function HomeView() {
             this.activate = function () {
             };
             this.attached = function () {
             };
         }
-        return Home;
+        return HomeView;
     }());
-    return Home;
+    return HomeView;
 });
 //# sourceMappingURL=home.js.map

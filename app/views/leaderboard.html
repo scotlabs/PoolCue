@@ -2,7 +2,14 @@
     <h1>Leaderboard</h1>
 </div>
 <div class="container-fluid">
-    <table class="table table-condensed table-striped">
+    <div data-bind="visible: !HasPlayers" class="panel panel-info">
+        <div class="panel-heading">Hmmm...</div>
+        <h4>
+            No players have registered
+        </h4>
+        <br />
+    </div>
+    <table class="table table-condensed table-striped" data-bind="visible: HasPlayers">
         <thead class="thead-default">
             <tr>
                 <th>#</th>
@@ -13,6 +20,26 @@
                 <th class="text-right">Elo</th>
             </tr>
         </thead>
-        <tbody class="scoreboard"></tbody>
+        <tbody class="scoreboard" data-bind="foreach:PlayerData">
+            <tr>
+                <td></td>
+                <td>
+                    <div data-bind="text:name"></div>
+                </td>
+                <td>
+                    <div data-bind="text:wins"></div>
+                </td>
+                <td>
+                    <div data-bind="text:losses"></div>
+                </td>
+                <td>
+                    <div data-bind="text:name"></div>
+                </td>
+                <td>
+                    <div data-bind="text:elo"></div>
+                </td>
+            </tr>
+        </tbody>
+
     </table>
 </div>

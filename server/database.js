@@ -4,7 +4,7 @@
 var Mongoose = require('mongoose');
 
 /* Imports */
-var Logger = require('../helpers/logger');
+var Logger = require('./helpers/logger');
 
 /* Global Variables */
 

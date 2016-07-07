@@ -1,0 +1,27 @@
+<section class="panel panel-success" data-bind="if:Active()">
+    <div class="panel-heading">
+        Current Game
+    </div>
+    <div class="panel-body">
+        <div class="row" style="font-size:180%">
+            <div class="col-xs-5 text-center">
+                <button class="btn btn-default btn-block btn-lg" data-bind="click:function(){setWinner($data.Player1);}">
+                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player1" ></span>
+                </button>
+            </div>
+            <div class="col-xs-2 text-center">
+                vs.
+            </div>
+            <div class="col-xs-5 text-center">
+                <button class="btn btn-default btn-block btn-lg" data-bind="click:function(){setWinner($data.Player2);}">
+                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player2"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="panel panel-default" data-bind="if:!Active()">
+    <div class="panel-heading text-center">
+        <h2>The table is free</h2>
+    </div>
+</section>

@@ -3,3 +3,4 @@ bower_components
 logs/*
 !logs/.keep
 typings/
+/npm-debug.log

@@ -3,9 +3,9 @@
 /* NPM Packages*/
 
 /* Imports */
-var Logger = require('../helpers/logger');
-var Game   = require('../models/methods/game');
-var Player = require('../models/methods/player');
+var Logger = require('./helpers/logger');
+var Game   = require('./models/methods/game');
+var Player = require('./models/methods/player');
 
 /* Global Variables */
 

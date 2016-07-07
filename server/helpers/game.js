@@ -5,8 +5,8 @@ var Elo = require('elo-js');
 /* Imports */
 var Game   = require('../models/game');
 var Player = require('../models/player');
-var Logger = require('../helpers/logger');
-var Query  = require('../helpers/query');
+var Logger = require('./logger');
+var Query  = require('./query');
 
 /* Global Variables */
 var EloRanking = new Elo();
