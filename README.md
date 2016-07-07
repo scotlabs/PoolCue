@@ -1,3 +1,6 @@
+![Pool Cue](https://cdn3.iconfinder.com/data/icons/sport-activity/1024/ic_billiards-512.png "Pool Cue")
+
+
 # EloEloElo
 *What's all this then?*
 
