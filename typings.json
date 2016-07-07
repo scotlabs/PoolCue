@@ -1,6 +1,10 @@
 {
   "globalDependencies": {
-    "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
-    "node": "registry:dt/node#6.0.0+20160621231320"
+    "bootstrap": "registry:dt/bootstrap#3.3.5+20160619023404",
+    "durandal": "registry:dt/durandal#1.1.1+20160316155526",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "knockout": "registry:dt/knockout#0.0.0+20160512130947",
+    "node": "registry:dt/node#6.0.0+20160621231320",
+    "socket.io": "registry:dt/socket.io#1.4.4+20160317120654"
   }
 }

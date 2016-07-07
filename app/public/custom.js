@@ -21,7 +21,7 @@ $(function() {
 
   /* Button clicks */
   $(document).ready(function() {
-      socket.emit('update all');
+      
 
       $('#createGame').click(function() {
           addToQueue();
@@ -353,6 +353,11 @@ $(function() {
     }, datasource);
 
     $('#player2').typeahead({
+      highlight: true,
+      minLength: 1
+    }, datasource);
+
+    $('#waiting-player').typeahead({
       highlight: true,
       minLength: 1
     }, datasource);

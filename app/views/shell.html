@@ -1,0 +1,18 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-inner">
+      <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
+        <li data-bind="css: { active: isActive }"><a data-bind="attr: { href: hash }, html: title"></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li style="margin:10px;margin-top:15px">
+            <div class="pull-right" data-bind="visible: router.isNavigating ">
+              <i class="fa fa-li fa-refresh fa-inverse fa-2x fa-spin"></i>
+            </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+ </nav>
+ <div class="container page-host" data-bind="router: { transition:'entrance' }"></div>

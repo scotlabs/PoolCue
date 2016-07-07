@@ -11,6 +11,7 @@ var Http        = require('http');
 /* Imports */
 var Logger       = require('../helpers/logger');
 var ServerHelper = require('../helpers/server');
+var Sockets      = require('../server/sockets');
 
 /* Global Variables */
 var Router = Express.Router();
@@ -48,6 +49,8 @@ exports.start = function(homeDirectory) {
       App.use(Compression());
 
       // Static Files
+      App.use('/scripts/', Express.static(homeDirectory + '/bower_components'));
+      App.use('/app', Express.static(homeDirectory + '/app'));
       App.use('/', Express.static(homeDirectory + '/bower_components'));
       App.use('/', Express.static(homeDirectory + '/app/public'));
       App.use('/', Express.static(homeDirectory + '/public'));
@@ -58,8 +61,7 @@ exports.start = function(homeDirectory) {
 
       var Server = Http.createServer(App);
       //Https.createServer(App);
-      var sockets = require('../server/sockets');
-      sockets.connect(Server);
+      Sockets.connect(Server);
 
       Server.listen(httpPort, function() {
         Logger.info('Starting server @ http://localhost:' + httpPort);
