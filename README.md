@@ -1,4 +1,4 @@
-![Pool Cue](https://raw.githubusercontent.com/scotlabs/EloEloElo/master/ic_billiards-512.png "Pool Cue")
+![Pool Cue](https://raw.githubusercontent.com/scotlabs/EloEloElo/master/images/ic_billiards-512.png "Pool Cue")
 
 
 # EloEloElo
