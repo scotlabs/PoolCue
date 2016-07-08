@@ -1,0 +1,15 @@
+
+<div  data-bind="if:HasQueue()">
+<table class="table table-condensed table-bordered">
+    <legend id="queue"><span data-bind="text:GamesData().length - 1"></span> <span data-bind="if:GamesData().length > 2">Games</span> <span data-bind="if:GamesData().length == 2">Game</span> in Queue</legend>
+    <tbody data-bind="foreach:GamesData">
+       <!-- ko if: $index() != 0 -->
+        <tr>
+            <td class="col-xs-5 text-center"><div data-bind="text:player1"></div></td>
+            <td class="col-xs-2 text-center">vs.</td>
+            <td class="col-xs-5 text-center" data-bind="text:player2"></td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
+</table>
+</div>

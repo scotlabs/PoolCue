@@ -5,6 +5,7 @@ define(["require", "exports"], function (require, exports) {
         }
         GameData.Games = ko.observableArray();
         GameData.Players = ko.observableArray();
+        GameData.PlayersWaiting = ko.observableArray();
         return GameData;
     }());
     return GameData;

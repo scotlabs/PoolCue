@@ -1,18 +1,20 @@
-<nav class="navbar-fixed-bottom">
+<section>
+    <legend id="newgame">Add Game</legend>
       <div class="panel panel-default col-xs-12 col-md-6 col-md-offset-3" style="padding:0;">
           <div class="panel-body">
               <div class="container">
                 <div class="row">
-                  <div class="col-xs-5">
+                  <div class="col-md-5 col-xs-12">
                       <input type="text" class="form-control" id="player1" name="player1" minlength="2" maxlength="50" placeholder="Player 1" data-bind="value:Player1Name">
                   </div>
-                  <div class="col-xs-2 text-center">
-                      <h4>vs.</h4>
+                  <div class="col-md-2 col-xs-12 text-center">
+                      <p style="font-size:120%;font-weight:bold;margin-top:15px;margin-bottom:0;">vs.</p>
                   </div>
-                  <div class="col-xs-5">
+                  <div class="col-md-5 col-xs-12">
                       <input type="text" class="form-control" id="player2" name="player2" minlength="2" maxlength="50" placeholder="Player 2" data-bind="value:Player2Name">
                   </div>
                 </div>
+                <br/>
                 <div class="row">
                   <div style="text-align:center">
                       <button id="createGame" data-bind="click:AddManualGame,enable:CanAddManualGame" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Game</button>
@@ -20,8 +22,5 @@
                 </div>
             </div>
           </div>
-          <div class="panel-footer">
-            <h3 class="panel-title">Manually add game to Queue</h3>
-          </div>
       </div>
-</nav>
+</section>

@@ -1,26 +1,21 @@
-
-import composition = require('durandal/composition');
+import app = require('durandal/app');
+import ko = require('knockout');
+import eventTypes = require('../../datamodels/eventTypes');
+import gamedata = require('../../datamodels/gamedata');
+import Player = require('../../datamodels/player');
 
 class ViewModel{
+    HasWaiting: KnockoutObservable<boolean>;
+    /**
+     *
+     */
+    constructor() {
+         this.HasWaiting = ko.computed(function(){
+            return gamedata.PlayersWaiting().length > 1;
+        });
+    }
     activate= function() {
        
-    };
-    getHeaderText = function(item) {
-        if (this.settings.headerProperty) {
-            return item[this.settings.headerProperty];
-        }
- 
-        return item.toString();
-    };
-    afterRenderItem = function(elements, item) {
-        var parts = composition.getParts(elements);
-        var $itemContainer = $(parts.itemContainer);
- 
-        $itemContainer.hide();
- 
-        $(parts.headerContainer).bind('click', function() {
-            $itemContainer.toggle('fast');
-        });
     };
 }
 export = ViewModel;

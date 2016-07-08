@@ -1,23 +1,15 @@
-define(["require", "exports", 'durandal/composition'], function (require, exports, composition) {
+define(["require", "exports", 'knockout', '../../datamodels/gamedata'], function (require, exports, ko, gamedata) {
     "use strict";
     var ViewModel = (function () {
+        /**
+         *
+         */
         function ViewModel() {
             this.activate = function () {
             };
-            this.getHeaderText = function (item) {
-                if (this.settings.headerProperty) {
-                    return item[this.settings.headerProperty];
-                }
-                return item.toString();
-            };
-            this.afterRenderItem = function (elements, item) {
-                var parts = composition.getParts(elements);
-                var $itemContainer = $(parts.itemContainer);
-                $itemContainer.hide();
-                $(parts.headerContainer).bind('click', function () {
-                    $itemContainer.toggle('fast');
-                });
-            };
+            this.HasWaiting = ko.computed(function () {
+                return gamedata.PlayersWaiting().length > 1;
+            });
         }
         return ViewModel;
     }());

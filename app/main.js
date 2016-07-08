@@ -26,7 +26,7 @@ define(function (require) {
     router: true,
     dialog: true,
     widget: {
-        kinds: ['manualgame','waitinggame','currentgame']
+        kinds: ['manualgame','waitinggame','currentgame','leaderboard','gamequeue']
     }
   });
   app.start().then(function () {
