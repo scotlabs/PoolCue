@@ -49,7 +49,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
                         direction: 'down'
                     });
                     __this.machine2.shuffle(5, function () {
-                        __this.Spin_Player2(_this.WaitingList()[_this.machine2.active].player);
+                        __this.Spin_Player2(_this.FilteredList()[_this.machine2.active].player);
                     });
                 });
             };

@@ -109,7 +109,7 @@ class WaitingListViewModel {
                 direction: 'down'
             });
             __this.machine2.shuffle(5, () => {
-                __this.Spin_Player2(this.WaitingList()[this.machine2.active].player);
+                __this.Spin_Player2(this.FilteredList()[this.machine2.active].player);
             });
         });
     }
