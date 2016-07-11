@@ -157,11 +157,11 @@ DC
   left: 10%;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 50%,  rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
-  -webkit-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
-  -moz-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
-  -ms-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
-  -o-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
-  transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  -webkit-transform: translateX(-60px) translateY(-50px) skewX(-20deg);
+  -moz-transform: translateX(-60px) translateY(-50px) skewX(-20deg);
+  -ms-transform: translateX(-60px) translateY(-50px) skewX(-20deg);
+  -o-transform: translateX(-60px) translateY(-50px) skewX(-20deg);
+  transform: translateX(-60px) translateY(-50px) skewX(-20deg);
   -webkit-filter: blur(10px);
 }
 .dc .player .disc .shadow {
