@@ -19,17 +19,19 @@ class SocketService {
             if (data.games){
                 app.trigger(eventTypes.GamesDataUpdate, data.games);
             }
-            //addPlayerTypeAhead(data.players);
-            //addNewLeaderboard(data.players);
-            //addNewGameToQueue(data.games);
-            //addNewCurrentlyPlaying(data.games[0]);
-            //toggleButtons();
+            if (data.waitinglist){
+                app.trigger(eventTypes.WaitingListUpdate, data.waitinglist);
+            }
         });
         this.socket.on('player stats', function(data) {
             if (data.stats){
                 app.trigger(eventTypes.StatsDataUpdate, data.stats);
             }
-            //addDataToPlayerStatsModal(data.stats);
+        });
+        this.socket.on('update waitinglist', function(data) {
+            if (data.waitinglist){
+                app.trigger(eventTypes.WaitingListUpdate, data.waitinglist);
+            }
         });
     }
 
@@ -45,5 +47,12 @@ class SocketService {
         this.socket.emit('complete game', gameId, winner);
     }
 
+    AddToWaitingList(player){
+        this.socket.emit('addto waitinglist', player);
+    }
+
+    CreateGameFromWaitingList(player1, player2){
+        this.socket.emit('create game fromwaiting', player1, player2);
+    }
 }
 export =SocketService;

@@ -12,17 +12,19 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
                 if (data.games) {
                     app.trigger(eventTypes.GamesDataUpdate, data.games);
                 }
-                //addPlayerTypeAhead(data.players);
-                //addNewLeaderboard(data.players);
-                //addNewGameToQueue(data.games);
-                //addNewCurrentlyPlaying(data.games[0]);
-                //toggleButtons();
+                if (data.waitinglist) {
+                    app.trigger(eventTypes.WaitingListUpdate, data.waitinglist);
+                }
             });
             this.socket.on('player stats', function (data) {
                 if (data.stats) {
                     app.trigger(eventTypes.StatsDataUpdate, data.stats);
                 }
-                //addDataToPlayerStatsModal(data.stats);
+            });
+            this.socket.on('update waitinglist', function (data) {
+                if (data.waitinglist) {
+                    app.trigger(eventTypes.WaitingListUpdate, data.waitinglist);
+                }
             });
         };
         SocketService.prototype.Start = function () {
@@ -33,6 +35,12 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
         };
         SocketService.prototype.SetWinner = function (gameId, winner) {
             this.socket.emit('complete game', gameId, winner);
+        };
+        SocketService.prototype.AddToWaitingList = function (player) {
+            this.socket.emit('addto waitinglist', player);
+        };
+        SocketService.prototype.CreateGameFromWaitingList = function (player1, player2) {
+            this.socket.emit('create game fromwaiting', player1, player2);
         };
         return SocketService;
     }());

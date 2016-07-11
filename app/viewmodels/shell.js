@@ -8,12 +8,6 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
             };
             this.attached = function () {
                 this.socketService.Initialise();
-                app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
-                    gamedata.Players(eventData);
-                });
-                app.on(eventTypes.GamesDataUpdate).then(function (eventData) {
-                    gamedata.Games(eventData);
-                });
             };
             this.socketService = new SocketService();
             var _this = this;
@@ -22,6 +16,15 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
             });
             _this.HasWaiting = ko.computed(function () {
                 return gamedata.PlayersWaiting().length > 1;
+            });
+            app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
+                gamedata.Players(eventData);
+            });
+            app.on(eventTypes.GamesDataUpdate).then(function (eventData) {
+                gamedata.Games(eventData);
+            });
+            app.on(eventTypes.WaitingListUpdate).then(function (eventData) {
+                gamedata.PlayersWaiting(eventData);
             });
         }
         return Shell;

@@ -6,6 +6,7 @@
 var Logger = require('./helpers/logger');
 var Game = require('./models/methods/game');
 var Player = require('./models/methods/player');
+var WaitingList = require('./models/methods/waiting');
 
 /* Global Variables */
 
@@ -35,6 +36,17 @@ exports.connect = function (server) {
     socket.on('player stats', function (playerName) {
       Player.getStats(playerName, socket);
     });
+
+    socket.on('addto waitinglist', function (playerName) {
+      WaitingList.add(playerName, socket);
+    });
+
+    socket.on('create game fromwaiting', function (player1, player2) {
+      Game.queue(player1, player2, io);
+      WaitingList.remove(player1, socket);
+      WaitingList.remove(player2, socket);
+    });
+
 
   });
 };

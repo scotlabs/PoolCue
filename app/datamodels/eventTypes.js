@@ -18,6 +18,11 @@ define(["require", "exports"], function (require, exports) {
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EventTypes, "WaitingListUpdate", {
+            get: function () { return "WaitingListUpdate"; },
+            enumerable: true,
+            configurable: true
+        });
         return EventTypes;
     }());
     return EventTypes;

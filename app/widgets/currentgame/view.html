@@ -1,27 +1,58 @@
-<legend id="currentgame">
-    Current Game
-</legend>
-<section class="panel panel-success" data-bind="if:Active()">
-    <div class="panel-body">
-        <div class="row" style="font-size:180%">
-            <div class="col-md-5 col-xs-12 text-center">
-                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player1);}">
-                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player1" ></span>
-                </button>
+<section class="visible-lg-block dc" data-bind="if:HasGame()">
+    <div class="players row">
+        <div class=" col-lg-6">
+            <div class="player">
+                <div class="stage">
+                    <div class="disc">
+                        <span class="shadow"></span>
+                        <div class="text-center"><span class="fa fa-user"></span></div>
+                        <h2>Player 1</h2>
+                    </div>
+                </div>
+                <p data-bind="text: Player1"></p>
             </div>
-            <div class="col-xs-12 col-md-2 text-center">
-                vs.
-            </div>
-            <div class="col-md-5 col-xs-12 text-center">
-                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player2);}">
-                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player2"></span>
-                </button>
+        </div>
+        <div class=" col-lg-6">
+            <div class="player">
+                <div class="stage">
+                    <div class="disc">
+                        <span class="shadow"></span>
+                        <div class="text-center"><span class="fa fa-user"></span></div>
+                        <h2>Player 2</h2>
+                    </div>
+                </div>
+                <p data-bind="text: Player2"></p>
             </div>
         </div>
     </div>
 </section>
-<section class="panel panel-default" data-bind="if:!Active()">
+<div class=" visible-xs-block visible-sm-block visible-md-block" data-bind="if:HasGame()">
+    <legend id="currentgame">
+        Current Game
+    </legend>
+    <section class="panel panel-success">
+        <div class="panel-body">
+            <div class="row" style="font-size:180%">
+                <div class="col-md-5 col-sm-5 col-xs-12 text-center">
+                    <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player1);}">
+                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player1" ></span>
+                </button>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 text-center">
+                    vs.
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12 text-center">
+                    <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player2);}">
+                    <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player2"></span>
+                </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<section class="panel panel-default" data-bind="if:!HasGame()">
     <div class="panel-heading text-center">
         <h2>The table is free</h2>
     </div>
 </section>
+<div class="clearfix" style="clear:both"></div>

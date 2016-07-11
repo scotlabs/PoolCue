@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse hidden-lg">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -28,10 +28,13 @@
     </div>
   </div>
 </nav>
+<div data-bind="currentgame"></div>
 <div class="container">
-  <div data-bind="currentgame"></div>
-  <div data-bind="gamequeue"></div>
-  <div data-bind="waitinggame"></div>
-  <div data-bind="leaderboard"></div>
-  <div data-bind="manualgame"></div>
+  <div class="row">
+    <div style="height:200px;" class="visible-lg"></div>
+    <div class="col-sm-12 col-lg-4" data-bind="gamequeue"></div>
+    <div class="col-sm-12 col-lg-4" data-bind="waitinggame"></div>
+    <div class="col-sm-12 col-lg-4" data-bind="leaderboard"></div>
+  </div>
+  <div class="hidden-lg" data-bind="manualgame"></div>
 </div>

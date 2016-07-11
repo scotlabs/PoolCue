@@ -4,6 +4,7 @@ var Elo = require('elo-js');
 
 /* Imports */
 var Game   = require('../models/game');
+var WaitingList   = require('../models/waiting');
 var Player = require('../models/player');
 var Logger = require('./logger');
 var Query  = require('./query');
@@ -34,6 +35,23 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
       }
     });
 };
+
+exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
+  Player.findOne({name: playerName}, function(error, player) {
+      if (error) {
+        Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
+      }
+      if (!player) {
+        player = new Player({name: playerName});
+        player.save();
+        Logger.info('Create new player: ' +  player.name);
+      }
+      waitingList.player = player.name;
+      waitingList.save();
+      Query.pushDataToSockets(io);
+    });
+};
+
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
     Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
@@ -62,6 +80,14 @@ exports.removeInactivePlayer = function(playerName, io) {
           Logger.info('Removing player: ' +  playerName);
           Player.find({name: playerName}).remove().exec();
         });
+    }
+  });
+};
+
+exports.removePlayerFromWaitingList = function(playerName, io) {
+  WaitingList.find({player: playerName}).remove().exec(function(error, result) {
+    if (io) {
+      Query.pushDataToSockets(io);
     }
   });
 };

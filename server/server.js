@@ -52,6 +52,7 @@ exports.start = function(homeDirectory) {
       App.use('/scripts/', Express.static(homeDirectory + '/bower_components'));
       App.use('/app', Express.static(homeDirectory + '/app'));
       App.use('/', Express.static(homeDirectory + '/bower_components'));
+      App.use('/images/', Express.static(homeDirectory + '/images'));
       App.use('/', Express.static(homeDirectory + '/app/public'));
       App.use('/', Express.static(homeDirectory + '/public'));
 

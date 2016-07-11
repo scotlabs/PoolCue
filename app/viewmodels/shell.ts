@@ -27,19 +27,23 @@ class Shell {
          _this.HasWaiting = ko.computed(function(){
             return gamedata.PlayersWaiting().length > 1;
         });
+        app.on(eventTypes.PlayerDataUpdate).then(function(eventData){
+            gamedata.Players(eventData);
+        });
+        app.on(eventTypes.GamesDataUpdate).then(function(eventData){
+            gamedata.Games(eventData);
+        });
+        app.on(eventTypes.WaitingListUpdate).then(function(eventData){
+            gamedata.PlayersWaiting(eventData);
+        });
     }
     router = router;
     activate = function () {
         this.socketService.Start();
     };
     attached = function () {
+       
         this.socketService.Initialise();
-        app.on(eventTypes.PlayerDataUpdate).then(function(eventData){
-            gamedata.Players(eventData);
-        })
-        app.on(eventTypes.GamesDataUpdate).then(function(eventData){
-            gamedata.Games(eventData);
-        })
     }
 }
 export =Shell;

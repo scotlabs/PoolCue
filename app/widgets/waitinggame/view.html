@@ -1,4 +1,48 @@
-<div data-bind="if:HasWaiting">
-    <legend id="waiting">Players Waiting</legend>
-
+<div class="game-queue" id="waitinglist" data-bind="if: HasWaiting()">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <span data-bind="text:WaitingList().length"></span> <span data-bind="if:WaitingList().length > 1">Players</span>
+            <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List
+        </div>
+        <div class="panel-body">
+            <p style="text-align:left;">Players waiting:
+                <span data-bind="foreach:WaitingList" style="display: inline-block;">
+                <span class="label label-default" data-bind="text: player"></span>
+                </span>
+            </p>
+            <div class="container hidden-lg" data-bind="visible:WaitingList().length > 1">
+                <hr/>
+                <div class="row">
+                    <div class="col-xs-5 text-center">
+                        <div id="machine1" class="randomizeMachine" data-bind="foreach: WaitingList">
+                            <h3 style="line-height:50px;margin:0;padding:0;"><span class="label label-default" style="display:inline-block" data-bind="text: player"></span></h3>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-default btn-lg" data-bind="click:Spin">Spin!</button>
+                    </div>
+                    <div class="col-xs-5">
+                        <div id="machine2" class="randomizeMachine" data-bind="foreach: FilteredList">
+                            <h3 style="line-height:50px;margin:0;padding:0;"><span class="label label-default" data-bind="text: player"></span></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-success btn-lg" data-bind="click:Play, visible: CanPlay()">Let <span data-bind="text: Spin_Player1"/> and <span data-bind="text: Spin_Player2"/> Play!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden-lg">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add your name to the waiting list...
+        </div>
+        <div class="panel-body">
+            <label>Your Name:</label>
+            <input type="text" data-bind="value: PlayerName, valueUpdate: 'afterkeydown'" />
+            <button data-bind="click: AddToWaitingList, enable:CanAddToWaitingList" class="btn btn-xs btn-primary">Add to waiting list</button>
+        </div>
+    </div>
 </div>

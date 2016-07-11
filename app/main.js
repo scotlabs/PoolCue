@@ -4,7 +4,7 @@ requirejs.config({
     'durandal': '/scripts/Durandal/js',
     'plugins': '/scripts/Durandal/js/plugins',
     'transitions': '/scripts/Durandal/js/transitions',
-    'slots': '/scripts/jQuery-SlotMachine/dist/jquery.slotmachine.min.js',
+    'slots': '/bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min',
     'helpers': '/app/helpers',
     'models': '/app/models',
     'query': '/app/query',

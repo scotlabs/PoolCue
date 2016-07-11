@@ -82,3 +82,116 @@ body {
 .playerRow {
     cursor: pointer;
 }
+
+
+/*----------------------------------
+DC
+------------------------------------*/
+@media (min-width: 1200px) {
+  body{
+   background: linear-gradient(to bottom, rgba(100, 100, 100, 0.2) 0%, rgba(255, 255, 255, 0.5) 40%, #ffffff 100%);
+    background-repeat: no-repeat;
+  }
+}
+.dc .header {
+    text-align: center;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 1;
+    color:white;
+}
+
+.dc .players {
+  margin-top:50px;
+  /*position:relative;*/
+  height:100px;
+  font-size:5em;
+}
+.dc .players .player {
+  height:230px;
+  line-height: 200px;
+  color:white;
+  padding:20px;
+  position:relative;
+}
+.dc .players .player p {
+  margin-left:250px;
+  height:200px;
+  line-height: 200px;
+  color:black;
+}
+.dc .player .stage {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  -webkit-perspective: 1200px;
+  -moz-perspective: 1200px;
+  -ms-perspective: 1200px;
+  -o-perspective: 1200px;
+  perspective: 1200px;
+  -webkit-perspective-origin: 50% 50%;
+  -moz-perspective-origin: 50% 50%;
+  -ms-perspective-origin: 50% 50%;
+  -o-perspective-origin: 50% 50%;
+  perspective-origin: 50% 50%;
+  float:left;
+}
+.dc .player .disc {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+    border-radius: 50%;
+  background: radial-gradient(circle at 50px 50px, #5cabff, #000);
+
+  width:200px;
+  height:200px;
+  position:relative;
+  line-height: 200px;
+  float:left;
+}
+.dc .player .disc:after {
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%,  rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+  -webkit-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  -moz-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  -ms-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  -o-transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+  -webkit-filter: blur(10px);
+}
+.dc .player .disc .shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0) 50%);
+  -webkit-transform: rotateX(90deg) translateZ(-100px);
+  -moz-transform: rotateX(90deg) translateZ(-100px);
+  -ms-transform: rotateX(90deg) translateZ(-100px);
+  -o-transform: rotateX(90deg) translateZ(-100px);
+  transform: rotateX(90deg) translateZ(-100px);
+  z-index: -1;
+}
+.dc .player h2 {
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+    letter-spacing: -0.04em;
+    font-size: 37%;
+    text-align: center;
+    line-height:250px;
+    width:200px;
+}
+
+.randomizeMachine{
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+  text-align: center;
+}
