@@ -28,11 +28,6 @@ body {
   height: 20px;
 }
 
-.container {
-  width: auto;
-  max-width: 90%;
-  text-align: center;
-}
 .container .text-muted {
   margin: -10px 10px 10px;
 }
@@ -109,15 +104,12 @@ DC
 }
 .dc .players .player {
   height:230px;
-  line-height: 200px;
   color:white;
   padding:20px;
   position:relative;
+  text-align: center;
 }
-.dc .players .player p {
-  margin-left:250px;
-  height:200px;
-  line-height: 200px;
+.dc .players .player .playername {
   color:black;
 }
 .dc .player .stage {
@@ -134,19 +126,21 @@ DC
   -ms-perspective-origin: 50% 50%;
   -o-perspective-origin: 50% 50%;
   perspective-origin: 50% 50%;
-  float:left;
 }
 .dc .player .disc {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
     border-radius: 50%;
-  background: radial-gradient(circle at 50px 50px, #5cabff, #000);
-
   width:200px;
   height:200px;
   position:relative;
   line-height: 200px;
-  float:left;
+}
+.dc .player .disc.player1 {
+  background: radial-gradient(circle at 50px 50px, #5cabff, #000);
+}
+.dc .player .disc.player2 {
+  background: radial-gradient(circle at 50px 50px, #abff5c, #000);
 }
 .dc .player .disc:after {
   width: 100%;

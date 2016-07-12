@@ -1,9 +1,14 @@
-<div class="game-queue panel panel-success" data-bind="if:HasQueue()">
-    <div id="queue" class="panel-heading">
-        <span data-bind="text:GamesData().length - 1"></span> <span data-bind="if:GamesData().length > 2">Games</span>
-        <span data-bind="if:GamesData().length == 2">Game</span> in Queue</div>
-    <div class="panel-body">
-        <table class="table table-condensed table-bordered">
+<div class="game-queue" data-bind="if:HasQueue()">
+  <legend>  <span data-bind="text:GamesData().length - 1"></span> <span data-bind="if:GamesData().length > 2">Games</span>
+    <span data-bind="if:GamesData().length == 2">Game</span> in Queue</legend>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th class="text-center">Player 1</th>
+              <th class="text-center"></th>
+              <th class="text-center">Player 2</th>
+            </tr>
+          </thead>
             <tbody data-bind="foreach:GamesData()">
                 <!-- ko if: $index() != 0 -->
                 <tr>
@@ -14,5 +19,4 @@
                 <!-- /ko -->
             </tbody>
         </table>
-    </div>
 </div>

@@ -7,24 +7,24 @@
 </div>
 <div class="visible-lg large-leaderboard">
     <legend>Leaderboard</legend>
-    <table class="table" data-bind="visible: HasPlayers">
-        <thead class="thead-default">
+    <table class="table table-bordered table-striped" data-bind="visible: HasPlayers">
+        <thead>
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th class="text-center">Elo</th>
+                <th>Elo</th>
             </tr>
         </thead>
         <tbody class="scoreboard" data-bind="foreach:PlayerData().slice(0,5)">
             <tr>
                 <td>
-                    <div data-bind="text:$index()+1" class="text-center"></div>
+                    <div data-bind="text:$index()+1"></div>
                 </td>
-                <td class="text-center">
-                    <div data-bind="text:name" class="text-center"></div>
+                <td>
+                    <div data-bind="text:name"></div>
                 </td>
-                <td class="text-center">
-                    <div data-bind="text:elo" class="text-center"></div>
+                <td>
+                    <div data-bind="text:elo"></div>
                 </td>
             </tr>
         </tbody>
