@@ -13,6 +13,7 @@ class WaitingListViewModel {
     public WaitingList: KnockoutObservableArray<Player>;
     PlayerName: KnockoutObservable<string>;
     socketService: SocketService;
+    PlayerData:gamedata;   
 
     machine1: any;
     machine2: any;
@@ -39,6 +40,7 @@ class WaitingListViewModel {
         this.HasWaiting = ko.computed(function () {
             return gamedata.PlayersWaiting().length > 0;
         });
+        this.PlayerData = gamedata.Players;
         this.PlayerName = ko.observable<string>('');
         this.Spin_Player1 = ko.observable<string>('');
         this.Spin_Player2 = ko.observable<string>('');
@@ -110,6 +112,7 @@ class WaitingListViewModel {
             });
             __this.machine2.shuffle(5, () => {
                 __this.Spin_Player2(this.FilteredList()[this.machine2.active].player);
+                __this.Play();
             });
         });
     }

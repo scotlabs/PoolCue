@@ -50,6 +50,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
                     });
                     __this.machine2.shuffle(5, function () {
                         __this.Spin_Player2(_this.FilteredList()[_this.machine2.active].player);
+                        __this.Play();
                     });
                 });
             };
@@ -68,6 +69,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
             this.HasWaiting = ko.computed(function () {
                 return gamedata.PlayersWaiting().length > 0;
             });
+            this.PlayerData = gamedata.Players;
             this.PlayerName = ko.observable('');
             this.Spin_Player1 = ko.observable('');
             this.Spin_Player2 = ko.observable('');

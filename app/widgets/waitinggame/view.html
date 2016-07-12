@@ -38,7 +38,7 @@
         </div>
         <div class="panel-body">
             <label>Your Name:</label>
-            <input type="text" data-bind="value: PlayerName, valueUpdate: 'afterkeydown'" />
+            <input type="text" data-bind="valueUpdate: 'afterkeydown', typeahead: { source: PlayerData, target: PlayerName}" />
             <button data-bind="click: AddToWaitingList, enable:CanAddToWaitingList" class="btn btn-xs btn-primary">Add to waiting list</button>
         </div>
     </div>
