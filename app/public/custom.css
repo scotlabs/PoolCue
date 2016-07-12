@@ -127,7 +127,7 @@ DC
   -o-perspective-origin: 50% 50%;
   perspective-origin: 50% 50%;
 }
-.dc .player .disc {
+.disc {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
     border-radius: 50%;
@@ -136,13 +136,26 @@ DC
   position:relative;
   line-height: 200px;
 }
-.dc .player .disc.player1 {
+.disc.player1 {
   background: radial-gradient(circle at 50px 50px, #5cabff, #000);
 }
-.dc .player .disc.player2 {
+.disc.player2 {
   background: radial-gradient(circle at 50px 50px, #abff5c, #000);
 }
-.dc .player .disc:after {
+.disc:before {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  bottom: 2.5%;
+  left: 2%;
+  opacity: 0.6;
+  height: 100%;
+  width: 96%;
+  filter: blur(5px);
+  z-index: 2;
+}
+.disc:after {
   width: 100%;
   height: 100%;
   content: "";
@@ -158,7 +171,8 @@ DC
   transform: translateX(-60px) translateY(-50px) skewX(-20deg);
   -webkit-filter: blur(10px);
 }
-.dc .player .disc .shadow {
+
+.disc .shadow {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -183,9 +197,41 @@ DC
     width:200px;
 }
 
+.disc .number {
+  width: 70px;
+  height: 70px;
+  margin: 35%;
+  background: white;
+  border-radius: 50%;
+  transform: translateX(-63px) translateY(-46px) skewX(15deg) skewY(2deg);
+  position: absolute;
+}
+.disc .number:before {
+      display: block;
+    position: absolute;
+    text-align: center;
+    height: 70px;
+    width: 70px;
+    left: 50px;
+    margin-left: -46px;
+    top: 24px;
+    margin-top: -40px;
+    color: black;
+    font-family: Arial;
+    font-size: 60px;
+    line-height: 104px;
+}
+.disc .number1:before {
+  content: "1";
+}
+.disc .number2:before {
+  content: "2";
+}
+
 .randomizeMachine{
   width: 100%;
   height: 50px;
   overflow: hidden;
   text-align: center;
 }
+

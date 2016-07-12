@@ -1,25 +1,22 @@
 <div class="game-queue" id="waitinglist" data-bind="if: HasWaiting()">
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <span data-bind="text:WaitingList().length"></span> <span data-bind="if:WaitingList().length > 1">Players</span>
-            <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List
-        </div>
-        <div class="panel-body">
-            <p style="text-align:left;">Players waiting:
-                <span data-bind="foreach:WaitingList" style="display: inline-block;">
+    <div class="">
+        <legend><span data-bind="text:WaitingList().length"></span> <span data-bind="if:WaitingList().length > 1">Players</span>
+            <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List</legend>
+        <p style="text-align:left;">Players waiting:
+            <span data-bind="foreach:WaitingList" style="display: inline-block;">
                 <span class="label label-default" data-bind="text: player"></span>
-                </span>
-            </p>
-            <div class="container hidden-lg" data-bind="visible:WaitingList().length > 1">
-                <hr/>
+            </span>
+        </p>
+        <div class="panel panel-default hidden-lg" data-bind="visible:WaitingList().length > 1">
+            <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-5 text-center">
                         <div id="machine1" class="randomizeMachine" data-bind="foreach: WaitingList">
                             <h3 style="line-height:50px;margin:0;padding:0;"><span class="label label-default" style="display:inline-block" data-bind="text: player"></span></h3>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <button class="btn btn-default" data-bind="click:Spin">Spin!</button>
+                    <div class="col-xs-12 col-sm-2 text-center">
+                        <button class="btn btn-default" data-bind="click:Spin" style="margin-top:8px">Spin!</button>
                     </div>
                     <div class="col-xs-12 col-sm-5 text-center">
                         <div id="machine2" class="randomizeMachine" data-bind="foreach: FilteredList">
@@ -27,10 +24,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                <div class="row">
-                    <button class="btn btn-success btn-lg" data-bind="click:Play, visible: CanPlay()">Let <span data-bind="text: Spin_Player1"/> and <span data-bind="text: Spin_Player2"/> Play!</button>
-                </div>
+                <div class="row text-center">
+                    <button class="btn btn-success" data-bind="click:Play, visible: CanPlay()" style="margin-top:5px;">Let <span data-bind="text: Spin_Player1"/> and <span data-bind="text: Spin_Player2"/> Play!</button>
                 </div>
             </div>
         </div>

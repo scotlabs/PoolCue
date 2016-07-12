@@ -17,6 +17,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
   Player.findOne({name: playerName}, function(error, player) {
       if (error) {
         Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
+        return;
       }
       if (!player) {
         player = new Player({name: playerName});
@@ -40,6 +41,7 @@ exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
   Player.findOne({name: playerName}, function(error, player) {
       if (error) {
         Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
+        return;
       }
       if (!player) {
         player = new Player({name: playerName});

@@ -45,7 +45,7 @@
             </tr>
         </thead>
         <tbody class="scoreboard" data-bind="foreach:PlayerData">
-            <tr>
+            <tr data-bind="click: $parent.GetStats" data-toggle="modal" data-target="#myModal">
                 <td>
                     <div data-bind="text:$index()+1" class="text-center"></div>
                 </td>
@@ -58,8 +58,8 @@
                 <td class="text-center">
                     <div data-bind="text:losses"></div>
                 </td>
-                <td class="text-center hidden-xs">
-                    <div data-bind="text:name"></div>
+                <td class="text-center hidden-xs" data-bind="css: { 'bg-danger': $parent.PlayerDelta($data) < 0, 'bg-success': $parent.PlayerDelta($data) > 0}">
+                    <div data-bind="text:$parent.PlayerDeltaDesc($data)"></div>
                 </td>
                 <td class="text-center">
                     <div data-bind="text:elo" class="text-center"></div>

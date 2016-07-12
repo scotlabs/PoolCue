@@ -10,9 +10,10 @@ requirejs.config({
     'query': '/app/query',
   }
 });
+
 define('knockout', function () { return ko; });
 define('jquery', function () { return jQuery; });
-define('socket.io-client', function () { return io(); });
+define('socket.io-client', function () { return io() });
 define(function (require) {
   var system = require('durandal/system'),
     viewLocator = require('durandal/viewLocator'),
@@ -26,7 +27,7 @@ define(function (require) {
     router: true,
     dialog: true,
     widget: {
-        kinds: ['manualgame','waitinggame','currentgame','leaderboard','gamequeue']
+      kinds: ['manualgame', 'waitinggame', 'currentgame', 'leaderboard', 'gamequeue']
     }
   });
   app.start().then(function () {
@@ -34,55 +35,111 @@ define(function (require) {
     app.setRoot('viewmodels/shell', 'entrance');
   });
 });
-
-
 ko.bindingHandlers.typeahead = {
-  init: function (element, valueAccessor, bindingAccessor) {
-    var substringMatcher = function (strs) {
-      return function findMatches(q, cb) {
-        var matches, substringRegex;
+  init: function (element, valueAccessor) {
+    var binding = this;
+    var elem = $(element);
+    var value = valueAccessor();
 
-        // an array that will be populated with substring matches
-        matches = [];
-
-        // regex used to determine if a string contains the substring `q`
-        substrRegex = new RegExp(q, 'i');
-
-        // iterate through the pool of strings and for any string that
-        // contains the substring `q`, add it to the `matches` array
-        $.each(strs, function (i, str) {
-          // console.log(str);
-          if (substrRegex.test(str)) {
-            // the typeahead jQuery plugin expects suggestions to a
-            // JavaScript object, refer to typeahead docs for more info
-            matches.push({
-              value: str
-            });
-          }
-        });
-
-        cb(matches);
-      };
-    };
-    var $e = $(element),
-      options = valueAccessor();
-
-    console.dir(options.source());
-
-    console.dir($e);
-
-    // passing in `null` for the `options` arguments will result in the default
-    // options being used
-    $e.typeahead({
+    // Setup Bootstrap Typeahead for this element.
+    elem.typeahead({
       highlight: true,
-      minLength: 2
-    }, {
-        source: substringMatcher(options.source())
-      }).on('typeahead:selected', function (el, datum) {
-        console.dir(datum);
-      }).on('typeahead:autocompleted', function (el, datum) {
-        console.dir(datum);
+      minLength: 1
+    },
+      {
+        source: substringMatcher(function () {
+          return ko.utils.unwrapObservable(value.source);
+        }),
+        onselect: function (val) {
+          value.target(val);
+        }
       });
 
+    // Set the value of the target when the field is blurred.
+    elem.blur(function () { value.target(elem.val()); });
+  },
+  update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+    var elem = $(element);
+    var value = valueAccessor();
+    elem.val(value.target());
   }
 };
+var substringMatcher = function (source) {
+  return function findMatches(query, syncResults, asyncResults) {
+    var values = source().map(function (a) { return a.name; })
+    var matches, substringRegex;
+    matches = [];
+    substrRegex = new RegExp(query, 'i');
+    $.each(values, function (i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+    syncResults(matches);
+  };
+};
+
+
+function addDataToPlayerStatsModal(stats) {
+  $('#modalLabel').text(stats.player.name);
+  $('#modalContent').html(formatPlayerlayerStats(stats));
+}
+
+function formatPlayerlayerStats(stats) {
+  last10games(stats.last10games);
+  return '<div class="row">' +
+    '<div class="text-center">' +
+    '&nbsp;&nbsp;&nbsp;&nbsp;(Wins) ' + stats.player.wins + '&nbsp; - &nbsp;' +
+    stats.player.losses + ' (Losses)' +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-xs-6 text-right">' +
+    'Win %:' +
+    '</div>' +
+    '<div class="col-xs-6 text-left">' +
+    getWinPercentage(stats.player) + ' %' +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-xs-6 text-right">' +
+    'Elo:' +
+    '</div>' +
+    '<div class="col-xs-6 text-left">' +
+    stats.player.elo +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-xs-6 text-right">' +
+    'Last 10:' +
+    '</div>' +
+    '<div class="col-xs-6 text-left">' +
+    last10games(stats.last10games) +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-xs-6 text-right">' +
+    'Win Streak:' +
+    '</div>' +
+    '<div class="col-xs-6 text-left">' +
+    stats.winStreak +
+    '</div>' +
+    '</div>' +
+    '<div class="row">' +
+    '<div class="col-xs-6 text-right">' +
+    'Most Played:' +
+    '</div>' +
+    '<div class="col-xs-6 text-left">' +
+    stats.playerMostPlayed.player + ' (' + stats.playerMostPlayed.games + ')' +
+    '</div>' +
+    '</div>';
+}
+
+
+function getWinPercentage(player) {
+  if (player.wins > 0 || player.wins > 0) {
+    return Math.round(player.wins / (player.wins + player.losses) * 100);
+  } else {
+    return '0';
+  }
+}

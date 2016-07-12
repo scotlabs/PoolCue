@@ -54,5 +54,9 @@ class SocketService {
     CreateGameFromWaitingList(player1, player2){
         this.socket.emit('create game fromwaiting', player1, player2);
     }
+
+    GetStats(player){
+        this.socket.emit('player stats', player);
+    }
 }
 export =SocketService;

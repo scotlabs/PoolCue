@@ -1,4 +1,4 @@
-define(["require", "exports", '../../services/socketservice'], function (require, exports, SocketService) {
+define(["require", "exports", '../../services/socketservice', '../../datamodels/gamedata'], function (require, exports, SocketService, gamedata) {
     "use strict";
     var ManualAddViewModel = (function () {
         function ManualAddViewModel() {
@@ -22,6 +22,7 @@ define(["require", "exports", '../../services/socketservice'], function (require
                     return _this.Player1Name().length > 0 && _this.Player2Name().length > 0;
                 }
             });
+            this.PlayerData = gamedata.Players;
         }
         return ManualAddViewModel;
     }());
