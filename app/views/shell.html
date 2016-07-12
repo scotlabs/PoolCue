@@ -28,12 +28,13 @@
     </div>
   </div>
 </nav>
-<div data-bind="currentgame"></div>
 <div class="container">
   <div class="row">
-    <div style="height:200px;" class="visible-lg"></div>
-    <div class="col-sm-12 col-lg-4" data-bind="gamequeue"></div>
-    <div class="col-sm-12 col-lg-4" data-bind="waitinggame"></div>
+    <div class="col-sm-12 col-lg-8">
+      <div data-bind="currentgame"></div>
+      <div data-bind="gamequeue"></div>
+      <div data-bind="waitinggame"></div>
+    </div>
     <div class="col-sm-12 col-lg-4" data-bind="leaderboard"></div>
   </div>
   <div class="row">
@@ -41,15 +42,15 @@
   </div>
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-center" id="modalLabel"></h4>
-            </div>
-                <div class="modal-body text-center" id="modalContent">
-            </div>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="modalLabel"></h4>
+      </div>
+      <div class="modal-body text-center" id="modalContent">
+      </div>
     </div>
+  </div>
 </div>
 
 <footer>

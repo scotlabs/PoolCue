@@ -7,16 +7,26 @@ import Game = require('../../datamodels/game');
 
 class QueueView {
 
-    public HasQueue:KnockoutComputed<boolean>;
-    public GamesData:KnockoutObservableArray<Game>;
+    HasQueue: KnockoutComputed<boolean>;
+    GamesData: KnockoutObservableArray<Game>;
+    NextGamesCount: KnockoutComputed<string>;
     constructor() {
         var _this = this;
         this.GamesData = gamedata.Games;
-        _this.HasQueue = ko.computed(function(){
+        this.HasQueue = ko.computed(function () {
             return gamedata.Games().length > 1;
         });
+        this.NextGamesCount = ko.computed<string>(function () {
+            var numberOfGames: number = gamedata.Games().length;
+            if (numberOfGames > 5)
+                return "5";
+            else if (numberOfGames > 1)
+                return "" + numberOfGames;
+            else if (numberOfGames == 1)
+                return "";
+        })
     }
-    
+
 }
 
 export =QueueView;

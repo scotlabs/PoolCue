@@ -7,7 +7,7 @@
 </div>
 <div class="visible-lg large-leaderboard">
     <legend>Leaderboard</legend>
-    <table class="table table-bordered table-striped" data-bind="visible: HasPlayers">
+    <table class="table table-bordered table-condensed table-striped" data-bind="visible: HasPlayers">
         <thead>
             <tr>
                 <th>#</th>
@@ -15,7 +15,7 @@
                 <th>Elo</th>
             </tr>
         </thead>
-        <tbody class="scoreboard" data-bind="foreach:PlayerData().slice(0,5)">
+        <tbody class="scoreboard" data-bind="foreach:PlayerData().slice(0,20)">
             <tr>
                 <td>
                     <div data-bind="text:$index()+1"></div>
