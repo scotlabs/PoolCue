@@ -1,4 +1,4 @@
-define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../services/socketservice'], function (require, exports, ko, gamedata, SocketService) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice'], function (require, exports, ko, gameData, SocketService) {
     "use strict";
     var ViewModel = (function () {
         function ViewModel() {
@@ -10,7 +10,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
                 //     _this.CurrentGame.Player2(data.player2);
                 //     _this.CurrentGame.Active = data._id != null;
                 // }); 
-                gamedata.Games.subscribe(function (eventData) {
+                gameData.Games.subscribe(function (eventData) {
                     _this.Game = eventData[0];
                     _this.setGame();
                 });
@@ -22,8 +22,8 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
             this.Player2 = ko.observable();
             this.HasGame = ko.observable(false);
             var _this = this;
-            if (gamedata.Games() && gamedata.Games()[0]) {
-                this.Game = gamedata.Games()[0];
+            if (gameData.Games() && gameData.Games()[0]) {
+                this.Game = gameData.Games()[0];
                 this.setGame();
             }
         }

@@ -1,4 +1,4 @@
-define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gamedata', '../services/socketservice', 'knockout'], function (require, exports, app, router, eventTypes, gamedata, SocketService, ko) {
+define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gameData', '../services/socketservice', 'knockout'], function (require, exports, app, router, eventTypes, gameData, SocketService, ko) {
     "use strict";
     var Shell = (function () {
         function Shell() {
@@ -15,19 +15,19 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
             this.socketService = new SocketService();
             var _this = this;
             _this.HasQueue = ko.computed(function () {
-                return gamedata.Games().length > 1;
+                return gameData.Games().length > 1;
             });
             _this.HasWaiting = ko.computed(function () {
-                return gamedata.PlayersWaiting().length > 1;
+                return gameData.PlayersWaiting().length > 1;
             });
             app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
-                gamedata.Players(eventData);
+                gameData.Players(eventData);
             });
             app.on(eventTypes.GamesDataUpdate).then(function (eventData) {
-                gamedata.Games(eventData);
+                gameData.Games(eventData);
             });
             app.on(eventTypes.WaitingListUpdate).then(function (eventData) {
-                gamedata.PlayersWaiting(eventData);
+                gameData.PlayersWaiting(eventData);
             });
             app.on(eventTypes.StatsDataUpdate).then(function (stats) {
                 if (!stats.player)

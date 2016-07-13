@@ -1,7 +1,7 @@
 import app = require('durandal/app');
 import ko = require('knockout');
 import eventTypes = require('../../datamodels/eventTypes');
-import gamedata = require('../../datamodels/gamedata');
+import gameData = require('../../datamodels/gameData');
 import Player = require('../../datamodels/player');
 import SocketService = require('../../services/socketservice');
 
@@ -13,7 +13,7 @@ class WaitingListViewModel {
     public WaitingList: KnockoutObservableArray<Player>;
     PlayerName: KnockoutObservable<string>;
     socketService: SocketService;
-    PlayerData:gamedata;   
+    PlayerData:gameData;   
 
     machine1: any;
     machine2: any;
@@ -32,15 +32,15 @@ class WaitingListViewModel {
     constructor() {
         var _this = this;
         this.socketService = new SocketService();
-        this.WaitingList = gamedata.PlayersWaiting;
+        this.WaitingList = gameData.PlayersWaiting;
         this.WaitingList.subscribe(function (newData) {
             _this.KillSlots();
             _this.SetSlots();
         });
         this.HasWaiting = ko.computed(function () {
-            return gamedata.PlayersWaiting().length > 0;
+            return gameData.PlayersWaiting().length > 0;
         });
-        this.PlayerData = gamedata.Players;
+        this.PlayerData = gameData.Players;
         this.PlayerName = ko.observable<string>('');
         this.Spin_Player1 = ko.observable<string>('');
         this.Spin_Player2 = ko.observable<string>('');

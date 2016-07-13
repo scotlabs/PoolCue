@@ -1,7 +1,7 @@
 
 import SocketService = require('../../services/socketservice');
 import app = require('durandal/app');
-import gamedata = require('../../datamodels/gamedata');
+import gameData = require('../../datamodels/gameData');
 
 class ManualAddViewModel {
 
@@ -9,7 +9,7 @@ class ManualAddViewModel {
     Player1Name: KnockoutObservable<string>;
     Player2Name: KnockoutObservable<string>;
     socketService:SocketService;
-    PlayerData:gamedata;   
+    PlayerData:gameData;   
 
     constructor() {
         var _this = this;
@@ -22,7 +22,7 @@ class ManualAddViewModel {
                 return _this.Player1Name().length > 0 && _this.Player2Name().length > 0;
             }
         });
-        this.PlayerData = gamedata.Players;
+        this.PlayerData = gameData.Players;
     }
 
     activate = function () {

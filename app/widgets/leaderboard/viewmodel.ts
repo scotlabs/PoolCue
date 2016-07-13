@@ -2,19 +2,19 @@ import app = require('durandal/app');
 import ko = require('knockout');
 import eventTypes = require('../../datamodels/eventTypes');
 import Player = require('../../datamodels/player');
-import gamedata = require('../../datamodels/gamedata');
+import gameData = require('../../datamodels/gameData');
 import SocketService = require('../../services/socketservice');
 
 class LeaderboardView {
 
     HasPlayers:KnockoutComputed<boolean>;
-    PlayerData:gamedata;
+    PlayerData:gameData;
     socketService:SocketService;
     constructor() {
         this.socketService = new SocketService();
-        this.PlayerData = gamedata.Players;
+        this.PlayerData = gameData.Players;
         this.HasPlayers = ko.computed(function(){
-            return gamedata.Players().length>0;
+            return gameData.Players().length>0;
         });
         
     }

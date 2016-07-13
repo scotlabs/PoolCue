@@ -1,14 +1,14 @@
-define(["require", "exports", 'knockout', '../../datamodels/gamedata'], function (require, exports, ko, gamedata) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData'], function (require, exports, ko, gameData) {
     "use strict";
     var QueueView = (function () {
         function QueueView() {
             var _this = this;
-            this.GamesData = gamedata.Games;
+            this.GamesData = gameData.Games;
             this.HasQueue = ko.computed(function () {
-                return gamedata.Games().length > 1;
+                return gameData.Games().length > 1;
             });
             this.NextGamesCount = ko.computed(function () {
-                var numberOfGames = gamedata.Games().length;
+                var numberOfGames = gameData.Games().length;
                 if (numberOfGames > 5)
                     return "5";
                 else if (numberOfGames > 1)

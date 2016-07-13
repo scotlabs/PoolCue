@@ -2,17 +2,17 @@ import app = require('durandal/app');
 import ko = require('knockout');
 import eventTypes = require('../datamodels/eventTypes');
 import Player = require('../datamodels/player');
-import gamedata = require('../datamodels/gamedata');
+import gameData = require('../datamodels/gameData');
 
 class LeaderboardView {
 
     public HasPlayers:KnockoutComputed<boolean>;
-    public PlayerData:gamedata;
+    public PlayerData:gameData;
     constructor() {
         var _this = this;
-        this.PlayerData = gamedata.Players;
+        this.PlayerData = gameData.Players;
         _this.HasPlayers = ko.computed(function(){
-            return gamedata.Players().length>0;
+            return gameData.Players().length>0;
         });
     }
     

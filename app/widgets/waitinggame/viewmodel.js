@@ -1,4 +1,4 @@
-define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../services/socketservice'], function (require, exports, ko, gamedata, SocketService) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice'], function (require, exports, ko, gameData, SocketService) {
     "use strict";
     var WaitingListViewModel = (function () {
         function WaitingListViewModel() {
@@ -61,15 +61,15 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
             };
             var _this = this;
             this.socketService = new SocketService();
-            this.WaitingList = gamedata.PlayersWaiting;
+            this.WaitingList = gameData.PlayersWaiting;
             this.WaitingList.subscribe(function (newData) {
                 _this.KillSlots();
                 _this.SetSlots();
             });
             this.HasWaiting = ko.computed(function () {
-                return gamedata.PlayersWaiting().length > 0;
+                return gameData.PlayersWaiting().length > 0;
             });
-            this.PlayerData = gamedata.Players;
+            this.PlayerData = gameData.Players;
             this.PlayerName = ko.observable('');
             this.Spin_Player1 = ko.observable('');
             this.Spin_Player2 = ko.observable('');

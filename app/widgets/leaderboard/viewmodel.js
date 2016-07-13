@@ -1,4 +1,4 @@
-define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../services/socketservice'], function (require, exports, ko, gamedata, SocketService) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice'], function (require, exports, ko, gameData, SocketService) {
     "use strict";
     var LeaderboardView = (function () {
         function LeaderboardView() {
@@ -33,9 +33,9 @@ define(["require", "exports", 'knockout', '../../datamodels/gamedata', '../../se
                 new SocketService().GetStats(data.name);
             };
             this.socketService = new SocketService();
-            this.PlayerData = gamedata.Players;
+            this.PlayerData = gameData.Players;
             this.HasPlayers = ko.computed(function () {
-                return gamedata.Players().length > 0;
+                return gameData.Players().length > 0;
             });
         }
         return LeaderboardView;

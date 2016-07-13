@@ -2,7 +2,7 @@ import app = require('durandal/app');
 import ko = require('knockout');
 import Player = require('../datamodels/player');
 import eventtypes = require('../../datamodels/eventTypes');
-import gamedata = require('../../datamodels/gamedata');
+import gameData = require('../../datamodels/gameData');
 import SocketService = require('../../services/socketservice');
 
 class ViewModel {
@@ -18,8 +18,8 @@ class ViewModel {
         this.Player2 = ko.observable<Player>();
         this.HasGame = ko.observable<boolean>(false);
         var _this = this;
-        if (gamedata.Games() && gamedata.Games()[0]){
-            this.Game = gamedata.Games()[0];
+        if (gameData.Games() && gameData.Games()[0]){
+            this.Game = gameData.Games()[0];
             this.setGame();
         }
         
@@ -33,7 +33,7 @@ class ViewModel {
         //     _this.CurrentGame.Player2(data.player2);
         //     _this.CurrentGame.Active = data._id != null;
         // }); 
-        gamedata.Games.subscribe(function(eventData){
+        gameData.Games.subscribe(function(eventData){
             _this.Game = eventData[0];
             _this.setGame();
         });

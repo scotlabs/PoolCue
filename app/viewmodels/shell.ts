@@ -8,7 +8,7 @@ import dialog = require('plugins/dialog');
 import composition = require('durandal/composition');
 import router = require('plugins/router');
 import eventTypes = require('../datamodels/eventTypes');
-import gamedata = require('../datamodels/gamedata');
+import gameData = require('../datamodels/gameData');
 import SocketService = require('../services/socketservice');
 import ko = require('knockout');
 import socket = require('socket.io-client');
@@ -22,19 +22,19 @@ class Shell {
         this.socketService = new SocketService();
         var _this = this;
          _this.HasQueue = ko.computed(function(){
-            return gamedata.Games().length > 1;
+            return gameData.Games().length > 1;
         });
          _this.HasWaiting = ko.computed(function(){
-            return gamedata.PlayersWaiting().length > 1;
+            return gameData.PlayersWaiting().length > 1;
         });
         app.on(eventTypes.PlayerDataUpdate).then(function(eventData){
-            gamedata.Players(eventData);
+            gameData.Players(eventData);
         });
         app.on(eventTypes.GamesDataUpdate).then(function(eventData){
-            gamedata.Games(eventData);
+            gameData.Games(eventData);
         });
         app.on(eventTypes.WaitingListUpdate).then(function(eventData){
-            gamedata.PlayersWaiting(eventData);
+            gameData.PlayersWaiting(eventData);
         });
         app.on(eventTypes.StatsDataUpdate).then(function(stats){
             if (!stats.player)
