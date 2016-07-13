@@ -1,17 +1,4 @@
-<section class="dc visible-lg" data-bind="if:HasGame()">
-    <legend id="currentgame">
-        Current Game
-    </legend>
-    <div class="">
-        <div class="row players text-center hit-the-floor">
-            <span data-bind="text: Player1"></span>
-            <div style="font-size:50%; ">vs.</div>
-            <span  data-bind="text: Player2"></span>
-        </div>
-        <div style="clear:both"></div>
-    </div>
-</section>
-<div class=" visible-xs-block visible-sm-block visible-md-block" data-bind="if:HasGame()">
+<section class="" data-bind="if:HasGame()">
     <legend id="currentgame">
         Current Game
     </legend>
@@ -31,12 +18,11 @@
                 </button>
             </div>
         </div>
-
     </section>
-</div>
-<section class="panel panel-default" data-bind="if:!HasGame()">
-    <div class="panel-heading text-center">
-        <h2>The table is free</h2>
+</section>
+<section class="jumbotron" data-bind="if:!HasGame()">
+    <div class="panel-heading text-center bg-success">
+        <p style="font-weight:bold;line-height:100px;margin:0;padding:0">The table is free</p>
     </div>
 </section>
 <div class="clearfix" style="clear:both"></div>

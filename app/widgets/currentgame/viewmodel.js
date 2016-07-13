@@ -17,15 +17,16 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             };
             this.activate = function () {
             };
+            this.compositioncomplete = function () {
+                if (gameData.Games() && gameData.Games()[0]) {
+                    this.Game = gameData.Games()[0];
+                    this.setGame();
+                }
+            };
             this.socketService = new SocketService();
             this.Player1 = ko.observable();
             this.Player2 = ko.observable();
             this.HasGame = ko.observable(false);
-            var _this = this;
-            if (gameData.Games() && gameData.Games()[0]) {
-                this.Game = gameData.Games()[0];
-                this.setGame();
-            }
         }
         ViewModel.prototype.setGame = function () {
             if (!this.Game) {
@@ -42,11 +43,6 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.socketService.SetWinner(this.Game._id, ko.unwrap(data));
         };
         return ViewModel;
-    }());
-    var Game = (function () {
-        function Game() {
-        }
-        return Game;
     }());
     return ViewModel;
 });

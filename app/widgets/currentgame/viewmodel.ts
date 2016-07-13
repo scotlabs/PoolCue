@@ -17,12 +17,6 @@ class ViewModel {
         this.Player1 = ko.observable<Player>();
         this.Player2 = ko.observable<Player>();
         this.HasGame = ko.observable<boolean>(false);
-        var _this = this;
-        if (gameData.Games() && gameData.Games()[0]){
-            this.Game = gameData.Games()[0];
-            this.setGame();
-        }
-        
     }
 
     attached = function () {
@@ -42,6 +36,12 @@ class ViewModel {
     activate= function() {
        
     };
+    compositioncomplete= function(){
+        if (gameData.Games() && gameData.Games()[0]){
+            this.Game = gameData.Games()[0];
+            this.setGame();
+        }
+    };
     setGame(){
         if (!this.Game){
             this.Player1(null);
@@ -55,13 +55,6 @@ class ViewModel {
     }
     setWinner(data){
         this.socketService.SetWinner(this.Game._id, ko.unwrap(data))
-    }
-}
-
-class Game {
-    
-    constructor() {
-       
     }
 }
 

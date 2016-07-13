@@ -1,4 +1,4 @@
-define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gameData', '../services/socketservice', 'knockout'], function (require, exports, app, router, eventTypes, gameData, SocketService, ko) {
+define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gameData', '../services/socketservice'], function (require, exports, app, router, eventTypes, gameData, SocketService) {
     "use strict";
     var Shell = (function () {
         function Shell() {
@@ -12,14 +12,16 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                 // });
                 this.socketService.Initialise();
             };
+            this.activate = function () {
+                return router.map([
+                    { route: '', moduleId: 'viewmodels/index' },
+                    { route: 'screen', moduleId: 'viewmodels/screen' },
+                ]).buildNavigationModel()
+                    .mapUnknownRoutes('hello/index', 'not-found')
+                    .activate();
+            };
             this.socketService = new SocketService();
             var _this = this;
-            _this.HasQueue = ko.computed(function () {
-                return gameData.Games().length > 1;
-            });
-            _this.HasWaiting = ko.computed(function () {
-                return gameData.PlayersWaiting().length > 1;
-            });
             app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
                 gameData.Players(eventData);
             });
