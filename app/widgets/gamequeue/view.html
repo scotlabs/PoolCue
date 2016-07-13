@@ -8,6 +8,7 @@
               <th class="text-center">Player 1</th>
               <th class="text-center"></th>
               <th class="text-center">Player 2</th>
+              <th class="hidden-lg"></th>
             </tr>
           </thead>
             <tbody data-bind="foreach:GamesData().slice(0,5)">
@@ -16,6 +17,7 @@
                     <td class="col-xs-5 text-center" data-bind="text:player1"></td>
                     <td class="col-xs-2 text-center">vs.</td>
                     <td class="col-xs-5 text-center" data-bind="text:player2"></td>
+                    <td class="col-xs-1 hidden-lg"><button class="btn btn-xs btn-default" data-bind="click: $parent.RemoveGame"><i class="fa fa-fw fa-trash"></i></button></td>
                 </tr>
                 <!-- /ko -->
             </tbody>

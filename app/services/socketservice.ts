@@ -58,5 +58,9 @@ class SocketService {
     GetStats(player){
         this.socket.emit('player stats', player);
     }
+
+    RemoveGame(gameId){
+        this.socket.emit('delete game', gameId);
+    }
 }
 export =SocketService;

@@ -2,11 +2,20 @@
     <div class="">
         <legend><span data-bind="text:WaitingList().length"></span> <span data-bind="if:WaitingList().length > 1">Players</span>
             <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List</legend>
-        <p style="text-align:left;">Players waiting:
-            <span data-bind="foreach:WaitingList" style="display: inline-block;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-lg-12">
+                <p style="text-align:left;">Players waiting:
+                    <span data-bind="foreach:WaitingList" style="display: inline-block;">
                 <span class="label label-default" data-bind="text: player"></span>
-            </span>
-        </p>
+                    </span>
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-4 hidden-lg text-center">
+                <input type="text" data-bind="valueUpdate: 'afterkeydown', typeahead: { source: PlayerData, target: PlayerName}" placeholder="Add your name"/>
+                <button data-bind="click: AddToWaitingList, enable:CanAddToWaitingList" class="btn btn-xs btn-primary"><i class="fa fa-plus fa-fw"></i></button>
+            </div>
+        </div>
+        <br/>
         <div class="panel panel-default hidden-lg" data-bind="visible:WaitingList().length > 1">
             <div class="panel-body">
                 <div class="row">
@@ -28,18 +37,6 @@
                     <button class="btn btn-success" data-bind="click:Play, visible: CanPlay()" style="margin-top:5px;">Let <span data-bind="text: Spin_Player1"/> and <span data-bind="text: Spin_Player2"/> Play!</button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="hidden-lg">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Add your name to the waiting list...
-        </div>
-        <div class="panel-body">
-            <label>Your Name:</label>
-            <input type="text" data-bind="valueUpdate: 'afterkeydown', typeahead: { source: PlayerData, target: PlayerName}" />
-            <button data-bind="click: AddToWaitingList, enable:CanAddToWaitingList" class="btn btn-xs btn-primary">Add to waiting list</button>
         </div>
     </div>
 </div>

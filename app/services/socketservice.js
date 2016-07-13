@@ -45,6 +45,9 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
         SocketService.prototype.GetStats = function (player) {
             this.socket.emit('player stats', player);
         };
+        SocketService.prototype.RemoveGame = function (gameId) {
+            this.socket.emit('delete game', gameId);
+        };
         return SocketService;
     }());
     return SocketService;
