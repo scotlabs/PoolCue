@@ -44,7 +44,7 @@ class Shell {
         });
     }
     router = router;
-    activate = function () {
+    compositionComplete = function () {
         this.socketService.Start();
     };
     attached = function () {
