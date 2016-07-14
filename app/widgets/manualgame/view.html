@@ -1,0 +1,25 @@
+<section>
+    <legend id="newgame">Add Game</legend>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <input type="text" class="form-control" minlength="2" maxlength="50" placeholder="Player 1" data-bind="valueUpdate: 'afterkeydown', typeahead: { source: PlayerData, target: Player1Name}">
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                    <p style="font-size:120%;font-weight:bold;margin-top:15px;margin-bottom:0;">vs.</p>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <input type="text" class="form-control" minlength="2" maxlength="50" placeholder="Player 2" data-bind="valueUpdate: 'afterkeydown',typeahead: { source: PlayerData, target: Player2Name }">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div style="text-align:center">
+                    <button id="createGame" data-bind="click:AddManualGame,enable:CanAddManualGame" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Add Game</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

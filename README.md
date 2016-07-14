@@ -1,6 +1,5 @@
 ![Pool Cue](https://raw.githubusercontent.com/scotlabs/EloEloElo/master/images/ic_billiards-512.png "Pool Cue")
 
-
 # EloEloElo
 *What's all this then?*
 
@@ -29,7 +28,12 @@ npm install
 bower install
 ```
 
+- Install the required typescript typings with:
+```
+typings install
+```
+
 - Start it up with:
 ```
-node index.js
+node start.js
 ```
