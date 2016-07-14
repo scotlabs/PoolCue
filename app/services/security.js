@@ -9,6 +9,10 @@ define(["require", "exports", 'amplify'], function (require, exports, amplify) {
                 this.StoreUser(username);
                 return true;
             };
+            this.SignOut = function () {
+                this.StoreUser(null);
+                return true;
+            };
             this.GetUser = function () {
                 var name = amplify.store("UserKey");
                 this.PlayerName(name);

@@ -17,6 +17,7 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                 return router.map([
                     { route: '', moduleId: 'viewmodels/index' },
                     { route: 'login', moduleId: 'viewmodels/login' },
+                    { route: 'signout', moduleId: 'viewmodels/signout' },
                     { route: 'screen', moduleId: 'viewmodels/screen' },
                 ])
                     .buildNavigationModel()

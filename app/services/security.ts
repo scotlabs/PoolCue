@@ -13,7 +13,10 @@ class SecurityService {
         this.StoreUser(username);
         return true;
     }
-    
+    SignOut = function (): boolean {
+        this.StoreUser(null);
+        return true;
+    }
     GetUser = function () {
         var name = amplify.store("UserKey");
         this.PlayerName(name);

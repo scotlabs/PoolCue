@@ -1,4 +1,4 @@
-define(["require", "exports", '../datamodels/gameData', '../services/security'], function (require, exports, gameData, SecurityService) {
+define(["require", "exports", '../datamodels/gameData', '../services/security', 'plugins/router'], function (require, exports, gameData, SecurityService, router) {
     "use strict";
     var IndexViewModel = (function () {
         /**
@@ -20,7 +20,11 @@ define(["require", "exports", '../datamodels/gameData', '../services/security'],
             this.HasWaiting = ko.computed(function () {
                 return gameData.PlayersWaiting().length > 1;
             });
+            this.PlayerName = this.security.PlayerName;
         }
+        IndexViewModel.prototype.SignOut = function () {
+            router.navigate("signout");
+        };
         return IndexViewModel;
     }());
     return IndexViewModel;

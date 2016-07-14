@@ -1,10 +1,12 @@
 import gameData = require('../datamodels/gameData');
 import SecurityService = require('../services/security');
+import router = require('plugins/router');
 
 class IndexViewModel {
     HasQueue: KnockoutObservable<boolean>;
     HasWaiting: KnockoutObservable<boolean>;
-    security:SecurityService;
+    security: SecurityService;
+    PlayerName: KnockoutObservable<string>;
     /**
      *
      */
@@ -16,14 +18,18 @@ class IndexViewModel {
         this.HasWaiting = ko.computed(function () {
             return gameData.PlayersWaiting().length > 1;
         });
+        this.PlayerName = this.security.PlayerName;
     }
-    canActivate = function() : any | boolean {
+    canActivate = function (): any | boolean {
         if (!this.security.IsAuthenticated()) {
-            return {redirect: 'login'};
+            return { redirect: 'login' };
         }
         return true;
     }
-    attached = function(){
+    attached = function () {
+    }
+    SignOut() {
+        router.navigate("signout");
     }
 }
 export = IndexViewModel;
