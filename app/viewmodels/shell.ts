@@ -12,12 +12,16 @@ import gameData = require('../datamodels/gameData');
 import SocketService = require('../services/socketservice');
 import ko = require('knockout');
 import socket = require('socket.io-client');
+import SecurityService = require('../services/security');
+
 class Shell {
 
 
     socketService: SocketService;
+    security: SecurityService;
     constructor() {
         this.socketService = new SocketService();
+        this.security = new SecurityService();
         var _this = this;
         app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
             gameData.Players(eventData);
@@ -36,6 +40,7 @@ class Shell {
         });
     }
     router = router;
+
     compositionComplete = function () {
         this.socketService.Start();
     };
@@ -46,11 +51,13 @@ class Shell {
         this.socketService.Initialise();
     }
     activate = function () {
+        var _this = this;
         return router.map([
             { route: '', moduleId: 'viewmodels/index' },
+            { route: 'login', moduleId: 'viewmodels/login' },
             { route: 'screen', moduleId: 'viewmodels/screen' },
-        ]).buildNavigationModel()
-            .mapUnknownRoutes('hello/index', 'not-found')
+        ])
+            .buildNavigationModel()
             .activate();
     }
 }

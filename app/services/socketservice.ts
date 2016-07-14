@@ -51,6 +51,10 @@ class SocketService {
         this.socket.emit('addto waitinglist', player);
     }
 
+    RemoveFromWaitingList(player){
+        this.socket.emit('remove waitinglist', player);
+    }
+
     CreateGameFromWaitingList(player1, player2){
         this.socket.emit('create game fromwaiting', player1, player2);
     }

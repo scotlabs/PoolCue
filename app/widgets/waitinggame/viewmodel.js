@@ -1,4 +1,4 @@
-define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice'], function (require, exports, ko, gameData, SocketService) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice', '../../services/security'], function (require, exports, ko, gameData, SocketService, SecurityService) {
     "use strict";
     var WaitingListViewModel = (function () {
         function WaitingListViewModel() {
@@ -29,8 +29,10 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                 if (!this.CanAddToWaitingList()) {
                     return;
                 }
-                this.socketService.AddToWaitingList(this.PlayerName());
-                this.PlayerName('');
+                this.socketService.AddToWaitingList(this.security.GetUser());
+            };
+            this.RemoveFromWaitingList = function (data) {
+                _this.socketService.RemoveFromWaitingList(data.player);
             };
             this.Spin = function () {
                 var _this = this;
@@ -59,8 +61,10 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                 this.Spin_Player1('');
                 this.Spin_Player2('');
             };
+            this._this = this;
             var _this = this;
             this.socketService = new SocketService();
+            this.security = new SecurityService();
             this.WaitingList = gameData.PlayersWaiting;
             this.WaitingList.subscribe(function (newData) {
                 _this.KillSlots();
@@ -70,7 +74,6 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                 return gameData.PlayersWaiting().length > 0;
             });
             this.PlayerData = gameData.Players;
-            this.PlayerName = ko.observable('');
             this.Spin_Player1 = ko.observable('');
             this.Spin_Player2 = ko.observable('');
             this.FilteredList = ko.computed(function () {
@@ -87,7 +90,10 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.CanAddToWaitingList = ko.computed({
                 owner: this,
                 read: function () {
-                    return _this.PlayerName() != null;
+                    var found = ko.utils.unwrapObservable(_this.WaitingList).filter(function (d) {
+                        return d.player == _this.security.PlayerName();
+                    });
+                    return found.length === 0;
                 }
             });
             this.CanPlay = ko.computed({

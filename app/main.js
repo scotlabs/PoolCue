@@ -1,17 +1,19 @@
 requirejs.config({
+  urlArgs: "version=1.2.3",
   paths: {
     'text': '/scripts/requirejs-text/text',
     'durandal': '/scripts/Durandal/js',
     'plugins': '/scripts/Durandal/js/plugins',
     'transitions': '/scripts/Durandal/js/transitions',
-    'slots': '/bower_components/jQuery-SlotMachine/dist/jquery.slotmachine.min',
     'helpers': '/app/helpers',
     'models': '/app/models',
     'query': '/app/query',
+    'services': '/app/services'
   }
 });
 
 define('knockout', function () { return ko; });
+define('amplify', function () { return amplify; });
 define('jquery', function () { return jQuery; });
 define('socket.io-client', function () { return io() });
 define(function (require) {
@@ -20,7 +22,6 @@ define(function (require) {
     app = require('durandal/app');
 
   system.debug(true);
-
   app.title = 'PoolCue';
 
   app.configurePlugins({
@@ -53,6 +54,10 @@ ko.bindingHandlers.typeahead = {
         onselect: function (val) {
           value.target(val);
         }
+      }).on('typeahead:selected', function(evt, item) {
+           value.target(item);
+      }).on('typeahead:autocompleted', function(evt, item) {
+           value.target(item);
       });
 
     // Set the value of the target when the field is blurred.

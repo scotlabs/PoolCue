@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "amplifyjs": "registry:dt/amplifyjs#1.1.0+20160316155526",
     "bootstrap": "registry:dt/bootstrap#3.3.5+20160619023404",
     "durandal": "registry:dt/durandal#1.1.1+20160316155526",
     "jquery": "registry:dt/jquery#1.10.0+20160704162008",

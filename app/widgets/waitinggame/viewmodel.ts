@@ -4,6 +4,7 @@ import eventTypes = require('../../datamodels/eventTypes');
 import gameData = require('../../datamodels/gameData');
 import Player = require('../../datamodels/player');
 import SocketService = require('../../services/socketservice');
+import SecurityService = require('../../services/security');
 
 class WaitingListViewModel {
     public HasWaiting: KnockoutComputed<boolean>;
@@ -11,10 +12,10 @@ class WaitingListViewModel {
     public CanPlay: KnockoutComputed<boolean>;
     public FilteredList: KnockoutComputed<any>;
     public WaitingList: KnockoutObservableArray<Player>;
-    PlayerName: KnockoutObservable<string>;
     socketService: SocketService;
-    PlayerData:gameData;   
-
+    PlayerData: gameData;
+    security: SecurityService;
+    _this:any;
     machine1: any;
     machine2: any;
     Spin_Player1: KnockoutObservable<string>;
@@ -23,15 +24,17 @@ class WaitingListViewModel {
     /**
    *
    */
-    stringStartsWith = function (string, startsWith) {          
+    stringStartsWith = function (string, startsWith) {
         string = string || "";
         if (startsWith.length > string.length)
             return false;
         return string.substring(0, startsWith.length) === startsWith;
     };
     constructor() {
+        this._this = this;
         var _this = this;
         this.socketService = new SocketService();
+        this.security = new SecurityService();
         this.WaitingList = gameData.PlayersWaiting;
         this.WaitingList.subscribe(function (newData) {
             _this.KillSlots();
@@ -41,24 +44,26 @@ class WaitingListViewModel {
             return gameData.PlayersWaiting().length > 0;
         });
         this.PlayerData = gameData.Players;
-        this.PlayerName = ko.observable<string>('');
         this.Spin_Player1 = ko.observable<string>('');
         this.Spin_Player2 = ko.observable<string>('');
-        this.FilteredList = ko.computed<any>(function() {
+        this.FilteredList = ko.computed<any>(function () {
             var filter = _this.Spin_Player1();
             if (!filter) {
                 return _this.WaitingList().slice(1);
             } else {
-                return ko.utils.arrayFilter(_this.WaitingList(), function(item) {
-                    return !(item.player.toLowerCase()=== filter.toLowerCase());
+                return ko.utils.arrayFilter(_this.WaitingList(), function (item) {
+                    return !(item.player.toLowerCase() === filter.toLowerCase());
                 });
             }
         }, this);
-        
+
         this.CanAddToWaitingList = ko.computed<boolean>({
             owner: this,
             read: () => {
-                return _this.PlayerName() != null;
+                var found = ko.utils.unwrapObservable(_this.WaitingList).filter(function(d){
+                    return d.player == _this.security.PlayerName()
+                }) ;
+                return found.length===0 ; 
             }
         });
         this.CanPlay = ko.computed<boolean>({
@@ -90,8 +95,11 @@ class WaitingListViewModel {
         if (!this.CanAddToWaitingList()) {
             return;
         }
-        this.socketService.AddToWaitingList(this.PlayerName());
-        this.PlayerName('');
+        this.socketService.AddToWaitingList(this.security.GetUser());
+    }
+
+    RemoveFromWaitingList = function(data){
+        _this.socketService.RemoveFromWaitingList(data.player);
     }
 
     Spin = function () {

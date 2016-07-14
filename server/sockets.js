@@ -44,6 +44,10 @@ exports.connect = function (server) {
       WaitingList.add(playerName, io);
     });
 
+    socket.on('remove waitinglist', function (playerName) {
+      WaitingList.remove(playerName, io);
+    });
+
     socket.on('create game fromwaiting', function (player1, player2) {
       Game.queue(player1, player2, io);
       WaitingList.remove(player1, io);

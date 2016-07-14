@@ -4,20 +4,17 @@
             <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List</legend>
         <div class="row">
             <div class="col-xs-12 col-sm-8">
-                <p style="text-align:left;">Players waiting:
-                    <span data-bind="foreach:WaitingList" style="display: inline-block;">
-                        <span class="label label-default" data-bind="text: player"></span>
-                    </span>
-                </p>
+                <p style="text-align:left;" class="pull-left" data-bind="if:WaitingList().length > 0">Players waiting:&nbsp; </p>
+                <div data-bind="foreach:WaitingList" style="display: inline-block;">
+                    <span class="label label-default" data-bind="text: player,click:$parent.RemoveFromWaitingList, owner:$parent"></span>
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-4 text-center">
-                <input type="text" data-bind="valueUpdate: 'afterkeydown', typeahead: { source: PlayerData, target: PlayerName}" placeholder="Add your name"
-                />
-                <button data-bind="click: AddToWaitingList, enable:CanAddToWaitingList" class="btn btn-xs btn-primary"><i class="fa fa-plus fa-fw"></i></button>
+            <div class="col-xs-12 col-sm-4 text-right">
+                <button data-bind="click: AddToWaitingList, visible:CanAddToWaitingList" class="btn btn-sm btn-primary"><i class="fa fa-plus fa-fw"></i> Add me to waiting list</button>
             </div>
         </div>
         <br/>
-        <div class="panel panel-default" data-bind="visible:WaitingList().length > 1">
+        <div class="panel panel-default" data-bind="visible:WaitingList().length > 2">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-5 text-center">

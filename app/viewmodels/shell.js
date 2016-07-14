@@ -1,4 +1,4 @@
-define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gameData', '../services/socketservice'], function (require, exports, app, router, eventTypes, gameData, SocketService) {
+define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/eventTypes', '../datamodels/gameData', '../services/socketservice', '../services/security'], function (require, exports, app, router, eventTypes, gameData, SocketService, SecurityService) {
     "use strict";
     var Shell = (function () {
         function Shell() {
@@ -13,14 +13,17 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                 this.socketService.Initialise();
             };
             this.activate = function () {
+                var _this = this;
                 return router.map([
                     { route: '', moduleId: 'viewmodels/index' },
+                    { route: 'login', moduleId: 'viewmodels/login' },
                     { route: 'screen', moduleId: 'viewmodels/screen' },
-                ]).buildNavigationModel()
-                    .mapUnknownRoutes('hello/index', 'not-found')
+                ])
+                    .buildNavigationModel()
                     .activate();
             };
             this.socketService = new SocketService();
+            this.security = new SecurityService();
             var _this = this;
             app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
                 gameData.Players(eventData);

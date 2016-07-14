@@ -5,7 +5,7 @@
     <section class="panel">
         <div class="panel-body bg-success">
             <div class="col-md-5 col-sm-5 col-xs-12 text-center">
-                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player1);}">
+                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player1);}, enable: CanSetWinner">
                     <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player1" ></span>
                 </button>
             </div>
@@ -13,16 +13,21 @@
                 vs.
             </div>
             <div class="col-md-5 col-sm-5 col-xs-12 text-center">
-                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player2);}">
+                <button class="btn btn-success btn-block btn-lg" data-bind="click:function(){setWinner($data.Player2);}, enable: CanSetWinner">
                     <i class="fa fa-trophy fa-lg fa-fw"></i> <span data-bind="text: Player2"></span>
                 </button>
             </div>
         </div>
+        <div class="text-right">
+            <button class="btn btn-xs btn-danger" data-bind="click:AbandonCurrentGame">Abandon Game</button>
+        </div>
     </section>
 </section>
-<section class="jumbotron" data-bind="if:!HasGame()">
-    <div class="panel-heading text-center bg-success">
-        <p style="font-weight:bold;line-height:100px;margin:0;padding:0">The table is free</p>
-    </div>
-</section>
+<div data-bind="if:!HasGame()">
+    <section class="jumbotron">
+        <div class="panel-heading text-center bg-success">
+            <p style="font-weight:bold;line-height:100px;margin:0;padding:0">The table is free</p>
+        </div>
+    </section>
+</div>
 <div class="clearfix" style="clear:both"></div>

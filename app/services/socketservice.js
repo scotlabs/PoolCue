@@ -39,6 +39,9 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
         SocketService.prototype.AddToWaitingList = function (player) {
             this.socket.emit('addto waitinglist', player);
         };
+        SocketService.prototype.RemoveFromWaitingList = function (player) {
+            this.socket.emit('remove waitinglist', player);
+        };
         SocketService.prototype.CreateGameFromWaitingList = function (player1, player2) {
             this.socket.emit('create game fromwaiting', player1, player2);
         };

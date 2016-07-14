@@ -4,12 +4,6 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
         function ViewModel() {
             this.attached = function () {
                 var _this = this;
-                // app.on(eventtypes.GamesDataUpdate).then(function(eventData){
-                //     var data = eventData[0];
-                //     _this.CurrentGame.Player1(data.player1);
-                //     _this.CurrentGame.Player2(data.player2);
-                //     _this.CurrentGame.Active = data._id != null;
-                // }); 
                 gameData.Games.subscribe(function (eventData) {
                     _this.Game = eventData[0];
                     _this.setGame();
@@ -27,12 +21,14 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.Player1 = ko.observable();
             this.Player2 = ko.observable();
             this.HasGame = ko.observable(false);
+            this.CanSetWinner = ko.observable(true);
         }
         ViewModel.prototype.setGame = function () {
             if (!this.Game) {
                 this.Player1(null);
                 this.Player2(null);
                 this.HasGame(false);
+                this.CanSetWinner(true);
                 return;
             }
             this.Player1(this.Game.player1);
@@ -40,7 +36,13 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.HasGame(this.Game._id != null);
         };
         ViewModel.prototype.setWinner = function (data) {
+            this.CanSetWinner(false);
             this.socketService.SetWinner(this.Game._id, ko.unwrap(data));
+        };
+        ViewModel.prototype.AbandonCurrentGame = function () {
+            if (confirm("Are you sure?")) {
+                this.socketService.RemoveGame(this.Game._id);
+            }
         };
         return ViewModel;
     }());
