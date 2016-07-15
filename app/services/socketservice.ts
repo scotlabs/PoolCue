@@ -38,6 +38,10 @@ class SocketService {
     public Start(){
         this.socket.emit('update all');
     }
+    
+    Refresh(){
+        this.socket.emit('update all');
+    }
 
     CreateGame(player1, player2){
         this.socket.emit('create game', player1, player2);

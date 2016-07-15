@@ -22,6 +22,9 @@ define(["require", "exports", 'amplify'], function (require, exports, amplify) {
                 var userDetail = amplify.store("UserKey", username);
                 return userDetail;
             };
+            this.Refresh = function () {
+                this.GetUser();
+            };
             this.PlayerName = ko.observable();
         }
         return SecurityService;

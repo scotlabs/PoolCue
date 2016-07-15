@@ -2,7 +2,7 @@
 import amplify = require('amplify');
 
 class SecurityService {
-    public PlayerName: KnockoutObservable<string>;
+    PlayerName: KnockoutObservable<string>;
     constructor() {
         this.PlayerName = ko.observable<string>();
     }
@@ -25,6 +25,9 @@ class SecurityService {
     StoreUser = function (username: string) {
         var userDetail = amplify.store("UserKey", username);
         return userDetail;
+    }
+    Refresh = function(){
+        this.GetUser();
     }
 }
 export = SecurityService;
