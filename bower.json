@@ -23,6 +23,7 @@
     "bootswatch-dist": "yeti",
     "jQuery-SlotMachine": "jquery-slotmachine#^3.0.1",
     "knockout": "knockoutjs#^3.4.0",
-    "Durandal": "durandal#^2.1.0"
+    "Durandal": "durandal#^2.1.0",
+    "amplify": "^1.1.2"
   }
 }
