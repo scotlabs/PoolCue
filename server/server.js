@@ -30,7 +30,7 @@ exports.start = function (homeDirectory) {
     var httpsPort = process.env.port || 8081;
     var options = {};
   } else {
-    httpPort = 80;
+    httpPort = process.env.port;
     httpsPort = 443;
     options = {
       // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
