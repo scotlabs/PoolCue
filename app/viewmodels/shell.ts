@@ -42,12 +42,17 @@ class Shell {
     router = router;
 
     compositionComplete = function () {
+        var _this = this;
         this.socketService.Start();
+         $(window).focus(function() {
+            _this.socketService.Refresh();
+         });
     };
     attached = function () {
         // $(window).focus(function () {
         //     socket.emit('update all');
         // });
+        this.security.Refresh();
         this.socketService.Initialise();
     }
     activate = function () {

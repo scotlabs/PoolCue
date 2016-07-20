@@ -1,4 +1,4 @@
-define(["require", "exports", '../../services/socketservice', '../../datamodels/gameData'], function (require, exports, SocketService, gameData) {
+define(["require", "exports", '../../services/socketservice', '../../datamodels/gameData', '../../services/security'], function (require, exports, SocketService, gameData, SecurityService) {
     "use strict";
     var ManualAddViewModel = (function () {
         function ManualAddViewModel() {
@@ -14,7 +14,8 @@ define(["require", "exports", '../../services/socketservice', '../../datamodels/
             };
             var _this = this;
             this.socketService = new SocketService();
-            this.Player1Name = ko.observable('');
+            this.security = new SecurityService();
+            this.Player1Name = ko.observable(this.security.GetUser());
             this.Player2Name = ko.observable('');
             this.CanAddManualGame = ko.computed({
                 owner: this,

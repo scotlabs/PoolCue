@@ -4,12 +4,17 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
         function Shell() {
             this.router = router;
             this.compositionComplete = function () {
+                var _this = this;
                 this.socketService.Start();
+                $(window).focus(function () {
+                    _this.socketService.Refresh();
+                });
             };
             this.attached = function () {
                 // $(window).focus(function () {
                 //     socket.emit('update all');
                 // });
+                this.security.Refresh();
                 this.socketService.Initialise();
             };
             this.activate = function () {

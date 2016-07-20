@@ -91,7 +91,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                 owner: this,
                 read: function () {
                     var found = ko.utils.unwrapObservable(_this.WaitingList).filter(function (d) {
-                        return d.player == _this.security.PlayerName();
+                        return d.player == _this.security.GetUser();
                     });
                     return found.length === 0;
                 }

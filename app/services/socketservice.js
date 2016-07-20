@@ -30,6 +30,9 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
         SocketService.prototype.Start = function () {
             this.socket.emit('update all');
         };
+        SocketService.prototype.Refresh = function () {
+            this.socket.emit('update all');
+        };
         SocketService.prototype.CreateGame = function (player1, player2) {
             this.socket.emit('create game', player1, player2);
         };
