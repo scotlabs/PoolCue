@@ -2,6 +2,9 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
     "use strict";
     var LeaderboardView = (function () {
         function LeaderboardView() {
+            this.IsLiberated = function (data) {
+                return data.liberated || false;
+            };
             this.PlayerDelta = function (player) {
                 return (player.wins * 1 - player.losses * 1);
             };

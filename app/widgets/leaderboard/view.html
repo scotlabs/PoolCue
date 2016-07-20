@@ -8,7 +8,7 @@
 
 <section data-bind="visible: HasPlayers">
     <legend>Leaderboard</legend>
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed">
         <thead class="thead-default">
             <tr>
                 <th>#</th>
@@ -20,12 +20,15 @@
             </tr>
         </thead>
         <tbody class="scoreboard" data-bind="foreach:PlayerData">
-            <tr data-bind="click: $parent.GetStats" data-toggle="modal" data-target="#myModal">
+            <tr data-bind="click: $parent.GetStats,css: { 'bg-danger': $parent.PlayerDelta($data) < 0, 'bg-success': $parent.PlayerDelta($data) > 0}" data-toggle="modal" data-target="#myModal">
                 <td>
                     <div data-bind="text:$index()+1" class="text-center"></div>
                 </td>
-                <td class="text-center">
-                    <div data-bind="text:name" class="text-center"></div>
+                <td class="text-left">
+                    <div data-bind="text:name"></div>
+                    <!-- ko if:$parent.IsLiberated($data) -->
+                    <i style="font-size:120%;" class="fa fa-rocket">☠</i>
+                    <!-- /ko -->
                 </td>
                 <td class="text-center">
                     <div data-bind="text:wins" class="text-center"></div>
@@ -33,7 +36,7 @@
                 <td class="text-center">
                     <div data-bind="text:losses"></div>
                 </td>
-                <td class="text-center hidden-xs" data-bind="css: { 'bg-danger': $parent.PlayerDelta($data) < 0, 'bg-success': $parent.PlayerDelta($data) > 0}">
+                <td class="text-center hidden-xs">
                     <div data-bind="text:$parent.PlayerDeltaDesc($data)"></div>
                 </td>
                 <td class="text-center">
