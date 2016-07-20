@@ -119,8 +119,8 @@ fi
 
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
     cd "$DEPLOYMENT_TARGET"
-    eval $NPM_CMD bower install
-    exitWithMessageOnError "npm failed"
+    eval bower install
+    exitWithMessageOnError "bower failed"
     cd - > /dev/null
 fi
 ##################################################################################################################################
