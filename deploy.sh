@@ -117,12 +117,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd - > /dev/null
 fi
 
-if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
-    cd "$DEPLOYMENT_TARGET"
-    eval bower install
-    exitWithMessageOnError "bower failed"
-    cd - > /dev/null
-fi
+
 ##################################################################################################################################
 
 # Post deployment stub
