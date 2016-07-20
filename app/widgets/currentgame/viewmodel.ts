@@ -10,9 +10,9 @@ class ViewModel {
     CanSetWinner: KnockoutObservable<boolean>;
     Player1: KnockoutObservable<Player>;
     Player2: KnockoutObservable<Player>;
-    Game:any;
-    private socketService:SocketService;
-    
+    Game: any;
+    private socketService: SocketService;
+
     constructor() {
         this.socketService = new SocketService();
         this.Player1 = ko.observable<Player>();
@@ -23,22 +23,22 @@ class ViewModel {
 
     attached = function () {
         var _this = this;
-        gameData.Games.subscribe(function(eventData){
+        gameData.Games.subscribe(function (eventData) {
             _this.Game = eventData[0];
             _this.setGame();
         });
     };
-    activate= function() {
-       
+    activate = function () {
+
     };
-    compositioncomplete= function(){
-        if (gameData.Games() && gameData.Games()[0]){
+    compositioncomplete = function () {
+        if (gameData.Games() && gameData.Games()[0]) {
             this.Game = gameData.Games()[0];
             this.setGame();
         }
     };
-    setGame(){
-        if (!this.Game){
+    setGame() {
+        if (!this.Game) {
             this.Player1(null);
             this.Player2(null);
             this.HasGame(false);
@@ -49,12 +49,17 @@ class ViewModel {
         this.Player2(this.Game.player2);
         this.HasGame(this.Game._id != null);
     }
-    setWinner(data){
+    setWinner(data) {
+        var player = ko.unwrap(data);
+        var confirmed = confirm(player + " won this game?");
+        if (!confirmed) {
+            return;
+        }
         this.CanSetWinner(false);
-        this.socketService.SetWinner(this.Game._id, ko.unwrap(data));
+        this.socketService.SetWinner(this.Game._id, player);
     }
-    AbandonCurrentGame(){
-        if (confirm("Are you sure?")){
+    AbandonCurrentGame() {
+        if (confirm("Are you sure?")) {
             this.socketService.RemoveGame(this.Game._id);
         }
     }
