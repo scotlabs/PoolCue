@@ -45,7 +45,7 @@ exports.getStats = function(playerName, socket, request, response) {
 function getLast10Games(playerName, games) {
   var last10games = [];
   for (var i = games.length; i >= 0; i--) {
-    if (games[i] && last10games.length < 10 && games[i].winner !== '') {
+    if (games[i] && last10games.length < 10 && games[i].winner) {
       if (games[i].winner === playerName) {
         last10games.push(true);
       }else {
