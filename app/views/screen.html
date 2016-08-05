@@ -5,7 +5,7 @@
         Current Game
       </legend>
       <div class="">
-        <div class="row players text-center hit-the-floor">
+        <div class="row players text-center hit-the-floor text-info">
           <span data-bind="text: Player1"></span>
           <div style="font-size:50%; ">vs.</div>
           <span data-bind="text: Player2"></span>
@@ -13,12 +13,13 @@
         <div style="clear:both"></div>
       </div>
     </section>
-    <section class="jumbotron" data-bind="if:!HasGame()">
+    <!-- ko if:!HasGame() -->
+    <section class="jumbotron">
       <div class="panel-heading text-center bg-success">
-        <h2 style="line-height:500px">The table is free</h2>
+        <h2 style="line-height:300px">The table is free</h2>
       </div>
     </section>
-
+    <!-- /ko --> 
     <!-- Game Queue -->
     <section class="dc visible-lg" data-bind="if:HasQueue()">
       <legend>Next <span data-bind="text:NextGamesCount"></span> games (<span data-bind="text:GamesData().length - 1"></span>
@@ -78,7 +79,7 @@
   </div>
 </div>
   <!-- Waiting List -->
-  <div id="waitinglist" class="navbar navbar-fixed-bottom" style="padding:20px;">
+  <div id="waitinglist" class="navbar" style="padding:20px;">
     <legend><span data-bind="text:WaitingList().length"></span> <span data-bind="if:WaitingList().length > 1">Players</span>
       <span data-bind="if:WaitingList().length == 1">Player</span> in Waiting List</legend>
     <div class="panel-body" data-bind="foreach:WaitingList" style="margin-bottom:20px;">
