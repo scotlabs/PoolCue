@@ -36,8 +36,13 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.HasGame(this.Game._id != null);
         };
         ViewModel.prototype.setWinner = function (data) {
+            var player = ko.unwrap(data);
+            var confirmed = confirm(player + " won this game?");
+            if (!confirmed) {
+                return;
+            }
             this.CanSetWinner(false);
-            this.socketService.SetWinner(this.Game._id, ko.unwrap(data));
+            this.socketService.SetWinner(this.Game._id, player);
         };
         ViewModel.prototype.AbandonCurrentGame = function () {
             if (confirm("Are you sure?")) {

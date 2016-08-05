@@ -19,6 +19,10 @@ class LeaderboardView {
         
     }
     
+    IsLiberated = function(data): boolean{
+        return data.liberated || false;
+    }
+
     PlayerDelta = function(player) : number {
         return (player.wins*1 - player.losses*1);
     }   
