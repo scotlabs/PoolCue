@@ -11,12 +11,15 @@ var Logger = require('./helpers/logger');
 /* Functions */
 exports.connect = function() {
   var connectionString ="";
+  
   if (process.env.NODE_ENV !== 'production') {
       connectionString = 'mongodb://localhost:27017/EloEloElo';
     }else {
       connectionString = process.env.DBConnectionString;
     }
-
+  
+  Logger.info("Connecting to Database: " + connectionString);
+  
   Mongoose.connect(connectionString);
 
   Mongoose.connection.on('error', function() {
