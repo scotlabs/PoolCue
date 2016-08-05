@@ -1,5 +1,5 @@
 <div class="game-queue" data-bind="if:HasQueue()">
-  <legend> 
+  <legend>
     Next <span data-bind="text:NextGamesCount"></span> games (<span data-bind="text:GamesData().length - 1"></span> <span data-bind="if:GamesData().length > 2">Games</span>
     <span data-bind="if:GamesData().length == 2">Game</span> in Queue)</legend>
         <table class="table table-bordered table-striped">
@@ -8,7 +8,7 @@
               <th class="text-center">Player 1</th>
               <th class="text-center"></th>
               <th class="text-center">Player 2</th>
-              <th class="hidden-lg"></th>
+              <th></th>
             </tr>
           </thead>
             <tbody data-bind="foreach:GamesData().slice(0,5)">
@@ -17,7 +17,7 @@
                     <td class="col-xs-5 text-center" data-bind="text:player1"></td>
                     <td class="col-xs-2 text-center">vs.</td>
                     <td class="col-xs-5 text-center" data-bind="text:player2"></td>
-                    <td class="col-xs-1 hidden-lg"><button class="btn btn-xs btn-default" data-bind="click: $parent.RemoveGame"><i class="fa fa-fw fa-trash"></i></button></td>
+                    <td class="col-xs-1"><button class="btn btn-xs btn-default" data-bind="click: $parent.RemoveGame"><i class="fa fa-fw fa-trash"></i></button></td>
                 </tr>
                 <!-- /ko -->
             </tbody>
