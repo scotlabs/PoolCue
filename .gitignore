@@ -4,3 +4,4 @@ logs/*
 !logs/.keep
 typings/
 /npm-debug.log
+/backups

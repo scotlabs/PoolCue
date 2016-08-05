@@ -4,17 +4,18 @@
   "description": "Elo scoreboard",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.15.1",
+    "body-parser": "^1.15.2",
     "bower": "^1.7.9",
     "chalk": "^1.1.3",
     "compression": "^1.6.2",
-    "ejs": "^2.4.2",
+    "ejs": "^2.5.1",
     "elo-js": "^1.0.1",
-    "express": "^4.13.4",
+    "express": "^4.14.0",
     "helmet": "^1.3.0",
-    "moment": "^2.13.0",
+    "moment": "^2.14.1",
     "mongoose": "4.4.0",
-    "socket.io": "^1.4.6"
+    "socket.io": "^1.4.8",
+    "typings": "^1.3.2"
   },
   "devDependencies": {
     "blanket": "^1.2.3",
@@ -25,9 +26,9 @@
     "typings": "^1.3.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -43,8 +44,5 @@
     "blanket": {
       "pattern": "/server/"
     }
-  },
-  "scripts": {
-    "test": "mocha"
   }
 }
