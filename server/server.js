@@ -25,19 +25,20 @@ exports.start = function(homeDirectory) {
     // Routes
     require('./routes/routes')(Router, Logger);
     // Port config
-    if (process.env.NODE_ENV !== 'production') {
+
+    // if (process.env.NODE_ENV !== 'production') {
       var httpPort  = 8080;
       var httpsPort = 8081;
       var options = {};
-    }else {
-      httpPort = process.env.port;
-      httpsPort = process.env.port;
-      options   = {
-        // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
-        // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
-        // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
-      };
-    }
+    // }else {
+    //   httpPort = process.env.port;
+    //   httpsPort = process.env.port;
+    //   options   = {
+    //     // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
+    //     // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
+    //     // ca:   _fs.readFileSync('./app/config/certs/chain.pem')
+    //   };
+    // }
 
     try {
       // Security
