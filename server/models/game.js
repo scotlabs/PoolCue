@@ -8,7 +8,8 @@ var game = Mongoose.Schema({
   player1: {type: String, required: true},
   player2: {type: String, required: true},
   time:    {type: Date, default: Date.now},
-  winner:  {type: String}
+  winner:  {type: String},
+  childGameId: {type: String}
 });
 
 module.exports = Mongoose.model('Game', game);
