@@ -28,11 +28,51 @@ exports.queue = function(player1, player2, io) {
       }
     };
 
+/* Add a game vs the winner of another game to the queue */
+exports.playWinner = function(player1, gameId, io) {
+    player1 = GameHelper.formatName(player1);
+    Game.findById(gameId, function(error, parentGame) {
+      if (player1 != parentGame.player1 && player1 != parentGame.player2) {
+        var player2 = GameHelper.formatName('Winner of ' + parentGame.player1 + ' vs ' + parentGame.player2);
+        if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
+          Logger.info('Queue ' + player1 + ' vs. ' + player2);
+
+          var createdGame = new Game();
+          GameHelper.findOrCreatePlayer(createdGame, player1, io);
+          GameHelper.findOrCreatePlayer(createdGame, player2, io);
+          if (error) {
+            Logger.error('Problem fiding game: ' + gameId + ' to play winner of: ' + error);
+          }
+          Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
+          parentGame.childGameId = createdGame._id;
+          parentGame.save();
+
+          Query.pushDataToSockets(io);
+        }else {
+          Logger.warn('Error ' + player1 + ' vs. ' + player2);
+        }
+      } else {
+        // Display warning box to user
+      }
+    });
+  };
+
 /* Remove the game from the queue */
 exports.abandon = function(gameId, io) {
+      var saveGame;
       Game.findById(gameId, function(error, game) {
         if (error) {
-          Logger.error('Problem fiding game: ' + gameId + ' to abandon: ' + error);
+          Logger.error('Problem finding game: ' + gameId + ' to abandon: ' + error);
+        }
+        Game.find({childGameId: gameId}).exec(function(error, games) {
+          games.forEach(function(entry) {
+            Logger.info('Removing child game from game: ' + entry._id);
+            entry.childGameId = undefined;
+            entry.save();
+          });
+        });
+        if (game.childGameId) {
+          exports.abandon(game.childGameId, io);
         }
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
@@ -44,6 +84,7 @@ exports.abandon = function(gameId, io) {
 
         Query.pushDataToSockets(io);
       });
+      Query.pushDataToSockets(io);
     };
 
 exports.updateAll = function(io) {
@@ -56,9 +97,20 @@ exports.complete = function(gameId, winner, io) {
           if (error) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
-
           if (game.winner) {
             updateAll(io);
+            if (game.childGameId != undefined) {
+              Game.findById(game.childGameId, function(error, childGame) {
+                if (error) {
+                  Logger.error('Problem finding child game: ' + game.childGameId);
+                } else {
+                  var originalPlayer = childGame.player2;
+                  childGame.player2 = game.winner;
+                  childGame.save();
+                  GameHelper.removeInactivePlayer(originalPlayer, io);
+                }
+              });
+            }
           }else {
             game.winner = winner;
             game.save();
@@ -74,6 +126,18 @@ exports.complete = function(gameId, winner, io) {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
               });
+            if (game.childGameId != undefined) {
+              Game.findById(game.childGameId, function(error, childGame) {
+                if (error) {
+                  Logger.error('Problem finding child game: ' + game.childGameId);
+                } else {
+                  var originalPlayer = childGame.player2;
+                  childGame.player2 = game.winner;
+                  childGame.save();
+                  GameHelper.removeInactivePlayer(originalPlayer, io);
+                }
+              });
+            }
           }
         });
   };
