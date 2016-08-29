@@ -26,5 +26,8 @@
     "Durandal": "durandal#^2.1.0",
     "amplify": "^1.1.2",
     "jquery": "^3.1.0"
+  },
+  "resolutions": {
+    "jquery": "^3.1.0"
   }
 }
