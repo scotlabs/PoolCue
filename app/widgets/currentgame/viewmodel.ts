@@ -67,6 +67,7 @@ class ViewModel {
             return;
         }
         this.CanSetWinner(false);
+        this.CanPlayWinner(false);
         this.socketService.SetWinner(this.Game._id, player);
     }
     AbandonCurrentGame() {
@@ -76,6 +77,7 @@ class ViewModel {
     }
     PlayWinner() {
       if (confirm("Play winner?")){
+        this.CanPlayWinner(false);
         this.socketService.PlayWinner(this.security.GetUser(), this.Game._id);
       }
     }
