@@ -4,6 +4,7 @@ import system = require('durandal/system');
 import app = require('durandal/app');
 import io = require('socket.io-client');
 import eventTypes = require('../datamodels/eventTypes');
+import SecurityService = require('../../services/security');
 
 class SocketService {
     socket:SocketIOClient.Socket;
@@ -38,7 +39,7 @@ class SocketService {
     public Start(){
         this.socket.emit('update all');
     }
-    
+
     Refresh(){
         this.socket.emit('update all');
     }
@@ -69,6 +70,10 @@ class SocketService {
 
     RemoveGame(gameId){
         this.socket.emit('delete game', gameId);
+    }
+
+    PlayWinner(player, gameId){
+        this.socket.emit('play winner', player, gameId);
     }
 }
 export =SocketService;

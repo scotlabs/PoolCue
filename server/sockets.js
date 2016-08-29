@@ -54,6 +54,9 @@ exports.connect = function (server) {
       WaitingList.remove(player2, io);
     });
 
+    socket.on('play winner', function (playerName, gameId) {
+      Game.playWinner(playerName, gameId, io);
+    });
 
   });
 };
