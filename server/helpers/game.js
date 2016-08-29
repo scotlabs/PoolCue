@@ -19,17 +19,19 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
         Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
         return;
       }
-      if (!player) {
+
+
+      if (!player && !playerName.startsWith('Winner of')) {
         player = new Player({name: playerName});
         player.save();
         Logger.info('Create new player: ' +  player.name);
       }
 
       if (!game.player1) {
-        game.player1 = player.name;
+        game.player1 = playerName;
         game.save();
       }else {
-        game.player2 = player.name;
+        game.player2 = playerName;
         game.save();
 
         Query.pushDataToSockets(io);

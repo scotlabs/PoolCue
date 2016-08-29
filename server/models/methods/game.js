@@ -33,7 +33,7 @@ exports.playWinner = function(player1, gameId, io) {
     player1 = GameHelper.formatName(player1);
     Game.findById(gameId, function(error, parentGame) {
       if (player1 != parentGame.player1 && player1 != parentGame.player2) {
-        var player2 = GameHelper.formatName('Winner of ' + parentGame.player1 + ' vs ' + parentGame.player2);
+        var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
         if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
           Logger.info('Queue ' + player1 + ' vs. ' + player2);
 
