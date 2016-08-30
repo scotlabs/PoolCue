@@ -26,13 +26,12 @@ exports.start = function(homeDirectory) {
     require('./routes/routes')(Router, Logger);
     // Port config
 
-     if (process.env.NODE_ENV !== 'production') {
-      var httpPort  = 8080;
-      var httpsPort = 8081;
-      var options = {};
-    }else {
+    var httpPort  = 8080;
+    var httpsPort = 8081;
+    var options = {};
+    if (process.env.NODE_ENV == 'production') {
       httpPort = process.env.port;
-      //httpsPort = process.env.port;
+      httpsPort = process.env.port;
       options   = {
         // key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
         // cert: _fs.readFileSync('./app/config/certs/cert.pem'),
