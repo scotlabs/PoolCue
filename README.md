@@ -1,6 +1,6 @@
 ![Pool Cue](https://raw.githubusercontent.com/scotlabs/EloEloElo/master/images/ic_billiards-512.png "Pool Cue")
 
-# EloEloElo
+# PoolCue
 *What's all this then?*
 
 - [To-do list](https://trello.com/b/bMOfstdY/elo-elo-elo)
@@ -35,5 +35,23 @@ typings install
 
 - Start it up with:
 ```
-node start.js
+node server.js
 ```
+
+PoolCue should be running on http://localhost:8080
+
+Easy peasy? Checkout the start up with docker below.
+
+---
+
+#####Getting up and running with docker :sunglasses: :ok_hand:
+
+- Clone or download the repository.
+- Open a docker terminal window within the repository folder.
+
+- Run the compose script with:
+```
+docker-compose up
+```
+
+PoolCue should be running on http://[dockeraddress]

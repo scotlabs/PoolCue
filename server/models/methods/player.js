@@ -48,7 +48,7 @@ function getLast10Games(playerName, games) {
     if (games[i] && last10games.length < 10 && games[i].winner) {
       if (games[i].winner === playerName) {
         last10games.push(true);
-      }else {
+      }else if (games[i].winner != 'Abandoned') {
         last10games.push(false);
       }
     }
@@ -60,10 +60,12 @@ function getLast10Games(playerName, games) {
 function getPlayerMostPlayed(playerName, games) {
   var opponents = [];
   for (var i = 0; i < games.length; i++) {
-    if (games[i].player1 !== playerName) {
-      opponents.push(games[i].player1);
-    }else {
-      opponents.push(games[i].player2);
+    if (games[i].winner !== 'Abandoned') {
+      if (games[i].player1 !== playerName) {
+        opponents.push(games[i].player1);
+      }else {
+        opponents.push(games[i].player2);
+      }
     }
   }
 

@@ -18,8 +18,15 @@
                 </button>
             </div>
         </div>
-        <div class="text-right" style="padding:20px;">
-            <button class="btn btn-xs btn-danger" data-bind="click:AbandonCurrentGame">Abandon Game</button>
+        <div class="col-xs-6 text-left" data-bind="if:CanPlayWinner()">
+          <div class="text-left" style="padding:20px;">
+              <button class="btn btn-xs btn-primary" data-bind="click:PlayWinner">Play Winner</button>
+          </div>
+        </div>
+        <div class="col-xs-6 text-left">
+          <div class="text-right" style="padding:20px;">
+              <button class="btn btn-xs btn-danger" data-bind="click:AbandonCurrentGame">Abandon Game</button>
+          </div>
         </div>
     </section>
 </section>
