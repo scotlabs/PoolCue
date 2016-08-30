@@ -16,17 +16,17 @@ class LeaderboardView {
         this.HasPlayers = ko.computed(function(){
             return gameData.Players().length>0;
         });
-        
+
     }
-    
+
     IsLiberated = function(data): boolean{
         return data.liberated || false;
     }
 
     PlayerDelta = function(player) : number {
         return (player.wins*1 - player.losses*1);
-    }   
-    
+    }
+
     PlayerDeltaDesc = function(player) : string {
         var $delta:number = this.PlayerDelta(player);
         if ($delta > 0) {
