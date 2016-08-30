@@ -4,3 +4,5 @@ node_js:
 deploy:
   provider: azure_web_apps
   verbose: true
+notifications:
+  slack: team-hub:iUjTDM4aHLOdIyT6TGJarxb3
