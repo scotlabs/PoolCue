@@ -58,5 +58,9 @@ exports.connect = function (server) {
       Game.playWinner(playerName, gameId, io);
     });
 
+    socket.on('player update', function(playerName, mobileNumber){
+      Player.updateMobile(playerName, mobileNumber);
+    });
+
   });
 };

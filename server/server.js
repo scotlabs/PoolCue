@@ -17,9 +17,16 @@ var Sockets      = require('./sockets');
 var Router = Express.Router();
 var App = new Express();
 
+/* Setting Validation */
+
 /* Functions */
 
+
+
 exports.start = function(homeDirectory) {
+
+    
+
     // Database
     require('./database').connect();
     // Routes
@@ -43,7 +50,6 @@ exports.start = function(homeDirectory) {
       // Security
       App.use(new Helmet());
       App.use(Helmet.hidePoweredBy());
-      //App.use(ServerHelper.requireHTTPS);
 
       // Compression
       App.use(Compression());
@@ -59,6 +65,7 @@ exports.start = function(homeDirectory) {
       App.set('view engine', 'ejs');
       App.use(BodyParser.urlencoded({extended: true}));
       App.use('/', Router);
+
 
       var Server = Http.createServer(App);
       //Https.createServer(App);

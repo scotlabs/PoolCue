@@ -75,5 +75,9 @@ class SocketService {
     PlayWinner(player, gameId){
         this.socket.emit('play winner', player, gameId);
     }
+
+    UpdatePlayer(playername, mobilenumber){
+        this.socket.emit('player update', playername, mobilenumber);
+    }
 }
 export =SocketService;

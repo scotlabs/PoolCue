@@ -23,6 +23,7 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                     { route: '', moduleId: 'viewmodels/index' },
                     { route: 'login', moduleId: 'viewmodels/login' },
                     { route: 'signout', moduleId: 'viewmodels/signout' },
+                    { route: 'notifications', moduleId: 'viewmodels/notifications' },
                     { route: 'screen', moduleId: 'viewmodels/screen' },
                 ])
                     .buildNavigationModel()

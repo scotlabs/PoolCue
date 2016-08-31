@@ -8,14 +8,15 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">PoolCue</a>
-      <div class="navbar-text">Playing as <span data-bind="text:PlayerName"></span></div>
+        
     </div>
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#currentgame">Game</a></li>
-        <li><a href="#newgame">New Game</a></li>
+        <li><a href="#notifications" data-bind="click: SetNotifications">Notifications</a></li>
         <li><a href="#queue" data-bind="visible: HasQueue">Queue</a></li>
         <li><a href="#waiting" data-bind="visible: HasWaiting">Waiting</a></li>
+        <li class="active"><a href="#">Game</a></li>
+        <li><div class="navbar-text">Playing as <span data-bind="text:PlayerName"></span></div></li>
         <li><a href="#signout" data-bind="click: SignOut">Sign Out</a></li>
       </ul>
     </div>

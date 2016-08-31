@@ -36,6 +36,27 @@ define(function (require) {
     app.setRoot('viewmodels/shell', 'entrance');
   });
 });
+ko.bindingHandlers.telephone = {
+    init:function(element, valueAccessor){
+      var binding = this;
+      var elem = $(element);
+      var value = valueAccessor();
+      elem.intlTelInput({
+          numberType: "MOBILE",
+          nationalMode: true,
+          initialCountry: "gb",
+          utilsScript: "/intl-tel-input/build/js/utils.js"
+      });
+      elem.blur(function () { 
+        var intlNumber = elem.intlTelInput("getNumber");
+        if (intlNumber) {
+          console.log("International: " + intlNumber);
+          value.target(intlNumber);
+        }
+         
+      });
+    }
+}
 ko.bindingHandlers.typeahead = {
   init: function (element, valueAccessor) {
     var binding = this;
