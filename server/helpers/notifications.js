@@ -44,7 +44,7 @@ exports.SendNotifications = function(gamesList){
 }
 
 function sendMessage(name, mobile_number){
-    sendSms(mobile_number, "Your game is up next" + name + " !, From PoolCue");
+    sendSms(mobile_number, "Your game is up next " + name + " !, From PoolCue");
 }
 
 sendSms = function(to, message) {
