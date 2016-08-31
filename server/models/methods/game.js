@@ -112,6 +112,11 @@ exports.complete = function(gameId, winner, io) {
                 }
               });
             }
+            Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
+                if (games.length > 0){
+                  Notifications.SendNotifications(games);
+                }
+            });
           }else {
             game.winner = winner;
             game.save();
@@ -141,9 +146,5 @@ exports.complete = function(gameId, winner, io) {
             }
           }
         });
-    Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
-        if (games.length > 0){
-          Notifications.SendNotifications(games);
-        }
-    });
+    
   };
