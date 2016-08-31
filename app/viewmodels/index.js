@@ -22,6 +22,9 @@ define(["require", "exports", '../datamodels/gameData', '../services/security', 
             });
             this.PlayerName = this.security.PlayerName;
         }
+        IndexViewModel.prototype.SetNotifications = function () {
+            router.navigate("notifications");
+        };
         IndexViewModel.prototype.SignOut = function () {
             router.navigate("signout");
         };

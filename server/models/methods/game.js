@@ -8,6 +8,7 @@ var Game       = require('../../models/game');
 var Logger     = require('../../helpers/logger');
 var Query      = require('../../helpers/query');
 var GameHelper = require('../../helpers/game');
+var Notifications = require('../../helpers/notifications');
 
 /* Global Variables */
 
@@ -140,4 +141,9 @@ exports.complete = function(gameId, winner, io) {
             }
           }
         });
+    Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
+        if (games.length > 0){
+          Notifications.SendNotifications(games);
+        }
+    });
   };

@@ -42,6 +42,13 @@ exports.getStats = function(playerName, socket, request, response) {
             });
         };
 
+exports.updateMobile = function(playerName, mobile_number){
+   Player.findOne({name: playerName}, function(error, player) {
+     player.mobile_number = mobile_number;
+     player.save();
+   });
+};
+
 function getLast10Games(playerName, games) {
   var last10games = [];
   for (var i = games.length; i >= 0; i--) {

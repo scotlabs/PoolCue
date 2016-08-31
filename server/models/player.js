@@ -9,7 +9,8 @@ var player = Mongoose.Schema({
   elo:       {type: Number, default: 1000},
   wins:      {type: Number, default: 0},
   losses:    {type: Number, default: 0},
-  liberated: {type: Boolean}
+  liberated: {type: Boolean},
+  mobile_number: {type: String}
 });
 
 module.exports = Mongoose.model('Player', player);
