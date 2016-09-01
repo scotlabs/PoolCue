@@ -7,10 +7,10 @@
 /* Variables */
 
 /* Routes */
-module.exports = function(Router) {
+module.exports = function (Router) {
 
-    Router.get('/', function(request, response, next) {
-        response.render('../app/views/index');
-      });
+	Router.get('/', function (request, response, next) {
+		response.render('../app/views/index');
+	});
 
-  };
+};
