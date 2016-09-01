@@ -25,7 +25,7 @@
                     <div data-bind="text:$index()+1" class="text-center"></div>
                 </td>
                 <td class="text-left">
-                    <!-- ko if:$parent.IsLiberated($data) --><div class="fa fa-rocket fa-fw" data-bind="text:name"></div> <!-- /ko -->
+                    <!-- ko if:$parent.IsLiberated($data) --><span class="fa fa-rocket fa-fw"></span>&nbsp;<span data-bind="text:name"></span> <!-- /ko -->
                     <!-- ko if:!$parent.IsLiberated($data) --><div data-bind="text:name"></div> <!-- /ko -->
                 </td>
                 <td class="text-center">
