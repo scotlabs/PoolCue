@@ -1,11 +1,12 @@
-define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice'], function (require, exports, ko, gameData, SocketService) {
+define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../services/socketservice', '../../services/security'], function (require, exports, ko, gameData, SocketService, SecurityService) {
     "use strict";
     var QueueView = (function () {
         function QueueView() {
             this.RemoveGame = function ($data) {
                 new SocketService().RemoveGame($data._id);
             };
-            var _this = this;
+            this._this = this;
+            this.security = new SecurityService();
             this.socketService = new SocketService();
             this.GamesData = gameData.Games;
             this.HasQueue = ko.computed(function () {
@@ -21,6 +22,14 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                     return "";
             });
         }
+        QueueView.prototype.ShowNotification = function (playerName) {
+            var player = ko.utils.arrayFirst(gameData.Players(), function (item) {
+                return playerName === item.name;
+            });
+            if (!player)
+                return;
+            return playerName === this.security.GetUser() && player.enableNotification;
+        };
         return QueueView;
     }());
     return QueueView;

@@ -7,6 +7,8 @@ class ViewModel{
     security: SecurityService;
     PlayerName: KnockoutObservable<string>;
     MobileNumber: KnockoutObservable<string>;
+    EnableNotifications:KnockoutObservable<boolean>;
+    DidSave:KnockoutObservable<boolean>;
     socketService:SocketService;
 
     constructor() {
@@ -14,6 +16,8 @@ class ViewModel{
         this.security = new SecurityService();
         this.PlayerName = this.security.PlayerName;
         this.MobileNumber = ko.observable<string>();
+        this.EnableNotifications = ko.observable<boolean>(true);
+        this.DidSave = ko.observable<boolean>(false);
     }
     canActivate = function (): any | boolean {
         if (!this.security.IsAuthenticated()) {
@@ -34,10 +38,9 @@ class ViewModel{
             alert(error);
          });
     };
-   
     Save(){
-        this.socketService.UpdatePlayer(this.security.PlayerName(),this.MobileNumber());
-
+        this.socketService.UpdatePlayer(this.security.PlayerName(),this.MobileNumber(), this.EnableNotifications());
+        this.DidSave(true);
     }
     SignOut() {
         router.navigate("signout");

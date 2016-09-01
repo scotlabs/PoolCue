@@ -23,9 +23,12 @@ define(["require", "exports", 'plugins/router', '../services/security', '../serv
             this.security = new SecurityService();
             this.PlayerName = this.security.PlayerName;
             this.MobileNumber = ko.observable();
+            this.EnableNotifications = ko.observable(true);
+            this.DidSave = ko.observable(false);
         }
         ViewModel.prototype.Save = function () {
-            this.socketService.UpdatePlayer(this.security.PlayerName(), this.MobileNumber());
+            this.socketService.UpdatePlayer(this.security.PlayerName(), this.MobileNumber(), this.EnableNotifications());
+            this.DidSave(true);
         };
         ViewModel.prototype.SignOut = function () {
             router.navigate("signout");

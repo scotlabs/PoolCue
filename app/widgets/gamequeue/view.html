@@ -14,9 +14,19 @@
             <tbody data-bind="foreach:GamesData().slice(0,5)">
                 <!-- ko if: $index() != 0 -->
                 <tr>
-                    <td class="col-xs-5 text-center" data-bind="text:player1"></td>
+                    <td class="col-xs-5 text-center" style="position:relative;line-height:28px;" >
+                        <span data-bind="text:player1"></span>
+                        <!-- ko if: $index() > 1 -->
+                        <span class="glyphicon glyphicon-flag" style="z-index:1;position:absolute;right:5px;top:17px;color:#43ac6a" data-bind="visible: $parent.ShowNotification(player1)" title="You will be notified when this game is up next" aria-hidden="true"></span>
+                        <!-- /ko -->
+                    </td>
                     <td class="col-xs-2 text-center">vs.</td>
-                    <td class="col-xs-5 text-center" data-bind="text:player2"></td>
+                    <td class="col-xs-5 text-center" style="position:relative;line-height:28px;" >
+                        <span data-bind="text:player2"></span>
+                        <!-- ko if: $index() > 1 -->
+                        <span class="glyphicon glyphicon-flag" style="z-index:1;position:absolute;right:5px;top:17px;color:#43ac6a" data-bind="visible: $parent.ShowNotification(player2)" title="You will be notified when this game is up next" aria-hidden="true"></span>
+                        <!-- /ko -->
+                    </td>
                     <td class="col-xs-1"><button class="btn btn-xs btn-default" data-bind="click: $parent.RemoveGame"><i class="fa fa-fw fa-trash"></i></button></td>
                 </tr>
                 <!-- /ko -->

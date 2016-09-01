@@ -157,3 +157,8 @@ DC
 svg {
   font: 5em/1 Arial;
   }
+
+
+.toggle.btn{
+  min-width:120px 
+}
