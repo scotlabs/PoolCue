@@ -50,9 +50,10 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                 return;
             }
             var game = this.Game();
+            if (!game)
+                return;
             this.Player1(game.player1);
             this.Player2(game.player2);
-            this.HasGame();
             this.CanSetWinner(true);
         };
         ViewModel.prototype.setWinner = function (data) {
