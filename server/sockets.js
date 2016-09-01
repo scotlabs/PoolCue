@@ -58,9 +58,9 @@ exports.connect = function (server) {
 			Game.playWinner(playerName, gameId, io);
 		});
 
-    socket.on('player update', function(playerName, mobileNumber, enableNotification){
-      Player.updateMobile(playerName, mobileNumber, enableNotification);
-    });
+		socket.on('player update', function(playerName, mobileNumber, enableNotification){
+			Player.updateMobile(playerName, mobileNumber, enableNotification);
+		});
     
 	});
 };

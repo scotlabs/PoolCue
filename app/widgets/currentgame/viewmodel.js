@@ -5,7 +5,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.attached = function () {
                 var _this = this;
                 gameData.Games.subscribe(function (eventData) {
-                    _this.Game = eventData[0];
+                    _this.Game(eventData[0]);
                     _this.setGame();
                 });
             };
@@ -13,54 +13,66 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             };
             this.compositioncomplete = function () {
                 if (gameData.Games() && gameData.Games()[0]) {
-                    this.Game = gameData.Games()[0];
+                    this.Game(gameData.Games()[0]);
                     this.setGame();
                 }
             };
             var _this = this;
             this.security = new SecurityService();
             this.socketService = new SocketService();
+            this.Game = ko.observable(null);
             this.Player1 = ko.observable();
             this.Player2 = ko.observable();
-            this.HasGame = ko.observable(false);
+            this.HasGame = ko.computed(function () {
+                var game = ko.unwrap(this.Game);
+                if (game) {
+                    return game._id != null;
+                }
+                return false;
+            }, this);
             this.CanSetWinner = ko.observable(true);
-            this.CanPlayWinner = ko.observable(false);
+            this.CanPlayWinner = ko.computed(function () {
+                var game = ko.unwrap(this.Game);
+                if (!ko.unwrap(this.HasGame)) {
+                    return false;
+                }
+                return ko.unwrap(game.player1) != this.security.GetUser() &&
+                    ko.unwrap(game.player2) != this.security.GetUser() &&
+                    game.childGameId == undefined;
+            }, this);
         }
         ViewModel.prototype.setGame = function () {
             if (!this.Game) {
                 this.Player1(null);
                 this.Player2(null);
-                this.HasGame(false);
                 this.CanSetWinner(true);
                 this.CanPlayWinner(false);
                 return;
             }
-            this.Player1(this.Game.player1);
-            this.Player2(this.Game.player2);
-            this.HasGame(this.Game._id != null);
-            this.CanPlayWinner((this.Game.Player1 != this.security.GetUser() &&
-                this.Game.Player2 != this.security.GetUser() &&
-                this.Game.childGameId == undefined));
+            var game = this.Game();
+            this.Player1(game.player1);
+            this.Player2(game.player2);
+            this.HasGame();
+            this.CanSetWinner(true);
         };
         ViewModel.prototype.setWinner = function (data) {
             var player = ko.unwrap(data);
+            var game = ko.unwrap(this.Game);
             var confirmed = confirm(player + " won this game?");
             if (!confirmed) {
                 return;
             }
             this.CanSetWinner(false);
-            this.CanPlayWinner(false);
-            this.socketService.SetWinner(this.Game._id, player);
+            this.socketService.SetWinner(game._id, player);
         };
         ViewModel.prototype.AbandonCurrentGame = function () {
             if (confirm("Are you sure?")) {
-                this.socketService.RemoveGame(this.Game._id);
+                this.socketService.RemoveGame(ko.unwrap(this.Game)._id);
             }
         };
         ViewModel.prototype.PlayWinner = function () {
             if (confirm("Play winner?")) {
-                this.CanPlayWinner(false);
-                this.socketService.PlayWinner(this.security.GetUser(), this.Game._id);
+                this.socketService.PlayWinner(this.security.GetUser(), ko.unwrap(this.Game)._id);
             }
         };
         return ViewModel;

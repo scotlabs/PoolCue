@@ -1,6 +1,6 @@
 import app = require('durandal/app');
 import ko = require('knockout');
-import Player = require('../datamodels/player');
+import Game = require('../../datamodels/game');
 import eventtypes = require('../../datamodels/eventTypes');
 import gameData = require('../../datamodels/gameData');
 import SocketService = require('../../services/socketservice');
@@ -10,9 +10,9 @@ class ViewModel {
     HasGame: KnockoutObservable<boolean>;
     CanSetWinner: KnockoutObservable<boolean>;
     CanPlayWinner: KnockoutObservable<boolean>;
-    Player1: KnockoutObservable<Player>;
-    Player2: KnockoutObservable<Player>;
-    Game: any;
+    Player1: KnockoutObservable<string>;
+    Player2: KnockoutObservable<string>;
+    Game: KnockoutObservable<Game>;
     _this: any;
     socketService: SocketService;
     security: SecurityService;
@@ -21,17 +21,33 @@ class ViewModel {
         var _this = this;
         this.security = new SecurityService();
         this.socketService = new SocketService();
-        this.Player1 = ko.observable<Player>();
-        this.Player2 = ko.observable<Player>();
-        this.HasGame = ko.observable<boolean>(false);
+        this.Game = ko.observable<Game>(null);
+        this.Player1 = ko.observable<string>();
+        this.Player2 = ko.observable<string>();
+        this.HasGame = ko.computed<boolean>(function(){
+            var game = ko.unwrap(this.Game);
+            if (game){
+                return game._id != null;
+            }
+            return false;
+
+        }, this);
         this.CanSetWinner = ko.observable<boolean>(true);
-        this.CanPlayWinner = ko.observable<boolean>(false);
+        this.CanPlayWinner = ko.computed<boolean>(function(){
+            var game = ko.unwrap(this.Game);
+            if (!ko.unwrap(this.HasGame)){
+                return false;
+            }
+            return  ko.unwrap(game.player1) != this.security.GetUser() &&
+                    ko.unwrap(game.player2) != this.security.GetUser() &&
+                    game.childGameId == undefined;
+        }, this);
     }
 
     attached = function () {
         var _this = this;
         gameData.Games.subscribe(function (eventData) {
-            _this.Game = eventData[0];
+            _this.Game(eventData[0]);
             _this.setGame();
         });
     };
@@ -40,7 +56,7 @@ class ViewModel {
     };
     compositioncomplete = function () {
         if (gameData.Games() && gameData.Games()[0]) {
-            this.Game = gameData.Games()[0];
+            this.Game(gameData.Games()[0]);
             this.setGame();
         }
     };
@@ -48,37 +64,34 @@ class ViewModel {
         if (!this.Game) {
             this.Player1(null);
             this.Player2(null);
-            this.HasGame(false);
             this.CanSetWinner(true);
             this.CanPlayWinner(false);
             return;
         }
-        this.Player1(this.Game.player1);
-        this.Player2(this.Game.player2);
-        this.HasGame(this.Game._id != null);
-        this.CanPlayWinner((this.Game.Player1 != this.security.GetUser() &&
-                            this.Game.Player2 != this.security.GetUser() &&
-                            this.Game.childGameId == undefined));
+        var game:Game = this.Game();
+        this.Player1(game.player1);
+        this.Player2(game.player2);
+        this.HasGame();
+        this.CanSetWinner(true);
     }
     setWinner(data) {
         var player = ko.unwrap(data);
+        var game = ko.unwrap(this.Game);
         var confirmed = confirm(player + " won this game?");
         if (!confirmed) {
             return;
         }
         this.CanSetWinner(false);
-        this.CanPlayWinner(false);
-        this.socketService.SetWinner(this.Game._id, player);
+        this.socketService.SetWinner(game._id, player);
     }
     AbandonCurrentGame() {
         if (confirm("Are you sure?")) {
-            this.socketService.RemoveGame(this.Game._id);
+            this.socketService.RemoveGame(ko.unwrap(this.Game)._id);
         }
     }
     PlayWinner() {
       if (confirm("Play winner?")){
-        this.CanPlayWinner(false);
-        this.socketService.PlayWinner(this.security.GetUser(), this.Game._id);
+        this.socketService.PlayWinner(this.security.GetUser(), ko.unwrap(this.Game)._id);
       }
     }
 }
