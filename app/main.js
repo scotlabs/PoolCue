@@ -8,7 +8,7 @@ requirejs.config({
     'helpers': '/app/helpers',
     'models': '/app/models',
     'query': '/app/query',
-    'services': '/app/services'
+    'services': '/app/services',
   }
 });
 
@@ -57,6 +57,44 @@ ko.bindingHandlers.telephone = {
       });
     }
 }
+ko.bindingHandlers.switch = {
+    init:function(element, valueAccessor){
+      var binding = this;
+      var elem = $(element);
+      var value = valueAccessor();
+      elem.bootstrapToggle({
+        on: 'Enabled',
+        off: 'Disabled'
+      });
+      elem.change(function () { 
+        value.target(elem[0].checked);
+      });
+    }
+}
+ko.bindingHandlers.alert = {
+  update: function(element, valueAccessor, allBindings) {
+        // First get the latest data that we're bound to
+        var value = valueAccessor();
+ 
+        // Next, whether or not the supplied model property is observable, get its current value
+        var valueUnwrapped = ko.unwrap(value);
+ 
+        // Grab some more data from another binding property
+        var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
+ 
+        // Now manipulate the DOM element
+        if (valueUnwrapped == true)
+            $(element).fadeTo(500, 1).slideDown(duration, function(){
+              $(element).fadeTo(4000, 0, function(){
+                value(false);
+              })
+            }); // Make the element visible
+        else
+            $(element).slideUp(duration, function(){
+
+            });   // Make the element invisible
+    }
+};
 ko.bindingHandlers.typeahead = {
   init: function (element, valueAccessor) {
     var binding = this;

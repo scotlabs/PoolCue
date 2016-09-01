@@ -76,8 +76,8 @@ class SocketService {
         this.socket.emit('play winner', player, gameId);
     }
 
-    UpdatePlayer(playername, mobilenumber){
-        this.socket.emit('player update', playername, mobilenumber);
+    UpdatePlayer(playername, mobilenumber, enableNotification){
+        this.socket.emit('player update', playername, mobilenumber, enableNotification);
     }
 }
 export =SocketService;

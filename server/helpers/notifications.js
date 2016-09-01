@@ -1,5 +1,6 @@
 var Logger = require('./logger');
 var Players = require('../models/player');
+var Player = require('../models/methods/player');
 
 var cfg = {};
 /* Settings */
@@ -19,21 +20,22 @@ exports.SendNotifications = function(gamesList){
         Logger.error(errorMessage);
         return;
     }*/
-    if (gamesList.length < 1) {
-        Logger.warn('Notification Hub was called when no games exist?');
+    // Notifications are only sent when your game is two (or more) deep 
+    if (gamesList.length < 2) {
+        Logger.warn('Notification Hub was called when not enough games exist?');
         return;
     }
-    var nextGame = gamesList[0];
-    if (nextGame == null) {
+    var nextbutoneGame = gamesList[1];
+    if (nextbutoneGame == null) {
         return;
     }
     try{
-        var player1WithMobile =  Players.findOne({name: nextGame.player1, mobile_number: {$ne: null}}, function(error, player) {
+        var player1WithMobile =  Players.findOne({name: nextbutoneGame.player1, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
             if (player.name == null || player.mobile_number == null)
                 return;
             sendMessage(player.name, player.mobile_number);
         });;
-        var player2WithMobile =  Players.findOne({name: nextGame.player2, mobile_number: {$ne: null}}, function(error, player) {
+        var player2WithMobile =  Players.findOne({name: nextbutoneGame.player2, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
             if (player.name == null || player.mobile_number == null)
                 return;
             sendMessage(player.name, player.mobile_number);

@@ -1,10 +1,10 @@
 import app = require('durandal/app');
 import ko = require('knockout');
 import eventTypes = require('../../datamodels/eventTypes');
-import Player = require('../../datamodels/player');
 import gameData = require('../../datamodels/gameData');
 import Game = require('../../datamodels/game');
 import SocketService = require('../../services/socketservice');
+import SecurityService = require('../../services/security');
 
 class QueueView {
 
@@ -12,9 +12,11 @@ class QueueView {
     GamesData: KnockoutObservableArray<Game>;
     NextGamesCount: KnockoutComputed<string>;
     socketService:SocketService;
-
+    security: SecurityService;
+    _this: QueueView;
     constructor() {
-        var _this = this;
+        this._this = this;
+        this.security = new SecurityService();
         this.socketService = new SocketService();
         this.GamesData = gameData.Games;
         this.HasQueue = ko.computed(function () {
@@ -29,6 +31,15 @@ class QueueView {
             else if (numberOfGames == 1)
                 return "";
         })
+    }
+    ShowNotification(playerName){
+
+        var player = ko.utils.arrayFirst(gameData.Players(), function(item) {
+            return playerName === item.name;
+        });
+        if (!player)
+            return;
+        return playerName === this.security.GetUser() && player.enableNotification;
     }
     RemoveGame = function($data){
         new SocketService().RemoveGame($data._id);
