@@ -84,8 +84,8 @@ exports.abandon = function(gameId, io) {
         Game.findById(gameId).remove().exec();
 
         Query.pushDataToSockets(io);
+        firenotifications();
       });
-      Query.pushDataToSockets(io);
     };
 
 exports.updateAll = function(io) {
@@ -139,12 +139,16 @@ exports.complete = function(gameId, winner, io) {
                 }
               });
             }
-            Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
-                if (games.length > 0){
-                  Notifications.SendNotifications(games);
-                }
-            });
+            firenotifications();
           }
         });
     
   };
+
+function firenotifications(){
+  Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
+      if (games.length > 0){
+        Notifications.SendNotifications(games);
+      }
+  });
+}

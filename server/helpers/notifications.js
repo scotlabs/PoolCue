@@ -33,20 +33,20 @@ exports.SendNotifications = function(gamesList){
         var player1WithMobile =  Players.findOne({name: nextbutoneGame.player1, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
             if (player.name == null || player.mobile_number == null)
                 return;
-            sendMessage(player.name, player.mobile_number);
+            sendMessage(player.name, player.mobile_number, nextbutoneGame.player2);
         });;
         var player2WithMobile =  Players.findOne({name: nextbutoneGame.player2, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
             if (player.name == null || player.mobile_number == null)
                 return;
-            sendMessage(player.name, player.mobile_number);
+            sendMessage(player.name, player.mobile_number, nextbutoneGame.player1);
         });;
     } catch (error) {
 
     }
 }
 
-function sendMessage(name, mobile_number){
-    sendSms(mobile_number, "Your game is up next " + name + " !, From PoolCue");
+function sendMessage(name, mobile_number, against){
+    sendSms(mobile_number, "Your game against " + against + " is up next " + name + " !, From PoolCue");
 }
 
 sendSms = function(to, message) {
