@@ -69,9 +69,10 @@ class ViewModel {
             return;
         }
         var game:Game = this.Game();
+        if (!game)
+            return;
         this.Player1(game.player1);
         this.Player2(game.player2);
-        this.HasGame();
         this.CanSetWinner(true);
     }
     setWinner(data) {
