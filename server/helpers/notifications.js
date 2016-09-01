@@ -46,6 +46,7 @@ exports.SendNotifications = function(gamesList){
 }
 
 function sendMessage(name, mobile_number, against){
+    Logger.info("Sending message to " + name + " @ " + mobile_number);
     sendSms(mobile_number, "Your game against " + against + " is up next " + name + " !, From PoolCue");
 }
 
