@@ -28,13 +28,12 @@ COPY . /usr/src/app
 ARG NODE=production
 ENV NODE_ENV ${NODE}
 
-### Pass Env Variables
-# eg. ENV port "8080"
+### Env Variables
 
 ### Run with forever!
 RUN npm install forever -g
 CMD [ "forever", "server.js" ]
 
 # Commands to build & run
-# docker build -t PoolCue .
-# docker run -d PoolCue
+# docker build -t pool-cue .
+# docker run -d pool-cue
