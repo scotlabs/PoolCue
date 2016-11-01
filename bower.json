@@ -27,7 +27,9 @@
     "mocha": "^3.1.2",
     "jQuery-SlotMachine": "jquery-slotmachine#^3.0.1",
     "knockout": "^3.4.0",
-    "form.validation": "*"
+    "form.validation": "*",
+    "requirejs": "^2.3.2",
+    "Durandal": "durandal#^2.2.0"
   },
   "resolutions": {
     "jquery": "^3.1.1"
