@@ -2,11 +2,11 @@
 FROM alpine:latest
 
 ### Update base and Install node
-RUN apk update && apk upgrade
-RUN apk add nodejs
+RUN apk -qq update && apk -qq upgrade
+RUN apk -qq add nodejs
 
 ### Install git - Required for some bower installs
-RUN apk add bash git openssh
+RUN apk -qq add bash git openssh
 
 ### Create app directory
 RUN mkdir -p /usr/src/app
@@ -17,9 +17,10 @@ ADD package.json /usr/src/app/
 RUN cd /usr/src/app/ && npm install
 
 ### Install UI dependencies
-RUN npm install bower -g
+RUN npm install -g bower
 ADD bower.json /usr/src/app/
-RUN cd /usr/src/app/ && bower install --allow-root
+RUN cd /usr/src/app/ 
+RUN bower install --allow-root
 
 ### Bundle app source
 COPY . /usr/src/app

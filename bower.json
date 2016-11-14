@@ -16,20 +16,19 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
-    "typeahead.js": "^0.11.1",
     "bootswatch-dist": "yeti",
     "amplify": "^1.1.2",
-    "intl-tel-input": "^9.2.3",
     "bootstrap-toggle": "^2.2.2",
     "jquery": "^3.1.1",
     "mocha": "^3.1.2",
-    "jQuery-SlotMachine": "jquery-slotmachine#^3.0.1",
     "knockout": "^3.4.0",
     "form.validation": "*",
     "requirejs": "^2.3.2",
-    "Durandal": "durandal#^2.2.0"
+    "Durandal": "durandal#^2.2.0",
+    "typeahead.js": "^0.11.1",
+    "bootstrap": "^3.3.7",
+    "jQuery-SlotMachine": "jquery-slotmachine#^3.0.1"
   },
   "resolutions": {
     "jquery": "^3.1.1"
