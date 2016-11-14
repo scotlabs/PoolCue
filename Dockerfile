@@ -30,6 +30,8 @@ ARG NODE=production
 ENV NODE_ENV ${NODE}
 
 ### Env Variables
+ENV port=80
+ENV DBConnectionString=mongodb://<dbuser>:<dbpassword>@<address.domain>:<port>/<collection>
 
 ### Run with forever!
 RUN npm install forever -g
@@ -37,4 +39,4 @@ CMD [ "forever", "server.js" ]
 
 # Commands to build & run
 # docker build -t pool-cue .
-# docker run -d pool-cue
+# docker run -d -p 80:80 pool-cue
