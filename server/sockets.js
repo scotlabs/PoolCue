@@ -11,8 +11,7 @@ var WaitingList = require('./models/methods/waiting');
 /* Global Variables */
 
 /* Functions */
-exports.connect = function (server) {
-	var io = require('socket.io').listen(server);
+exports.connect = function (io) {
 	Logger.info('Starting sockets.');
 	io.on('connection', function (socket) {
 		Logger.debug('---------------------------------------------');

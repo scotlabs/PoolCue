@@ -1,23 +1,15 @@
 'use strict';
 
-/* NPM Packages*/
-
-/* Imports */
-
-/* Variables */
-
-/* Functions */
-
 /* Routes */
 module.exports = function (Router, Logger) {
 	/* Sub Routes */
-	require('./api/game.read')(Router, Logger);
-	require('./api/player.read')(Router, Logger);
+	require('./api/game.query')(Router, Logger);
+	require('./api/player.query')(Router, Logger);
 
 	/* Root Route */
 
 	Router.get('/', function (request, response, next) {
-		response.render('/app/views/index');
+		response.render('../app/views/index');
 	});
 
 	Router.get('/api', function (request, response) {

@@ -64,10 +64,9 @@ exports.start = function (homeDirectory) {
 		}));
 		App.use('/', Router);
 
-
 		var Server = Http.createServer(App);
-		//Https.createServer(App);
-		Sockets.connect(Server);
+		var io = require('socket.io').listen(Server);
+		Sockets.connect(io);
 
 		Server.listen(httpPort, function () {
 			Logger.info('Starting server @ http://localhost:' + httpPort);
