@@ -12,6 +12,19 @@ a.queueDeleteGame {
 }
 
 /*------------------------------
+  Fill Width Container ---------
+------------------------------*/
+.container-fluid {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.navbar-brand ,.navbar-nav>li>a {
+  padding-left: 30px;
+} 
+
+/*------------------------------
   Sticky Footer Styles ---------
 ------------------------------*/
 html {
@@ -112,8 +125,6 @@ DC
   font-family: Helvetica;
   text-align: center;
 }
-
-
 
 .text-copy {
   fill: none;
