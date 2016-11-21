@@ -1,5 +1,10 @@
 {
- "name": "App",
+ "name": "PoolCue",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme-color": "#008CBA",
+ "orientation": "portrait",
+ "description": "Leidos PoolCue App",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
