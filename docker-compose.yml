@@ -15,7 +15,7 @@ services:
 
   mongo-node:
     container_name: mongoDb
-    image: mongodb
+    image: mongo
     ports:
       - 28017:28017
     environment:
