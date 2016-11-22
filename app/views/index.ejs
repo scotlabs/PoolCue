@@ -28,7 +28,7 @@
         <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
         <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="#008CBA">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <!--Configure Webapp for Windows Phone-->
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
@@ -59,19 +59,43 @@
           ga('create', 'UA-83366751-1', 'auto');
           ga('send', 'pageview');
         </script>
+        <script>
+          /**
+          * iOS is a special flower.
+          * To look nice I need to pad the navbar-header
+          * a bit so that transparency looks nice when launched
+          * from homescreen
+          */
+          function addStyleString(str) {
+            var node = document.createElement('style');
+            node.innerHTML = str;
+            document.body.appendChild(node);
+          }
+          if(window.navigator.standalone) {
+            addStyleString(".navbar-header {padding-top: 15px}")
+          }
+
+          /**
+          * Registers the service worker to allow offline pages
+          * and push notifications (eventually)
+          */
+          if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('app/service/service-worker.js');
+          }
+        </script>
     </body>
   <footer class="footer">
        <div class="container text-center">
            <hr>
          <p class="text-muted">
              <i class="fa fa-github-alt fa-fw" aria-hidden="true"></i>
-             - Where software is <a href="https://github.com/JamiePrentice/EloEloElo">built</a>
+             - Where software is <a href="https://github.com/JamiePrentice/EloEloElo" target="_blank">built</a>
              &nbsp; | &nbsp;
              <i class="fa fa-question fa-fw" aria-hidden="true"></i>
-             - Wtf is <a href="https://en.wikipedia.org/wiki/Elo_rating_system">elo?</a>
+             - Wtf is <a href="https://en.wikipedia.org/wiki/Elo_rating_system" target="_blank">elo?</a>
              &nbsp; | &nbsp;
              <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
-             - Suggestions or Bugs? <a href="https://github.com/JamiePrentice/EloEloElo/issues">Log it!</a>
+             - Suggestions or Bugs? <a href="https://github.com/JamiePrentice/EloEloElo/issues" target="_blank">Log it!</a>
          </p>
        </div>
      </footer>
