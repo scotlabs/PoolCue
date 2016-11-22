@@ -12,19 +12,6 @@ a.queueDeleteGame {
 }
 
 /*------------------------------
-  Fill Width Container ---------
-------------------------------*/
-.container-fluid {
-  padding-right: 0px;
-  padding-left: 0px;
-  margin-right: auto;
-  margin-left: auto;
-}
-.navbar-brand ,.navbar-nav>li>a {
-  padding-left: 30px;
-} 
-
-/*------------------------------
   Sticky Footer Styles ---------
 ------------------------------*/
 html {
@@ -32,6 +19,7 @@ html {
   min-height: 95%;
 }
 body {
+  padding-top: 60px;
   margin-bottom: 0px;
 }
 .footer {
