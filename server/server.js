@@ -22,7 +22,7 @@ var App = new Express();
 /* Functions */
 
 exports.start = function (homeDirectory) {
-	
+
 	// Database
 	require('./database').connect();
 	// Routes
