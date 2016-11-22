@@ -22,14 +22,6 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                     return "";
             });
         }
-        QueueView.prototype.ShowNotification = function (playerName) {
-            var player = ko.utils.arrayFirst(gameData.Players(), function (item) {
-                return playerName === item.name;
-            });
-            if (!player)
-                return;
-            return playerName === this.security.GetUser() && player.enableNotification;
-        };
         return QueueView;
     }());
     return QueueView;

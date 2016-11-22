@@ -28,9 +28,6 @@ class IndexViewModel {
     }
     attached = function () {
     }
-    SetNotifications(){
-        router.navigate("notifications");
-    }
     SignOut() {
         router.navigate("signout");
     }

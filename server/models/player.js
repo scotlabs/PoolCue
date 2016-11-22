@@ -10,8 +10,6 @@ var player = Mongoose.Schema({
   wins:               {type: Number, default: 0},
   losses:             {type: Number, default: 0},
   liberated:          {type: Boolean},
-  mobile_number:      {type: String},
-  enableNotification: {type: Boolean, default: false}
 });
 
 module.exports = Mongoose.model('Player', player);
