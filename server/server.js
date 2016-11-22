@@ -25,8 +25,12 @@ exports.start = function (homeDirectory) {
 	
 	// Database
 	require('./database').connect();
+	// Sockets
+	var Server = Http.createServer(App);
+	var io = require('socket.io').listen(Server);
+	Sockets.connect(io);
 	// Routes
-	require('./routes/routes')(Router, Logger);
+	require('./routes/routes')(Router, io, Logger);
 	// Port config
 
 	var httpPort = 8080;
@@ -62,11 +66,6 @@ exports.start = function (homeDirectory) {
 		App.use(BodyParser.urlencoded({
 			extended: true
 		}));
-		App.use('/', Router);
-
-		var Server = Http.createServer(App);
-		var io = require('socket.io').listen(Server);
-		Sockets.connect(io);
 
 		Server.listen(httpPort, function () {
 			Logger.info('Starting server @ http://localhost:' + httpPort);

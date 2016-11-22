@@ -1,10 +1,12 @@
 'use strict';
 
 /* Routes */
-module.exports = function (Router, Logger) {
+module.exports = function (Router, io) {
 	/* Sub Routes */
-	require('./api/game.query')(Router, Logger);
-	require('./api/player.query')(Router, Logger);
+	require('./api/game.query')(Router);
+	require('./api/game.command')(Router, io);
+	
+	require('./api/player.query')(Router);
 
 	/* Root Route */
 
