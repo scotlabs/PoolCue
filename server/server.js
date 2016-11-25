@@ -54,7 +54,8 @@ exports.start = function (homeDirectory) {
 		App.use('/images/', Express.static(homeDirectory + '/images'));
 		App.use('/', Express.static(homeDirectory + '/app/public'));
 		App.use('/', Express.static(homeDirectory + '/public'));
-
+		
+		App.use('/', Router);
 		App.set('view engine', 'ejs');
 		App.use(BodyParser.urlencoded({
 			extended: true
