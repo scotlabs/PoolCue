@@ -67,10 +67,7 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.losses++;
     loser.save();
     Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-
-    if (io) {
-      Query.pushDataToSockets(io);
-    }
+    Query.pushDataToSockets(io);
   };
 
 /* Removes player if 0 wins & 0 losses */
@@ -83,22 +80,16 @@ exports.removeInactivePlayer = function(playerName, io) {
           }
           Logger.info('Removing player: ' +  playerName);
           Player.find({name: playerName}).remove().exec();
+          Query.pushDataToSockets(io);
         });
-      if (io) {
-        Query.pushDataToSockets(io);
-      }
     }
-    if (io) {
-      Query.pushDataToSockets(io);
-    }
+    Query.pushDataToSockets(io);
   });
 };
 
 exports.removePlayerFromWaitingList = function(playerName, io) {
   WaitingList.find({player: playerName}).remove().exec(function(error, result) {
-    if (io) {
       Query.pushDataToSockets(io);
-    }
   });
 };
 

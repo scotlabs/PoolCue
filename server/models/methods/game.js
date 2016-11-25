@@ -88,10 +88,6 @@ exports.abandon = function(gameId, io) {
       });
     };
 
-exports.updateAll = function(io) {
-    Query.pushDataToSockets(io);
-  };
-
 /* Complete a game */
 exports.complete = function(gameId, winner, io) {
     Game.findById(gameId, function(error, game) {
@@ -99,7 +95,7 @@ exports.complete = function(gameId, winner, io) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
           if (game.winner) {
-            updateAll(io);
+            Query.pushDataToSockets(io);
             if (game.childGameId != undefined) {
               Game.findById(game.childGameId, function(error, childGame) {
                 if (error) {
@@ -139,6 +135,7 @@ exports.complete = function(gameId, winner, io) {
                 }
               });
             }
+            Query.pushDataToSockets(io);
             firenotifications();
           }
         });

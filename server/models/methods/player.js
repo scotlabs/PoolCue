@@ -31,7 +31,6 @@ exports.getStats = function(playerName, socket, request, response) {
                         last10games: getLast10Games(playerName, games),
                         playerMostPlayed: getPlayerMostPlayed(playerName, games),
                         winStreak: getWinStreak(playerName, games)
-                        // Nemisis
                       };
                     if (socket) {
                       socket.emit('player stats', {stats: playerStats});
