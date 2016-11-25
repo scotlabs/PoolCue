@@ -31,7 +31,7 @@ exports.start = function (homeDirectory) {
 	var io = require('socket.io').listen(Server);
 	Sockets.connect(io);
 	// Routes
-	require('./routes/routes')(Router, io, Logger);
+	require('./routes/')(Router, io);
 
 	var port = 8080;
 	var options = {};
