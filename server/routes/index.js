@@ -10,7 +10,7 @@ module.exports = function (Router, io) {
 
 	/* Root Route */
 	Router.get('/', function (request, response, next) {
-		response.render('../../app/views/index');
+		response.render('../app/views/index');
 	});
 
 	Router.get('/api', function (request, response) {
