@@ -35,6 +35,17 @@ exports.fatal = function(string) {
     console.log(Chalk.magenta(timeStamp() + '[FATAL] - ' + Chalk.reset(string)));
   };
 
+exports.sockets = function(sockets) {
+    var string;
+    if(sockets.id){
+        string = 'Pushing data to socket: ' + sockets.id;
+    }else{
+      string = 'Pushing data to all sockets';
+    }
+    //writeToFile('info', string);
+    console.log(Chalk.green(timeStamp() + '[DEBUG] - ' + Chalk.reset(string)));
+  };
+
 function writeToFile(prefix, message) {
   var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
   try {
