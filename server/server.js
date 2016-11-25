@@ -27,23 +27,16 @@ exports.start = function (homeDirectory) {
 	require('./database').connect();
 	// Sockets
 	var Server = Http.createServer(App);
+
 	var io = require('socket.io').listen(Server);
 	Sockets.connect(io);
 	// Routes
 	require('./routes/routes')(Router, io, Logger);
-	// Port config
 
-	var httpPort = 8080;
-	var httpsPort = 8081;
+	var port = 8080;
 	var options = {};
 	if (process.env.NODE_ENV == 'production') {
-		httpPort = process.env.port;
-		httpsPort = process.env.port;
-		options = {
-			// key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
-			// cert: _fs.readFileSync('./app/config/certs/cert.pem'),
-			// ca:   _fs.readFileSync('./app/config/certs/chain.pem')
-		};
+		port = process.env.port;
 	}
 
 	try {
@@ -67,8 +60,8 @@ exports.start = function (homeDirectory) {
 			extended: true
 		}));
 
-		Server.listen(httpPort, function () {
-			Logger.info('Starting server @ http://localhost:' + httpPort);
+		Server.listen(port, function () {
+			Logger.info('Starting server @ http://localhost:' + port);
 		});
 
 		return App;
