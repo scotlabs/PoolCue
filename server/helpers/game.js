@@ -20,7 +20,6 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
         return;
       }
 
-
       if (!player && !playerName.startsWith('Winner of')) {
         player = new Player({name: playerName});
         player.save();
@@ -30,7 +29,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
       if (!game.player1) {
         game.player1 = playerName;
         game.save();
-      }else {
+      } else {
         game.player2 = playerName;
         game.save();
 

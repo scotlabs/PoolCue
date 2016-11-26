@@ -5,10 +5,6 @@ var Fs     = require('fs');
 var Chalk  = require('chalk');
 var Moment = require('moment');
 
-/* Imports */
-
-/* Variables */
-
 /* Functions */
 exports.debug = function(string) {
     writeToFile('debug', string);
@@ -42,7 +38,6 @@ exports.sockets = function(sockets) {
     }else{
       string = 'Pushing data to all sockets';
     }
-    //writeToFile('info', string);
     console.log(Chalk.green(timeStamp() + '[DEBUG] - ' + Chalk.reset(string)));
   };
 

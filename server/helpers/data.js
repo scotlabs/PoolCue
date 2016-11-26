@@ -29,10 +29,10 @@ function generateScoreFromGames() {
         Player.find({name: {$in: [games[i].player1, games[i].player2]}}, function(error, players) {
               if (players[0].name == game.winner) {
                 Helpers.updatePlayers(players[0], players[1], null);
-              }else if (players[1].name == game.winner) {
+              } else if (players[1].name == game.winner) {
                 Helpers.updatePlayers(players[1], players[0], null);
               }
-            });
+        });
       }
     });
 };
