@@ -2,10 +2,10 @@
 
 /* Routes */
 module.exports = function (Router, io) {
-	/* Sub Routes */
+	/* Game */
 	require('./api/game.query')(Router);
 	require('./api/game.command')(Router, io);
-	
+	/* Player */
 	require('./api/player.query')(Router);
 
 	/* Root Route */
