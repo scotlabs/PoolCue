@@ -20,7 +20,7 @@ exports.connect = function () {
 			connectionString = util.format('mongodb://mongo-node:%s/EloEloElo', process.env.MONGO_PORT);
 		}
 	} else {
-		connectionString = 'mongodb://192.168.99.100:27017/EloEloElo';
+		connectionString = 'mongodb://localhost:27017/EloEloElo';
 	}
 
 
