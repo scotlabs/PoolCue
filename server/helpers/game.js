@@ -79,10 +79,8 @@ exports.removeInactivePlayer = function(playerName, io) {
           }
           Logger.info('Removing player: ' +  playerName);
           Player.find({name: playerName}).remove().exec();
-          Query.pushDataToSockets(io);
         });
     }
-    Query.pushDataToSockets(io);
   });
 };
 
