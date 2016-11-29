@@ -51,7 +51,6 @@ exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
       }
       waitingList.player = player.name;
       waitingList.save();
-      Query.pushDataToSockets(io);
     });
 };
 
