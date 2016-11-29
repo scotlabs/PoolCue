@@ -52,8 +52,6 @@ exports.playWinner = function(player1, gameId, io) {
         }else {
           Logger.warn('Error ' + player1 + ' vs. ' + player2);
         }
-      } else {
-        // Display warning box to user
       }
     });
   };
@@ -72,7 +70,7 @@ exports.abandon = function(gameId, io) {
             entry.save();
           });
         });
-        if (game.childGameId) {
+        if (game & game.childGameId) {
           exports.abandon(game.childGameId, io);
         }
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
@@ -88,10 +86,6 @@ exports.abandon = function(gameId, io) {
       });
     };
 
-exports.updateAll = function(io) {
-    Query.pushDataToSockets(io);
-  };
-
 /* Complete a game */
 exports.complete = function(gameId, winner, io) {
     Game.findById(gameId, function(error, game) {
@@ -99,7 +93,7 @@ exports.complete = function(gameId, winner, io) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
           if (game.winner) {
-            updateAll(io);
+            Query.pushDataToSockets(io);
             if (game.childGameId != undefined) {
               Game.findById(game.childGameId, function(error, childGame) {
                 if (error) {
@@ -139,6 +133,7 @@ exports.complete = function(gameId, winner, io) {
                 }
               });
             }
+            Query.pushDataToSockets(io);
             firenotifications();
           }
         });
@@ -146,9 +141,9 @@ exports.complete = function(gameId, winner, io) {
   };
 
 function firenotifications(){
-  Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
-      if (games.length > 0){
-        Notifications.SendNotifications(games);
-      }
-  });
+  // Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
+  //     if (games.length > 0){
+  //       Notifications.SendNotifications(games);
+  //     }
+  // });
 }

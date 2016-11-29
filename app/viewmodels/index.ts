@@ -1,17 +1,20 @@
 import gameData = require('../datamodels/gameData');
 import SecurityService = require('../services/security');
+import SocketService = require('../services/socketservice');
 import router = require('plugins/router');
 
 class IndexViewModel {
     HasQueue: KnockoutObservable<boolean>;
     HasWaiting: KnockoutObservable<boolean>;
     security: SecurityService;
+    sockets: SocketService;
     PlayerName: KnockoutObservable<string>;
     /**
      *
      */
     constructor() {
         this.security = new SecurityService();
+        this.sockets = new SocketService();
         this.HasQueue = ko.computed(function () {
             return gameData.Games().length > 1;
         });
@@ -27,6 +30,7 @@ class IndexViewModel {
         return true;
     }
     attached = function () {
+        this.sockets.Refresh();
     }
     SetNotifications(){
         router.navigate("notifications");

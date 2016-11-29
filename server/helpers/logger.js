@@ -5,10 +5,6 @@ var Fs     = require('fs');
 var Chalk  = require('chalk');
 var Moment = require('moment');
 
-/* Imports */
-
-/* Variables */
-
 /* Functions */
 exports.debug = function(string) {
     writeToFile('debug', string);
@@ -33,6 +29,16 @@ exports.error = function(string) {
 exports.fatal = function(string) {
     writeToFile('fatal', string);
     console.log(Chalk.magenta(timeStamp() + '[FATAL] - ' + Chalk.reset(string)));
+  };
+
+exports.sockets = function(sockets) {
+    var string;
+    if(sockets.id){
+        string = 'Pushing data to socket: ' + sockets.id;
+    }else{
+      string = 'Pushing data to all sockets';
+    }
+    console.log(Chalk.green(timeStamp() + '[DEBUG] - ' + Chalk.reset(string)));
   };
 
 function writeToFile(prefix, message) {

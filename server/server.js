@@ -21,29 +21,22 @@ var App = new Express();
 
 /* Functions */
 
-
-
 exports.start = function (homeDirectory) {
-
-
-
+	
 	// Database
 	require('./database').connect();
-	// Routes
-	require('./routes/routes')(Router, Logger);
-	// Port config
+	// Sockets
+	var Server = Http.createServer(App);
 
-	var httpPort = 8080;
-	var httpsPort = 8081;
+	var io = require('socket.io').listen(Server);
+	Sockets.connect(io);
+	// Routes
+	require('./routes/')(Router, io);
+
+	var port = 8080;
 	var options = {};
 	if (process.env.NODE_ENV == 'production') {
-		httpPort = process.env.port;
-		httpsPort = process.env.port;
-		options = {
-			// key:  _fs.readFileSync('./app/config/certs/privkey.pem'),
-			// cert: _fs.readFileSync('./app/config/certs/cert.pem'),
-			// ca:   _fs.readFileSync('./app/config/certs/chain.pem')
-		};
+		port = process.env.port;
 	}
 
 	try {
@@ -61,20 +54,15 @@ exports.start = function (homeDirectory) {
 		App.use('/images/', Express.static(homeDirectory + '/images'));
 		App.use('/', Express.static(homeDirectory + '/app/public'));
 		App.use('/', Express.static(homeDirectory + '/public'));
-
+		
+		App.use('/', Router);
 		App.set('view engine', 'ejs');
 		App.use(BodyParser.urlencoded({
 			extended: true
 		}));
-		App.use('/', Router);
 
-
-		var Server = Http.createServer(App);
-		//Https.createServer(App);
-		Sockets.connect(Server);
-
-		Server.listen(httpPort, function () {
-			Logger.info('Starting server @ http://localhost:' + httpPort);
+		Server.listen(port, function () {
+			Logger.info('Starting server @ http://localhost:' + port);
 		});
 
 		return App;

@@ -47,7 +47,7 @@ Easy peasy? Checkout the start up with docker below.
 
 ---
 
-#####Getting up and running with docker :sunglasses: :ok_hand:
+#####Getting up and running with docker :whale: :sunglasses: :ok_hand:
 
 - Clone or download the repository.
 - Open a docker terminal window within the repository folder.

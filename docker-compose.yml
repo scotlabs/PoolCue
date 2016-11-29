@@ -2,11 +2,23 @@ version: '2'
 services:
 
   web-node:
+    container_name: nodeApp
     build: .
     depends_on:
       - mongo-node
     ports:
-      - "80:8080"
+      - 80:8080
+    environment:
+      - Port=80
+      - DBConnectionString=
+    
 
   mongo-node:
+    container_name: mongoDb
     image: mongo
+    ports:
+      - 28017:28017
+    environment:
+      - MONGODB_USER=UserABC
+      - MONGODB_DATABASE=DatabaseABC
+      - MONGODB_PASS=PasswordABC
