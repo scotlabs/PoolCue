@@ -56,7 +56,6 @@ exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
 
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
-    Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
     winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
     winner.wins++;
     winner.save();
@@ -64,7 +63,7 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
     loser.losses++;
     loser.save();
-    Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+    Logger.info(winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
     Query.pushDataToSockets(io);
   };
 
