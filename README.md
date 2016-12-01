@@ -3,6 +3,8 @@
 # PoolCue
 
 [![Build Status](https://travis-ci.org/scotlabs/PoolCue.svg?branch=master)](https://travis-ci.org/scotlabs/PoolCue)
+[![Code Climate](https://codeclimate.com/github/scotlabs/PoolCue/badges/gpa.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
+[![Issue Count](https://codeclimate.com/github/scotlabs/PoolCue/badges/issue_count.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
 
 *What's all this then?*
 
