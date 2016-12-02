@@ -9,45 +9,37 @@ var Game = require('../models/game');
 
 /* Functions */
 exports.getAll = function(request, response) {
-    Game.find({}, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  search(response, null, {time: 'descending'}, null);
+};
 
 exports.get = function(gameId, request, response) {
-    Game.find({_id: request.params.id}, {__v: 0}).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  search(response, {_id: request.params.id}, null, null);
+};
 
 exports.getByPlayer = function(playerName, request, response) {
-    var searchParams = {$or: [{player1: playerName}, {player2: playerName}]};
-    Game.find(searchParams, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  var searchParams = {$or: [{player1: playerName}, {player2: playerName}]};
+  search(response, searchParams, {time: 'descending'}, null);
+};
 
 exports.getByPlayers = function(player1Name, player2Name, request, response) {
-    var searchParams = {$and: [{$or: [{player1: player1Name, player2: player2Name}, {player1: player2Name, player2: player1Name}]}]};
-    Game.find(searchParams, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  var searchParams = {$and: [{$or: [{player1: player1Name, player2: player2Name}, {player1: player2Name, player2: player1Name}]}]};
+  search(response, searchParams, {time: 'descending'}, null);
+};
 
-exports.getQueue = function(request, response) {
-    Game.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).limit(25).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  exports.getQueue = function(request, response) {
+  search(response, {winner: null}, {time: 'ascending'}, 25);
+};
 
 exports.getPlaying = function(request, response) {
-    Game.find({winner: null}, {__v: 0}).sort({time: 'ascending'}).limit(1).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  search(response, {winner: null}, {time: 'ascending'}, 1);
+};
 
 exports.getComplete = function(request, response) {
-    Game.find({winner: {$ne: null}}, {__v: 0}).sort({time: 'descending'}).lean().exec(function(error, result) {
-          response.json(result);
-        });
-  };
+  search(response, {winner: {$ne: null}}, {time: 'descending'}, null);
+};
+
+function search(response, searchParams, sort, limit){
+  Game.find(searchParams, {__v: 0}).sort(sort).limit(limit).lean().exec(function(error, result) {
+    response.json(result);
+  });
+}

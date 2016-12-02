@@ -33,7 +33,7 @@ exports.queue = function(player1, player2, io) {
 exports.playWinner = function(player1, gameId, io) {
     player1 = GameHelper.formatName(player1);
     Game.findById(gameId, function(error, parentGame) {
-      if (player1 != parentGame.player1 && player1 != parentGame.player2) {
+      if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
         var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
         if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
           Logger.info('Queue ' + player1 + ' vs. ' + player2);
@@ -94,7 +94,7 @@ exports.complete = function(gameId, winner, io) {
           }
           if (game.winner) {
             Query.pushDataToSockets(io);
-            if (game.childGameId != undefined) {
+            if (game.childGameId !== undefined) {
               Game.findById(game.childGameId, function(error, childGame) {
                 if (error) {
                   Logger.error('Problem finding child game: ' + game.childGameId);
@@ -110,7 +110,7 @@ exports.complete = function(gameId, winner, io) {
             game.winner = winner;
             game.save();
             var loser = game.player2;
-            if (game.player1 != winner) {
+            if (game.player1 !== winner) {
               loser = game.player1;
             }
 
@@ -121,7 +121,7 @@ exports.complete = function(gameId, winner, io) {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
               });
-            if (game.childGameId != undefined) {
+            if (game.childGameId !== undefined) {
               Game.findById(game.childGameId, function(error, childGame) {
                 if (error) {
                   Logger.error('Problem finding child game: ' + game.childGameId);
