@@ -33,7 +33,7 @@ exports.sockets = function(sockets) {
   }else{
     message = 'Pushing data to all sockets';
   }
-  logIt('socket', Chalk.orange, message)
+  logIt('socket', Chalk.blue, message)
 };
 
 function logIt(type, colour, message){
@@ -44,7 +44,7 @@ function logIt(type, colour, message){
 function writeToFile(prefix, message) {
   var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
   try {
-    Fs.appendFileSync('logs/' + prefix.replace(' ', '') + '.log', formattedMessage + '\n');
+    Fs.appendFileSync('logs/' + prefix + '.log', formattedMessage + '\n');
     Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
   }catch (error) {
     console.log(Chalk.magenta(timeStamp() + '[FATAL] - ' + Chalk.reset('Create a /logs folder first.')));

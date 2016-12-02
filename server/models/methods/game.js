@@ -58,7 +58,6 @@ exports.playWinner = function(player1, gameId, io) {
 
 /* Remove the game from the queue */
 exports.abandon = function(gameId, io) {
-      var saveGame;
       Game.findById(gameId, function(error, game) {
         if (error) {
           Logger.error('Problem finding game: ' + gameId + ' to abandon: ' + error);

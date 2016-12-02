@@ -38,7 +38,6 @@ define(function (require) {
 });
 ko.bindingHandlers.telephone = {
     init:function(element, valueAccessor){
-      var binding = this;
       var elem = $(element);
       var value = valueAccessor();
       elem.intlTelInput({
@@ -59,7 +58,6 @@ ko.bindingHandlers.telephone = {
 }
 ko.bindingHandlers.switch = {
     init:function(element, valueAccessor){
-      var binding = this;
       var elem = $(element);
       var value = valueAccessor();
       elem.bootstrapToggle({
@@ -97,7 +95,6 @@ ko.bindingHandlers.alert = {
 };
 ko.bindingHandlers.typeahead = {
   init: function (element, valueAccessor) {
-    var binding = this;
     var elem = $(element);
     var value = valueAccessor();
 
@@ -122,20 +119,20 @@ ko.bindingHandlers.typeahead = {
     // Set the value of the target when the field is blurred.
     elem.blur(function () { value.target(elem.val()); });
   },
-  update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+  update: function (element, valueAccessor, allBindings, viewModel) {
     var elem = $(element);
     var value = valueAccessor();
     elem.val(value.target());
   }
 };
 var substringMatcher = function (source) {
-  return function findMatches(query, syncResults, asyncResults) {
+  return function findMatches(query, syncResults) {
     var values = source().map(function (a) { return a.name; })
     var matches, substringRegex;
     matches = [];
-    substrRegex = new RegExp(query, 'i');
+    substringRegex = new RegExp(query, 'i');
     $.each(values, function (i, str) {
-      if (substrRegex.test(str)) {
+      if (substringRegex.test(str)) {
         matches.push(str);
       }
     });
