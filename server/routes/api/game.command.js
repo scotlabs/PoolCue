@@ -7,6 +7,8 @@ var Game = require('../../models/methods/game');
 module.exports = function (Router, io) {
 	var root = '/api/games/'
 
+	// Endpoint: Create
+	// Example: POST - example.com/api/games/create?player1=Fred&player2=George
 	Router.post(root + 'create', function (request, response) {
 		if(request.query.player1 && request.query.player2){
 			Game.queue(request.query.player1, request.query.player2, io);
@@ -16,6 +18,8 @@ module.exports = function (Router, io) {
 		}
 	});
 
+	// Endpoint: Delete
+	// Example: POST - example.com/api/games/delete?gameId=183c519f7b99fceab00820570
 	Router.post(root + 'delete', function (request, response) {
 		if(request.query.gameId){
 			Game.queue(request.query.gameId, io);
@@ -25,6 +29,8 @@ module.exports = function (Router, io) {
 		}
 	});
 
+	// Endpoint: Complete
+	// Example: POST - example.com/api/games/complete?gameId=183c519f7b99fceab00820570&winner=George
 	Router.post(root + 'complete', function (request, response) {
 		if(request.query.gameId && request.query.winner){
 			Game.complete(request.query.gameId, request.query.winner, io);
@@ -33,4 +39,5 @@ module.exports = function (Router, io) {
 			response.status(400).send('Missing parameter data');
 		}
 	});
+	
 };

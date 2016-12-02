@@ -9,7 +9,6 @@ var Player = require('../../models/player');
 var Game   = require('../../models/game');
 
 /* Global Variables */
-var EloRanking = new Elo();
 
 /* Functions */
 
@@ -55,7 +54,7 @@ function getLast10Games(playerName, games) {
     if (games[i] && last10games.length < 10 && games[i].winner) {
       if (games[i].winner === playerName) {
         last10games.push(true);
-      }else if (games[i].winner != 'Abandoned') {
+      }else if (games[i].winner !== 'Abandoned') {
         last10games.push(false);
       }
     }
@@ -79,11 +78,11 @@ function getPlayerMostPlayed(playerName, games) {
   var frequency = {};
   var numberOfGames = 0;
   var mostPlayedPlayer;
-  for (var i in opponents) {
-    frequency[opponents[i]] = (frequency[opponents[i]] || 0) + 1;
-    if (frequency[opponents[i]] > numberOfGames) {
-      numberOfGames = frequency[opponents[i]];
-      mostPlayedPlayer = opponents[i];
+  for (var j in opponents) {
+    frequency[opponents[j]] = (frequency[opponents[j]] || 0) + 1;
+    if (frequency[opponents[j]] > numberOfGames) {
+      numberOfGames = frequency[opponents[j]];
+      mostPlayedPlayer = opponents[j];
     }
   }
 
@@ -97,7 +96,7 @@ function getWinStreak(playerName, games) {
   var longestWinStreak = 0;
   var current = 0;
   for (var i = 0; i < games.length; i++) {
-    if (playerName == games[i].winner) {
+    if (playerName === games[i].winner) {
       current ++;
       if (current > longestWinStreak) {
         longestWinStreak = current;

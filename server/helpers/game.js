@@ -38,7 +38,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
     });
 };
 
-exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
+exports.findOrCreateWaitingPlayer = function(waitingList, playerName) {
   Player.findOne({name: playerName}, function(error, player) {
       if (error) {
         Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
@@ -56,7 +56,6 @@ exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
 
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
-    Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
     winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
     winner.wins++;
     winner.save();
@@ -64,27 +63,22 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
     loser.losses++;
     loser.save();
-    Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+    Logger.info(winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
     Query.pushDataToSockets(io);
   };
 
 /* Removes player if 0 wins & 0 losses */
-exports.removeInactivePlayer = function(playerName, io) {
+exports.removeInactivePlayer = function(playerName) {
   Game.find({$or: [{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
     if (result.length <= 1) {
-      Player.findOne({name: playerName}).exec(function(error, result) {
-          if (error) {
-            Logger.error('Problem finding player: ' + playerName + ' to check if active: ' + error);
-          }
-          Logger.info('Removing player: ' +  playerName);
-          Player.find({name: playerName}).remove().exec();
-        });
+        Logger.info('Removing player: ' +  result.name);
+        Player.find({name: playerName}).remove().exec();
     }
   });
 };
 
 exports.removePlayerFromWaitingList = function(playerName, io) {
-  WaitingList.find({player: playerName}).remove().exec(function(error, result) {
+  WaitingList.find({player: playerName}).remove().exec(function(error) {
       Query.pushDataToSockets(io);
   });
 };

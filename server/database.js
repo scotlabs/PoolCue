@@ -13,7 +13,7 @@ var util = require('util');
 exports.connect = function () {
 	var connectionString = '';
 
-	if (process.env.NODE_ENV == 'production') {
+	if (process.env.NODE_ENV === 'production') {
 		if (process.env.DBConnectionString) {
 			connectionString = process.env.DBConnectionString;
 		} else {
@@ -32,7 +32,16 @@ exports.connect = function () {
 		Logger.error('Could not connect to database @ ' + connectionString);
 	});
 
+	Mongoose.connection.on('reconnected', function () {
+		Logger.info('MongoDB reconnected!');
+	});
+
+	Mongoose.connection.on('disconnected', function() {
+		Logger.error('MongoDB disconnected!');
+		Mongoose.connect(connectionString, {server:{auto_reconnect:true}});
+	});
+
 	Mongoose.connection.once('open', function () {
 		Logger.info('Connected to database @ ' + connectionString);
 	});
-};
+}
