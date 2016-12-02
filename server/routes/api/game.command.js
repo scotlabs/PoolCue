@@ -22,7 +22,7 @@ module.exports = function (Router, io) {
 	// Example: POST - example.com/api/games/delete?gameId=183c519f7b99fceab00820570
 	Router.post(root + 'delete', function (request, response) {
 		if(request.query.gameId){
-			Game.queue(request.query.gameId, io);
+			Game.abandon(request.query.gameId, io);
 			response.sendStatus(200);
 		}else{
 			response.status(400).send('Missing parameter data');
