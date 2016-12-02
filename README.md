@@ -7,7 +7,7 @@
 [![Code Climate](https://codeclimate.com/github/scotlabs/PoolCue/badges/gpa.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
 [![Issues](https://codeclimate.com/github/scotlabs/PoolCue/badges/issue_count.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
 [![Test Coverage](https://codeclimate.com/github/scotlabs/PoolCue/badges/coverage.svg)](https://codeclimate.com/github/scotlabs/PoolCue/coverage)
-[![Dependency Status](https://gemnasium.com/badges/github.com/scotlabs/PoolCue.svg)](https://gemnasium.com/github.com/scotlabs/PoolCue)
+[![Dependencies](https://gemnasium.com/badges/github.com/scotlabs/PoolCue.svg)](https://gemnasium.com/github.com/scotlabs/PoolCue)
 
 
 *What's all this then?*
