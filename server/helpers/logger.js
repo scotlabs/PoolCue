@@ -2,6 +2,7 @@
 
 /* NPM Packages*/
 var Fs     = require('fs');
+var Pad    = require('pad');
 var Chalk  = require('chalk');
 var Moment = require('moment');
 
@@ -38,7 +39,7 @@ exports.sockets = function(sockets) {
 
 function logIt(type, colour, message){
   writeToFile(type, message);
-  console.log(colour(timeStamp() + '[' + type.toUpperCase() + ']  - ' + Chalk.reset(message)));
+  console.log(colour(timeStamp() + Pad(9, '[' + type.toUpperCase() + '] ') + '- ' +Chalk.reset(message)));
 }
 
 function writeToFile(prefix, message) {
@@ -47,7 +48,7 @@ function writeToFile(prefix, message) {
     Fs.appendFileSync('logs/' + prefix + '.log', formattedMessage + '\n');
     Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
   }catch (error) {
-    console.log(Chalk.magenta(timeStamp() + '[FATAL] - ' + Chalk.reset('Create a /logs folder first.')));
+    console.log(Chalk.magenta(timeStamp() + '[FATAL]  - ' + Chalk.reset('Create a /logs folder first.')));
   }
 }
 
