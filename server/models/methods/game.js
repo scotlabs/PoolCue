@@ -76,8 +76,8 @@ exports.abandon = function(gameId, io) {
         game.winner = 'Abandoned';
         game.save();
 
-        GameHelper.removeInactivePlayer(game.player1, io);
-        GameHelper.removeInactivePlayer(game.player2, io);
+        GameHelper.removeInactivePlayer(game.player1);
+        GameHelper.removeInactivePlayer(game.player2);
         Game.findById(gameId).remove().exec();
 
         Query.pushDataToSockets(io);
@@ -93,18 +93,7 @@ exports.complete = function(gameId, winner, io) {
           }
           if (game.winner) {
             Query.pushDataToSockets(io);
-            if (game.childGameId !== undefined) {
-              Game.findById(game.childGameId, function(error, childGame) {
-                if (error) {
-                  Logger.error('Problem finding child game: ' + game.childGameId);
-                } else {
-                  var originalPlayer = childGame.player2;
-                  childGame.player2 = game.winner;
-                  childGame.save();
-                  GameHelper.removeInactivePlayer(originalPlayer, io);
-                }
-              });
-            }
+            updateChildGame(game);
           } else {
             game.winner = winner;
             game.save();
@@ -120,24 +109,28 @@ exports.complete = function(gameId, winner, io) {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
               });
-            if (game.childGameId !== undefined) {
-              Game.findById(game.childGameId, function(error, childGame) {
-                if (error) {
-                  Logger.error('Problem finding child game: ' + game.childGameId);
-                } else {
-                  var originalPlayer = childGame.player2;
-                  childGame.player2 = game.winner;
-                  childGame.save();
-                  GameHelper.removeInactivePlayer(originalPlayer, io);
-                }
-              });
-            }
+              updateChildGame(game);
             Query.pushDataToSockets(io);
             firenotifications();
           }
         });
     
   };
+
+function updateChildGame(game){
+  if (game.childGameId !== undefined) {
+    Game.findById(game.childGameId, function(error, childGame) {
+      if (error) {
+        Logger.error('Problem finding child game: ' + game.childGameId);
+      } else {
+        var originalPlayer = childGame.player2;
+        childGame.player2 = game.winner;
+        childGame.save();
+        GameHelper.removeInactivePlayer(originalPlayer, io);
+      }
+    });
+  }
+}
 
 function firenotifications(){
   // Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
