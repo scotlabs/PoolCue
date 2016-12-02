@@ -1,5 +1,4 @@
 /* NPM Packages*/
-var Elo = require('elo-js');
 
 /* Imports */
 var Game    = require('../models/game');

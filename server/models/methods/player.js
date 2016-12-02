@@ -1,7 +1,6 @@
 'use strict';
 
 /* NPM Packages*/
-var Elo = require('elo-js');
 
 /* Imports */
 var Logger = require('../../helpers/logger');

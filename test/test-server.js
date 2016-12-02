@@ -12,7 +12,6 @@ describe('Server', function () {
   describe('Start', function () {
     it('server should start and host upon port 8080', function () {
       expect(" ").to.not.be.null;
-      
     });
   });
 });
