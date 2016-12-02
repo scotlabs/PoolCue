@@ -8,7 +8,6 @@ var Helpers = require('./game');
 var Logger  = require('./logger');
 
 /* Global Variables */
-var EloRanking = new Elo();
 
 exports.createPlayersFromGames = function() {
     Game.find({}).sort({time: 'ascending'}).exec(function(error, games) {

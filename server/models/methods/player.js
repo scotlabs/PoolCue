@@ -9,7 +9,6 @@ var Player = require('../../models/player');
 var Game   = require('../../models/game');
 
 /* Global Variables */
-var EloRanking = new Elo();
 
 /* Functions */
 
