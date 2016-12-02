@@ -1,6 +1,5 @@
 var Logger = require('./logger');
 var Players = require('../models/player');
-var Player = require('../models/methods/player');
 
 var cfg = {};
 /* Settings */
@@ -30,19 +29,19 @@ exports.SendNotifications = function(gamesList){
         return;
     }
     try{
-        var player1WithMobile =  Players.findOne({name: nextbutoneGame.player1, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
-            if (player.name === null || player.mobile_number === null)
-                return;
-            sendMessage(player.name, player.mobile_number, nextbutoneGame.player2);
-        });
-        var player2WithMobile =  Players.findOne({name: nextbutoneGame.player2, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
-            if (player.name === null || player.mobile_number === null)
-                return;
-            sendMessage(player.name, player.mobile_number, nextbutoneGame.player1);
-        });
-    } catch (error) {
-        console.log(error);
+        checkPlayerNotifications(nextbutoneGame.player1);
+        checkPlayerNotifications(nextbutoneGame.player2);
+    } catch (err) {
+        Logger.error(err);
     }
+}
+
+function checkPlayerHasNumberRegistered(currentPlayer){
+    Players.findOne({name: currentPlayer, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
+        if (player.name !== null || player.mobile_number !== null){
+            sendMessage(player.name, player.mobile_number, currentPlayer);
+        }
+    });
 }
 
 function sendMessage(name, mobile_number, against){
@@ -53,16 +52,11 @@ function sendMessage(name, mobile_number, against){
 sendSms = function(to, message) {
     var client = require('twilio')(cfg.accountSid, cfg.authToken);
 
-  client.messages.create({
-    body: message,
-    to: to,
-    from: cfg.sendingNumber
-  }, function(err, data) {
-    if (err) {
-      Logger.error('Could not send notification');
-      Logger.error(err);
-    } else {
-      Logger.log('Notification sent to ' + to);
-    }
-  });
+    client.messages.create({body: message, to: to, from: cfg.sendingNumber }, function(err) {
+        if (err) {
+            Logger.error('Could not send notification ' + err);
+        } else {
+            Logger.info('Notification sent to ' + to);
+        }
+    });
 };
