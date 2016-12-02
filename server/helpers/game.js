@@ -70,6 +70,10 @@ exports.updatePlayers = function(winner, loser, io) {
 /* Removes player if 0 wins & 0 losses */
 exports.removeInactivePlayer = function(playerName) {
   Game.find({$or: [{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
+    if (error) {
+      Logger.error('Problem finding players: ' + error);
+      return;
+    }
     if (result.length <= 1) {
         Logger.info('Removing player: ' +  result.name);
         Player.find({name: playerName}).remove().exec();

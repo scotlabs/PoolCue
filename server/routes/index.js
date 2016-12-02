@@ -11,17 +11,17 @@ module.exports = function (Router, io) {
 	/* Root Route */
 	Router.get('/', function (request, response, next) {
 		response.render('../app/views/index');
+		next();
 	});
 
-	Router.get('/api', function (request, response) {
-		response.json({
-			API: 'It\'s alive!'
-		});
+	Router.get('/api', function (request, response, next) {
+		response.json({API: 'It\'s alive!'});
+		next();
 	});
 
 	/* 404 Route */
-	Router.get('*', function (request, response) {
+	Router.get('*', function (request, response, next) {
 		response.status(404).send('404');
+		next();
 	});
-
 };
