@@ -83,7 +83,7 @@ ko.bindingHandlers.alert = {
         var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
  
         // Now manipulate the DOM element
-        if (valueUnwrapped == true)
+        if (valueUnwrapped === true)
             $(element).fadeTo(500, 1).slideDown(duration, function(){
               $(element).fadeTo(4000, 0, function(){
                 value(false);

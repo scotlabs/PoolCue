@@ -7,8 +7,8 @@ var Moment = require('moment');
 
 /* Functions */
 exports.debug = function(message) {
-    logIt('debug', Chalk.cyan, message);
-  };
+  logIt('debug', Chalk.cyan, message);
+};
 
 exports.info = function(message) {
   logIt('info', Chalk.green, message);
@@ -53,4 +53,4 @@ function writeToFile(prefix, message) {
 
 function timeStamp() {
   return '[' + new Moment().format('DD-MMM-YYYY HH:mm:ss:SSS') + '] ';
-};
+}

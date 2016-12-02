@@ -5,12 +5,10 @@ var Compression = require('compression');
 var BodyParser = require('body-parser');
 var Express = require('express');
 var Helmet = require('helmet');
-var Https = require('https');
 var Http = require('http');
 
 /* Imports */
 var Logger = require('./helpers/logger');
-var ServerHelper = require('./helpers/server');
 var Sockets = require('./sockets');
 
 /* Global Variables */
@@ -34,8 +32,7 @@ exports.start = function (homeDirectory) {
 	require('./routes/')(Router, io);
 
 	var port = 8080;
-	var options = {};
-	if (process.env.NODE_ENV == 'production') {
+	if (process.env.NODE_ENV === 'production') {
 		port = process.env.port;
 	}
 
