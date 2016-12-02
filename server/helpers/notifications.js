@@ -8,17 +8,17 @@ cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
 cfg.sendingNumber = process.env.TWILIO_NUMBER;
 
 var requiredConfig = [cfg.accountSid, cfg.authToken, cfg.sendingNumber];
-var isConfigured = requiredConfig.every(function(configValue) {
-  return configValue || false;
-});
+// var isConfigured = requiredConfig.every(function(configValue) {
+//   return configValue || false;
+// });
 
 
 exports.SendNotifications = function(gamesList){
-    /*if (!isConfigured) {
-        var errorMessage = 'TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_NUMBER must be set.';
-        Logger.error(errorMessage);
-        return;
-    }*/
+    // if (!isConfigured) {
+    //     var errorMessage = 'TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_NUMBER must be set.';
+    //     Logger.error(errorMessage);
+    //     return;
+    // }
     // Notifications are only sent when your game is two (or more) deep 
     if (gamesList.length < 2) {
         Logger.warn('Notification Hub was called when not enough games exist?');
@@ -36,7 +36,7 @@ exports.SendNotifications = function(gamesList){
     }
 }
 
-function checkPlayerHasNumberRegistered(currentPlayer){
+function checkPlayerNotifications(currentPlayer){
     Players.findOne({name: currentPlayer, mobile_number: {$ne: null}, enableNotification: true}, function(error, player) {
         if (player.name !== null || player.mobile_number !== null){
             sendMessage(player.name, player.mobile_number, currentPlayer);
