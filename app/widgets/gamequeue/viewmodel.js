@@ -18,7 +18,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                     return "5";
                 else if (numberOfGames > 1)
                     return "" + numberOfGames;
-                else if (numberOfGames == 1)
+                else if (numberOfGames === 1)
                     return "";
             });
         }

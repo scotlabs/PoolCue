@@ -21,9 +21,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
       }
 
       if (!player && !playerName.startsWith('Winner of')) {
-        player = new Player({name: playerName});
-        player.save();
-        Logger.info('Create new player: ' +  player.name);
+        player = createPlayer(playerName);
       }
 
       if (!game.player1) {
@@ -45,9 +43,7 @@ exports.findOrCreateWaitingPlayer = function(waitingList, playerName) {
         return;
       }
       if (!player) {
-        player = new Player({name: playerName});
-        player.save();
-        Logger.info('Create new player: ' +  player.name);
+        player = createPlayer(playerName);
       }
       waitingList.player = player.name;
       waitingList.save();
@@ -90,3 +86,11 @@ exports.removePlayerFromWaitingList = function(playerName, io) {
 exports.formatName = function(playerName) {
   return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, '').substring(0, 50).trim();
 };
+
+function createPlayer(playerName){
+  Logger.info('Create new player: ' +  playerName);
+  player = new Player({name: playerName});
+  player.save();
+
+  return player;
+}
