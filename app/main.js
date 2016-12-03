@@ -118,7 +118,7 @@ ko.bindingHandlers.typeahead = {
     // Set the value of the target when the field is blurred.
     elem.blur(function () { value.target(elem.val()); });
   },
-  update: function (element, valueAccessor, allBindings, viewModel) {
+  update: function (element, valueAccessor, allBindings) {
     var elem = $(element);
     var value = valueAccessor();
     elem.val(value.target());
@@ -138,9 +138,3 @@ var substringMatcher = function (source) {
     syncResults(matches);
   };
 };
-
-
-function addDataToPlayerStatsModal(stats) {
-  $('#modalLabel').text(stats.player.name);
-  $('#modalContent').html(formatPlayerlayerStats(stats));
-}

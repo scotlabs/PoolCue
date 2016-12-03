@@ -29,7 +29,7 @@ class ViewModel{
         var _this = this;
            http.get('/api/player/' + this.PlayerName(), null, {}).then(
          function (response) {
-             if (response==null || response.length != 1)
+             if (response === null || response.length !== 1)
                 return;
              var data = response[0];
             _this.MobileNumber(data.mobile_number);
