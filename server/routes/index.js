@@ -9,19 +9,16 @@ module.exports = function (Router, io) {
 	require('./api/player.query')(Router);
 
 	/* Root Route */
-	Router.get('/', function (request, response, next) {
+	Router.get('/', function (request, response) {
 		response.render('../app/views/index');
-		next();
 	});
 
-	Router.get('/api', function (request, response, next) {
+	Router.get('/api', function (request, response) {
 		response.json({API: 'It\'s alive!'});
-		next();
 	});
 
 	/* 404 Route */
-	Router.get('*', function (request, response, next) {
+	Router.get('*', function (request, response) {
 		response.status(404).send('404');
-		next();
 	});
 };
