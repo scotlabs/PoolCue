@@ -20,17 +20,14 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
         return;
       }
 
-
       if (!player && !playerName.startsWith('Winner of')) {
-        player = new Player({name: playerName});
-        player.save();
-        Logger.info('Create new player: ' +  player.name);
+        player = createPlayer(playerName);
       }
 
       if (!game.player1) {
         game.player1 = playerName;
         game.save();
-      }else {
+      } else {
         game.player2 = playerName;
         game.save();
 
@@ -39,26 +36,22 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
     });
 };
 
-exports.findOrCreateWaitingPlayer = function(waitingList, playerName, io) {
+exports.findOrCreateWaitingPlayer = function(waitingList, playerName) {
   Player.findOne({name: playerName}, function(error, player) {
       if (error) {
         Logger.error('Problem finding player: ' + playerName + ' to find or create:' + error);
         return;
       }
       if (!player) {
-        player = new Player({name: playerName});
-        player.save();
-        Logger.info('Create new player: ' +  player.name);
+        player = createPlayer(playerName);
       }
       waitingList.player = player.name;
       waitingList.save();
-      Query.pushDataToSockets(io);
     });
 };
 
 /* Update helper function for game complete */
 exports.updatePlayers = function(winner, loser, io) {
-    Logger.info('Start ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
     winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
     winner.wins++;
     winner.save();
@@ -66,42 +59,38 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
     loser.losses++;
     loser.save();
-    Logger.info('End ' + winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-
-    if (io) {
-      Query.pushDataToSockets(io);
-    }
+    Logger.info(winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
+    Query.pushDataToSockets(io);
   };
 
 /* Removes player if 0 wins & 0 losses */
-exports.removeInactivePlayer = function(playerName, io) {
+exports.removeInactivePlayer = function(playerName) {
   Game.find({$or: [{player1: playerName}, {player2: playerName}]}).exec(function(error, result) {
-    if (result.length <= 1) {
-      Player.findOne({name: playerName}).exec(function(error, result) {
-          if (error) {
-            Logger.error('Problem finding player: ' + playerName + ' to check if active: ' + error);
-          }
-          Logger.info('Removing player: ' +  playerName);
-          Player.find({name: playerName}).remove().exec();
-        });
-      if (io) {
-        Query.pushDataToSockets(io);
-      }
+    if (error) {
+      Logger.error('Problem finding players: ' + error);
+      return;
     }
-    if (io) {
-      Query.pushDataToSockets(io);
+    if (result.length <= 1) {
+        Logger.info('Removing player: ' +  result.name);
+        Player.find({name: playerName}).remove().exec();
     }
   });
 };
 
 exports.removePlayerFromWaitingList = function(playerName, io) {
-  WaitingList.find({player: playerName}).remove().exec(function(error, result) {
-    if (io) {
+  WaitingList.find({player: playerName}).remove().exec(function(error) {
       Query.pushDataToSockets(io);
-    }
   });
 };
 
 exports.formatName = function(playerName) {
   return playerName.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}).replace(/[^a-zA-Z0-9' ]/g, '').substring(0, 50).trim();
 };
+
+function createPlayer(playerName){
+  Logger.info('Create new player: ' +  playerName);
+  player = new Player({name: playerName});
+  player.save();
+
+  return player;
+}

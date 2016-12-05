@@ -3,13 +3,21 @@
 ------------------------------*/
 body {overflow-x: hidden;}
 
-button.createGame {
+.createGame {
   margin-top: 5px;
 }
 
-a.queueDeleteGame {
+.queueDeleteGame {
   margin-top: 2px;
 }
+
+/*------------------------------
+  Fill Width Container ---------
+------------------------------*/
+
+.navbar-brand ,.navbar-nav>li>a {
+  padding-left: 30px;
+} 
 
 /*------------------------------
   Sticky Footer Styles ---------
@@ -48,7 +56,6 @@ body {
 .tt-menu {
     width: 100%;
     margin-top: 2px;
-    padding: 0px 0;
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -85,7 +92,7 @@ body {
 DC
 ------------------------------------*/
 @media (min-width: 1200px) {
-  body.screen {
+  .screen {
    background: linear-gradient(to bottom, rgba(100, 100, 100, 0.2) 0%, rgba(255, 255, 255, 0.5) 40%, #ffffff 100%);
     background-repeat: no-repeat;
   }
@@ -104,7 +111,6 @@ DC
   overflow: hidden;
   text-align: center;
 }
-
 
 .hit-the-floor {
 

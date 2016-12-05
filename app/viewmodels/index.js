@@ -1,4 +1,4 @@
-define(["require", "exports", '../datamodels/gameData', '../services/security', 'plugins/router'], function (require, exports, gameData, SecurityService, router) {
+define(["require", "exports", '../datamodels/gameData', '../services/security', '../services/socketservice', 'plugins/router'], function (require, exports, gameData, SecurityService, SocketService, router) {
     "use strict";
     var IndexViewModel = (function () {
         /**
@@ -12,8 +12,10 @@ define(["require", "exports", '../datamodels/gameData', '../services/security', 
                 return true;
             };
             this.attached = function () {
+                this.sockets.Refresh();
             };
             this.security = new SecurityService();
+            this.sockets = new SocketService();
             this.HasQueue = ko.computed(function () {
                 return gameData.Games().length > 1;
             });

@@ -66,7 +66,7 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
             this.socketService = new SocketService();
             this.security = new SecurityService();
             this.WaitingList = gameData.PlayersWaiting;
-            this.WaitingList.subscribe(function (newData) {
+            this.WaitingList.subscribe(function () {
                 _this.KillSlots();
                 _this.SetSlots();
             });

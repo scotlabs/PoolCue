@@ -20,9 +20,9 @@ class Shell {
     socketService: SocketService;
     security: SecurityService;
     constructor() {
+        var _this = this;
         this.socketService = new SocketService();
         this.security = new SecurityService();
-        var _this = this;
         app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
             gameData.Players(eventData);
         });
@@ -56,7 +56,6 @@ class Shell {
         this.socketService.Initialise();
     }
     activate = function () {
-        var _this = this;
         return router.map([
             { route: '', moduleId: 'viewmodels/index' },
             { route: 'login', moduleId: 'viewmodels/login' },

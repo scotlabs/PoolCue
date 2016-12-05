@@ -28,7 +28,7 @@ class QueueView {
                 return "5";
             else if (numberOfGames > 1)
                 return "" + numberOfGames;
-            else if (numberOfGames == 1)
+            else if (numberOfGames === 1)
                 return "";
         })
     }

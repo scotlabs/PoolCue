@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "6.1"
+  - "7.2"
 deploy:
   provider: azure_web_apps
   verbose: true

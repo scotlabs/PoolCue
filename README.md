@@ -3,6 +3,12 @@
 # PoolCue
 
 [![Build Status](https://travis-ci.org/scotlabs/PoolCue.svg?branch=master)](https://travis-ci.org/scotlabs/PoolCue)
+[![Test Coverage](https://codeclimate.com/github/scotlabs/PoolCue/badges/coverage.svg)](https://codeclimate.com/github/scotlabs/PoolCue/coverage)
+[![CodeFactor](https://www.codefactor.io/repository/github/scotlabs/poolcue/badge/master)](https://www.codefactor.io/repository/github/scotlabs/poolcue/overview/master)
+[![Code Climate](https://codeclimate.com/github/scotlabs/PoolCue/badges/gpa.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
+[![Issues](https://codeclimate.com/github/scotlabs/PoolCue/badges/issue_count.svg)](https://codeclimate.com/github/scotlabs/PoolCue)
+[![Dependencies](https://gemnasium.com/badges/github.com/scotlabs/PoolCue.svg)](https://gemnasium.com/github.com/scotlabs/PoolCue)
+
 
 *What's all this then?*
 
@@ -47,7 +53,7 @@ Easy peasy? Checkout the start up with docker below.
 
 ---
 
-#####Getting up and running with docker :sunglasses: :ok_hand:
+#####Getting up and running with docker :whale: :sunglasses: :ok_hand:
 
 - Clone or download the repository.
 - Open a docker terminal window within the repository folder.

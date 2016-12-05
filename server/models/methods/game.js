@@ -31,7 +31,7 @@ exports.queue = function(player1, player2, io) {
 exports.playWinner = function(player1, gameId, io) {
     player1 = GameHelper.formatName(player1);
     Game.findById(gameId, function(error, parentGame) {
-      if (player1 != parentGame.player1 && player1 != parentGame.player2) {
+      if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
         var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
         if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
           Logger.info('Queue ' + player1 + ' vs. ' + player2);
@@ -50,15 +50,12 @@ exports.playWinner = function(player1, gameId, io) {
         }else {
           Logger.warn('Error ' + player1 + ' vs. ' + player2);
         }
-      } else {
-        // Display warning box to user
       }
     });
   };
 
 /* Remove the game from the queue */
 exports.abandon = function(gameId, io) {
-      var saveGame;
       Game.findById(gameId, function(error, game) {
         if (error) {
           Logger.error('Problem finding game: ' + gameId + ' to abandon: ' + error);
@@ -70,24 +67,20 @@ exports.abandon = function(gameId, io) {
             entry.save();
           });
         });
-        if (game.childGameId) {
+        if (game & game.childGameId) {
           exports.abandon(game.childGameId, io);
         }
         Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
         game.winner = 'Abandoned';
         game.save();
 
-        GameHelper.removeInactivePlayer(game.player1, io);
-        GameHelper.removeInactivePlayer(game.player2, io);
+        GameHelper.removeInactivePlayer(game.player1);
+        GameHelper.removeInactivePlayer(game.player2);
         Game.findById(gameId).remove().exec();
 
         Query.pushDataToSockets(io);
       });
     };
-
-exports.updateAll = function(io) {
-    Query.pushDataToSockets(io);
-  };
 
 /* Complete a game */
 exports.complete = function(gameId, winner, io) {
@@ -96,24 +89,13 @@ exports.complete = function(gameId, winner, io) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
           if (game.winner) {
-            updateAll(io);
-            if (game.childGameId != undefined) {
-              Game.findById(game.childGameId, function(error, childGame) {
-                if (error) {
-                  Logger.error('Problem finding child game: ' + game.childGameId);
-                } else {
-                  var originalPlayer = childGame.player2;
-                  childGame.player2 = game.winner;
-                  childGame.save();
-                  GameHelper.removeInactivePlayer(originalPlayer, io);
-                }
-              });
-            }
+            Query.pushDataToSockets(io);
+            updateChildGame(game);
           } else {
             game.winner = winner;
             game.save();
             var loser = game.player2;
-            if (game.player1 != winner) {
+            if (game.player1 !== winner) {
               loser = game.player1;
             }
 
@@ -124,19 +106,22 @@ exports.complete = function(gameId, winner, io) {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
               });
-            if (game.childGameId != undefined) {
-              Game.findById(game.childGameId, function(error, childGame) {
-                if (error) {
-                  Logger.error('Problem finding child game: ' + game.childGameId);
-                } else {
-                  var originalPlayer = childGame.player2;
-                  childGame.player2 = game.winner;
-                  childGame.save();
-                  GameHelper.removeInactivePlayer(originalPlayer, io);
-                }
-              });
-            }
+              updateChildGame(game);
+            Query.pushDataToSockets(io);
           }
         });
 
-  };
+function updateChildGame(game){
+  if (game.childGameId !== undefined) {
+    Game.findById(game.childGameId, function(error, childGame) {
+      if (error) {
+        Logger.error('Problem finding child game: ' + game.childGameId);
+      } else {
+        var originalPlayer = childGame.player2;
+        childGame.player2 = game.winner;
+        childGame.save();
+        GameHelper.removeInactivePlayer(originalPlayer, io);
+      }
+    });
+  }
+}

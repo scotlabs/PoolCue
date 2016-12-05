@@ -18,7 +18,6 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                 this.socketService.Initialise();
             };
             this.activate = function () {
-                var _this = this;
                 return router.map([
                     { route: '', moduleId: 'viewmodels/index' },
                     { route: 'login', moduleId: 'viewmodels/login' },
@@ -28,9 +27,9 @@ define(["require", "exports", 'durandal/app', 'plugins/router', '../datamodels/e
                     .buildNavigationModel()
                     .activate();
             };
+            var _this = this;
             this.socketService = new SocketService();
             this.security = new SecurityService();
-            var _this = this;
             app.on(eventTypes.PlayerDataUpdate).then(function (eventData) {
                 gameData.Players(eventData);
             });
