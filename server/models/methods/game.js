@@ -105,11 +105,12 @@ exports.complete = function(gameId, winner, io) {
                 }else {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
-              });
-              updateChildGame(game);
+            });
+            updateChildGame(game);
             Query.pushDataToSockets(io);
           }
         });
+};
 
 function updateChildGame(game){
   if (game.childGameId !== undefined) {
