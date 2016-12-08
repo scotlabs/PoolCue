@@ -6,7 +6,7 @@
 var Player     = require('../../models/player');
 var Game       = require('../../models/game');
 var Logger     = require('../../helpers/logger');
-var Query      = require('../../helpers/query');
+var Sockets      = require('../../helpers/sockets');
 var GameHelper = require('../../helpers/game');
 /* Global Variables */
 
@@ -46,7 +46,7 @@ exports.playWinner = function(player1, gameId, io) {
           parentGame.childGameId = createdGame._id;
           parentGame.save();
 
-          Query.pushDataToSockets(io);
+          Sockets.push(io);
         }else {
           Logger.warn('Error ' + player1 + ' vs. ' + player2);
         }
@@ -78,7 +78,7 @@ exports.abandon = function(gameId, io) {
         GameHelper.removeInactivePlayer(game.player2);
         Game.findById(gameId).remove().exec();
 
-        Query.pushDataToSockets(io);
+        Sockets.push(io);
       });
     };
 
@@ -89,7 +89,7 @@ exports.complete = function(gameId, winner, io) {
             Logger.error('Problem finding game: ' + gameId + ', with the winner: ' + winner + ' to complete game: ' + error);
           }
           if (game.winner) {
-            Query.pushDataToSockets(io);
+            Sockets.push(io);
             updateChildGame(game);
           } else {
             game.winner = winner;
@@ -105,9 +105,9 @@ exports.complete = function(gameId, winner, io) {
                 }else {
                   GameHelper.updatePlayers(players[1], players[0], io);
                 }
-            });
-            updateChildGame(game);
-            Query.pushDataToSockets(io);
+              });
+              updateChildGame(game);
+            Sockets.push(io);
           }
         });
 };

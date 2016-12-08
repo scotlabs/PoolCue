@@ -6,3 +6,4 @@ deploy:
   verbose: true
 notifications:
   slack: team-hub:iUjTDM4aHLOdIyT6TGJarxb3
+  email: false

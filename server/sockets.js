@@ -7,7 +7,7 @@ var Logger = require('./helpers/logger');
 var Game = require('./models/methods/game');
 var Player = require('./models/methods/player');
 var WaitingList = require('./models/methods/waiting');
-var Query  = require('./helpers/query');
+var Sockets  = require('./helpers/sockets');
 
 /* Global Variables */
 
@@ -33,7 +33,7 @@ exports.connect = function (io) {
 		});
 
 		socket.on('update all', function () {
-			Query.pushDataToSockets(socket);
+			Sockets.push(io);
 		});
 
 		socket.on('player stats', function (playerName) {
