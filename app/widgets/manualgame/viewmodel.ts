@@ -3,11 +3,9 @@ import SocketService = require('../../services/socketservice');
 import app = require('durandal/app');
 import gameData = require('../../datamodels/gameData');
 import SecurityService = require('../../services/security');
-import knockoutValidation = require('knockout.validation');
 
 class ManualAddViewModel {
 
-    CanAddManualGame: KnockoutComputed<boolean>;
     Player1Name: KnockoutObservable<string>;
     Player2Name: KnockoutObservable<string>;
     socketService:SocketService;
