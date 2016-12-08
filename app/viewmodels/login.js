@@ -16,9 +16,6 @@ define(["require", "exports", '../datamodels/gameData', '../services/security', 
             this.PlayerName = ko.observable();
             this.PlayerData = gameData.Players;
             this.security = new SecurityService();
-            this.CanSignIn = ko.computed(function () {
-                return _this.PlayerName() && _this.PlayerName() != '';
-            });
         }
         return AccountViewModel;
     }());

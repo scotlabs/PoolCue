@@ -17,7 +17,7 @@ class ManualAddViewModel {
         this.socketService = new SocketService();
         this.security = new SecurityService();
         this.Player1Name = ko.observable<string>(this.security.GetUser());
-        this.Player2Name = ko.observable<string>('');
+        this.Player2Name = ko.observable<string>();
         this.PlayerData = gameData.Players;
     }
 
@@ -25,7 +25,7 @@ class ManualAddViewModel {
     };
 
     AddManualGame = function () {
-        if (this.Player1Name() === ""|| this.Player2Name() === "" ){
+        if (!this.Player1Name() || this.Player1Name() === "" || !this.Player2Name() || this.Player2Name() === ""){
             return;
         }
         this.socketService.CreateGame(this.Player1Name(),this.Player2Name());

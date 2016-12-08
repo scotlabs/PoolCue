@@ -6,16 +6,12 @@ class AccountViewModel {
     PlayerName: KnockoutObservable<string>;
     PlayerData: gameData;
     security: SecurityService;
-    CanSignIn:KnockoutComputed<boolean>;
-
+    
     constructor() {
         var _this = this;
         this.PlayerName = ko.observable<string>();
         this.PlayerData = gameData.Players;
         this.security = new SecurityService();
-        this.CanSignIn = ko.computed(function(){
-            return _this.PlayerName() && _this.PlayerName()!='';
-        });
     }
 
     activate = function () {
