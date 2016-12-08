@@ -22,7 +22,7 @@ module.exports = function (Router, io) {
 	// Example: POST - example.com/api/games/playwinner?gameId=183c519f7b99fceab00820570&player=George
 	Router.post(root + 'playwinner', function (request, response) {
 		if(request.query.gameId && request.query.player){
-			Game.complete(request.query.player, request.query.gameId, io);
+			Game.playWinner(request.query.player, request.query.gameId, io);
 			response.sendStatus(200);
 		}else{
 			response.status(400).send('Missing parameter data');
