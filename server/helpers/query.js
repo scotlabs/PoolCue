@@ -11,7 +11,7 @@ var Logger = require('./logger');
 /* Variables */
 
 /* Functions */
-exports.push = function (io) {
+exports.pushDataToSockets = function (io) {
   if(io){
     Games.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
       Players.find({}, { __v: 0 }).sort({ elo: 'descending' }).lean().exec(function (error, players) {

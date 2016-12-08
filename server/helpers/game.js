@@ -7,7 +7,7 @@ var Game   = require('../models/game');
 var WaitingList   = require('../models/waiting');
 var Player = require('../models/player');
 var Logger = require('./logger');
-var Sockets  = require('./Sockets');
+var Query  = require('./query');
 
 /* Global Variables */
 var EloRanking = new Elo();
@@ -31,7 +31,7 @@ exports.findOrCreatePlayer = function(game, playerName, io) {
         game.player2 = playerName;
         game.save();
 
-        Sockets.push(io);
+        Query.pushDataToSockets(io);
       }
     });
 };
@@ -60,7 +60,7 @@ exports.updatePlayers = function(winner, loser, io) {
     loser.losses++;
     loser.save();
     Logger.info(winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
-    Sockets.push(io);
+    Query.pushDataToSockets(io);
   };
 
 /* Removes player if 0 wins & 0 losses */
@@ -79,7 +79,7 @@ exports.removeInactivePlayer = function(playerName) {
 
 exports.removePlayerFromWaitingList = function(playerName, io) {
   WaitingList.find({player: playerName}).remove().exec(function(error) {
-      Sockets.push(io);
+      Query.pushDataToSockets(io);
   });
 };
 
