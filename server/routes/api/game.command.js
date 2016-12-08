@@ -18,6 +18,17 @@ module.exports = function (Router, io) {
 		}
 	});
 
+	// Endpoint: Play Winner
+	// Example: POST - example.com/api/games/playwinner?gameId=183c519f7b99fceab00820570&player=George
+	Router.post(root + 'playwinner', function (request, response) {
+		if(request.query.gameId && request.query.player){
+			Game.complete(request.query.player, request.query.gameId, io);
+			response.sendStatus(200);
+		}else{
+			response.status(400).send('Missing parameter data');
+		}
+	});
+
 	// Endpoint: Delete
 	// Example: POST - example.com/api/games/delete?gameId=183c519f7b99fceab00820570
 	Router.post(root + 'delete', function (request, response) {
@@ -39,5 +50,5 @@ module.exports = function (Router, io) {
 			response.status(400).send('Missing parameter data');
 		}
 	});
-	
+
 };

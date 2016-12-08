@@ -15,7 +15,7 @@ var GameHelper = require('../../helpers/game');
 /* Functions */
 
 /* Add a game to the queue */
-exports.queue = function(player1, player2, io) {
+exports.create = function(player1, player2, io) {
       player1 = GameHelper.formatName(player1);
       player2 = GameHelper.formatName(player2);
       if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {

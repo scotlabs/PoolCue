@@ -17,7 +17,7 @@ exports.importPlayer = function(playerName, importedWins, importedLosses) {
 
     Logger.info('Importing ' + player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ');
     player.save();
-  };
+};
 
 /* Complete a game */
 exports.getStats = function(playerName, socket, request, response) {
