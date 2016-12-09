@@ -41,7 +41,7 @@ class ScreenViewModel {
                 return "5";
             else if (numberOfGames > 1)
                 return "" + numberOfGames;
-            else if (numberOfGames == 1)
+            else if (numberOfGames === 1)
                 return "";
         })
         gameData.Games.subscribe(function (eventData) {
@@ -67,7 +67,7 @@ class ScreenViewModel {
         }
         this.Player1(this.Game.player1);
         this.Player2(this.Game.player2);
-        this.HasGame(this.Game._id != null);
+        this.HasGame(this.Game._id !== null);
     }
 }
 export = ScreenViewModel;
