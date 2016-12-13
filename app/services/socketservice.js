@@ -57,9 +57,6 @@ define(["require", "exports", 'durandal/app', 'socket.io-client', '../datamodels
         SocketService.prototype.PlayWinner = function (player, gameId) {
             this.socket.emit('play winner', player, gameId);
         };
-        SocketService.prototype.UpdatePlayer = function (playername, mobilenumber, enableNotification) {
-            this.socket.emit('player update', playername, mobilenumber, enableNotification);
-        };
         return SocketService;
     }());
     return SocketService;

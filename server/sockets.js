@@ -56,11 +56,6 @@ exports.connect = function (io) {
 
 		socket.on('play winner', function (playerName, gameId) {
 			Game.playWinner(playerName, gameId, io);
-		});
-
-		socket.on('player update', function(playerName, mobileNumber, enableNotification){
-			Player.updateMobile(playerName, mobileNumber, enableNotification);
-		});
-    
+		});    
 	});
 };

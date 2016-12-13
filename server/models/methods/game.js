@@ -8,8 +8,6 @@ var Game       = require('../../models/game');
 var Logger     = require('../../helpers/logger');
 var Sockets      = require('../../helpers/sockets');
 var GameHelper = require('../../helpers/game');
-// var Notifications = require('../../helpers/notifications');
-
 /* Global Variables */
 
 /* Functions */
@@ -81,7 +79,6 @@ exports.abandon = function(gameId, io) {
         Game.findById(gameId).remove().exec();
 
         Sockets.push(io);
-        firenotifications();
       });
     };
 
@@ -111,11 +108,9 @@ exports.complete = function(gameId, winner, io) {
               });
               updateChildGame(game);
             Sockets.push(io);
-            firenotifications();
           }
         });
-    
-  };
+};
 
 function updateChildGame(game){
   if (game.childGameId !== undefined) {
@@ -130,12 +125,4 @@ function updateChildGame(game){
       }
     });
   }
-}
-
-function firenotifications(){
-  // Game.find({ winner: null }, { __v: 0 }).sort({ time: 'ascending' }).limit(25).lean().exec(function (error, games) {
-  //     if (games.length > 0){
-  //       Notifications.SendNotifications(games);
-  //     }
-  // });
 }

@@ -32,9 +32,6 @@ class IndexViewModel {
     attached = function () {
         this.sockets.Refresh();
     }
-    SetNotifications(){
-        router.navigate("notifications");
-    }
     SignOut() {
         router.navigate("signout");
     }

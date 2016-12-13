@@ -32,15 +32,6 @@ class QueueView {
                 return "";
         })
     }
-    ShowNotification(playerName){
-
-        var player = ko.utils.arrayFirst(gameData.Players(), function(item) {
-            return playerName === item.name;
-        });
-        if (!player)
-            return;
-        return playerName === this.security.GetUser() && player.enableNotification;
-    }
     RemoveGame = function($data){
         new SocketService().RemoveGame($data._id);
     }

@@ -26,7 +26,10 @@ html {
   position: relative;
   min-height: 95%;
 }
-
+body {
+  padding-top: 60px;
+  margin-bottom: 0px;
+}
 .footer {
   position: absolute;
   bottom: 0;

@@ -36,25 +36,6 @@ define(function (require) {
     app.setRoot('viewmodels/shell', 'entrance');
   });
 });
-ko.bindingHandlers.telephone = {
-    init:function(element, valueAccessor){
-      var elem = $(element);
-      var value = valueAccessor();
-      elem.intlTelInput({
-          numberType: "MOBILE",
-          nationalMode: true,
-          initialCountry: "gb",
-          utilsScript: "/intl-tel-input/build/js/utils.js"
-      });
-      elem.blur(function () { 
-        var intlNumber = elem.intlTelInput("getNumber");
-        if (intlNumber) {
-          value.target(intlNumber);
-        }
-         
-      });
-    }
-}
 ko.bindingHandlers.switch = {
     init:function(element, valueAccessor){
       var elem = $(element);
@@ -63,7 +44,7 @@ ko.bindingHandlers.switch = {
         on: 'Enabled',
         off: 'Disabled'
       });
-      elem.change(function () { 
+      elem.change(function () {
         value.target(elem[0].checked);
       });
     }
@@ -72,13 +53,13 @@ ko.bindingHandlers.alert = {
   update: function(element, valueAccessor, allBindings) {
         // First get the latest data that we're bound to
         var value = valueAccessor();
- 
+
         // Next, whether or not the supplied model property is observable, get its current value
         var valueUnwrapped = ko.unwrap(value);
- 
+
         // Grab some more data from another binding property
         var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
- 
+
         // Now manipulate the DOM element
         if (valueUnwrapped === true)
             $(element).fadeTo(500, 1).slideDown(duration, function(){
