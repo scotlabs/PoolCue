@@ -16,7 +16,7 @@
     "mocha": "^3.2.0",
     "mocha-junit-reporter": "^1.12.1",
     "moment": "^2.17.0",
-    "mongoose": "4.7.1",
+    "mongoose": "^4.7.2",
     "pad": "^1.0.2",
     "socket.io": "^1.7.1",
     "twilio": "^2.11.1",
