@@ -4,40 +4,62 @@
 
 /* Imports */
 var Logger = require('../../helpers/logger');
+var Sockets = require('../../helpers/sockets');
 var Player = require('../../models/player');
-var Game   = require('../../models/game');
+var Game = require('../../models/game');
 
 /* Global Variables */
 
 /* Functions */
 
 /* Import player from our hand written score system */
-exports.importPlayer = function(playerName, importedWins, importedLosses) {
-    var player = new Player({name: playerName, wins: importedWins, losses: importedLosses});
+exports.importPlayer = function (playerName, importedWins, importedLosses) {
+  var player = new Player({
+    name: playerName,
+    wins: importedWins,
+    losses: importedLosses
+  }).save();
 
-    Logger.info('Importing ' + player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ');
-    player.save();
-  };
+  Logger.info('Importing ' + player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ');
+};
+
+exports.create = function (playerName, io) {
+  var result = Player.findOne({ name: playerName });
+
+  result.then(function (player) {
+    if (!player && !playerName.startsWith('Winner of')) {
+      Logger.info('Create new player: ' + playerName);
+      player = new Player({
+        name: playerName
+      });
+      player.save();
+      Sockets.push(io);
+    }
+  });
+}
 
 /* Complete a game */
-exports.getStats = function(playerName, socket, request, response) {
-          Player.findOne({name: playerName}, function(error, player) {
-              Game.find({$or: [{player1: playerName}, {player2: playerName}]}).sort('descending').lean().exec(function(error, games) {
+exports.getStats = function (playerName, socket, request, response) {
+  Player.findOne({ name: playerName }, function (error, player) {
+    Game.find({ $or: [{ player1: playerName }, { player2: playerName }]}).sort('descending').lean().exec(function (error, games) {
 
-                    var playerStats = {
-                        player: player,
-                        last10games: getLast10Games(playerName, games),
-                        playerMostPlayed: getPlayerMostPlayed(playerName, games),
-                        winStreak: getWinStreak(playerName, games)
-                      };
-                    if (socket) {
-                      socket.emit('player stats', {stats: playerStats});
-                    }else {
-                      response.json(playerStats);
-                    }
-                  });
-            });
-        };
+      var playerStats = {
+        player: player,
+        last10games: getLast10Games(playerName, games),
+        playerMostPlayed: getPlayerMostPlayed(playerName, games),
+        winStreak: getWinStreak(playerName, games)
+      };
+      
+      if (socket) {
+        socket.emit('player stats', {
+          stats: playerStats
+        });
+      } else {
+        response.json(playerStats);
+      }
+    });
+  });
+};
 
 function getLast10Games(playerName, games) {
   var last10games = [];
@@ -45,7 +67,7 @@ function getLast10Games(playerName, games) {
     if (games[i] && last10games.length < 10 && games[i].winner) {
       if (games[i].winner === playerName) {
         last10games.push(true);
-      }else if (games[i].winner !== 'Abandoned') {
+      } else if (games[i].winner !== 'Abandoned') {
         last10games.push(false);
       }
     }
@@ -60,7 +82,7 @@ function getPlayerMostPlayed(playerName, games) {
     if (games[i].winner !== 'Abandoned') {
       if (games[i].player1 !== playerName) {
         opponents.push(games[i].player1);
-      }else {
+      } else {
         opponents.push(games[i].player2);
       }
     }
@@ -78,9 +100,9 @@ function getPlayerMostPlayed(playerName, games) {
   }
 
   return new Object({
-        player: mostPlayedPlayer,
-        games: numberOfGames
-      });
+    player: mostPlayedPlayer,
+    games: numberOfGames
+  });
 }
 
 function getWinStreak(playerName, games) {
@@ -88,11 +110,11 @@ function getWinStreak(playerName, games) {
   var current = 0;
   for (var i = 0; i < games.length; i++) {
     if (playerName === games[i].winner) {
-      current ++;
+      current++;
       if (current > longestWinStreak) {
         longestWinStreak = current;
       }
-    }else {
+    } else {
       current = 0;
     }
   }
