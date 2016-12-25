@@ -38,28 +38,26 @@ function createGame(game, player1, player2, io) {
 /* Add a game vs the winner of another game to the queue */
 exports.playWinner = function (player1, gameId, io) {
   player1 = GameHelper.formatName(player1);
-  Game.findById(gameId, function (error, parentGame) {
-    if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
-      var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
-      if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
+  var result = Game.findById(gameId);
+    result.then(function (parentGame) {
+      if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
+        var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
+        if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
         
-        var game = new Game();
-        var createdGame = createGame(game, player1, player2, io);
-        if (error) {
-          Logger.error('Problem fiding game: ' + gameId + ' to play winner of: ' + error);
+          var game = new Game();
+          var createdGame = createGame(game, player1, player2, io);
+          Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
+        
+          parentGame.childGameId = createdGame._id;
+          parentGame.save();
+          Sockets.push(io);
+        } else {
+          Logger.warn('Error ' + player1 + ' vs. ' + player2);
         }
-        Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
-        
-        parentGame.childGameId = createdGame._id;
-        parentGame.save();
-
-        Sockets.push(io);
-      } else {
-        Logger.warn('Error ' + player1 + ' vs. ' + player2);
       }
-    }
-  });
+    });
 };
+
 
 /* Remove the game from the queue */
 exports.abandon = function (gameId, io) {
@@ -119,13 +117,13 @@ exports.complete = function (gameId, winner, io) {
           GameHelper.updatePlayers(players[1], players[0], io);
         }
       });
-      updateChildGame(game);
+      updateChildGame(game, io);
       Sockets.push(io);
     }
   });
 };
 
-function updateChildGame(game) {
+function updateChildGame(game, io) {
   if (game.childGameId !== undefined) {
     Game.findById(game.childGameId, function (error, childGame) {
       if (error) {
@@ -135,6 +133,7 @@ function updateChildGame(game) {
         childGame.player2 = game.winner;
         childGame.save();
         GameHelper.removeInactivePlayer(originalPlayer);
+        Sockets.push(io);
       }
     });
   }
