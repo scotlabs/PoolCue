@@ -16,23 +16,21 @@ var GameHelper = require('../../helpers/game');
 /* Add a game to the queue */
 exports.queue = function (player1, player2, io) {
   if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
-    var game = new Game();
-    createGame(game, player1, player2, io);
+    createGame(player1, player2, io);
   } else {
     Logger.warn('Error ' + player1 + ' vs. ' + player2);
   }
 };
 
-function createGame(game, player1, player2, io) {
+function createGame(player1, player2, io) {
   Logger.info('Creating Game: ' + player1 + ' vs. ' + player2);
   PlayerMethods.create(player1, io);
   PlayerMethods.create(player2, io);
 
-  game.player1 = GameHelper.formatName(player1);
-  game.player2 = GameHelper.formatName(player2);
-  game.save();
-
-  return game;
+  return new Game({
+    player1 : GameHelper.formatName(player1),
+    player2 : GameHelper.formatName(player2)
+  }).save();
 }
 
 /* Add a game vs the winner of another game to the queue */
@@ -44,13 +42,13 @@ exports.playWinner = function (player1, gameId, io) {
         var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
         if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
         
-          var game = new Game();
-          var createdGame = createGame(game, player1, player2, io);
-          Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
-        
-          parentGame.childGameId = createdGame._id;
-          parentGame.save();
-          Sockets.push(io);
+          var createdGame = createGame(player1, player2, io);
+          createdGame.then(function(game){
+            Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
+            parentGame.childGameId = game._id;
+            parentGame.save();
+            Sockets.push(io);
+          });
         } else {
           Logger.warn('Error ' + player1 + ' vs. ' + player2);
         }
