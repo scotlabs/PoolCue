@@ -16,20 +16,26 @@ var GameHelper = require('../../helpers/game');
 /* Add a game to the queue */
 exports.queue = function (player1, player2, io) {
   if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
-    createGame(player1, player2, io);
+    var newGame = createGame(player1, player2, io);
+    newGame.then(function(){
+      Sockets.push(io);
+    });
   } else {
-    Logger.warn('Error ' + player1 + ' vs. ' + player2);
+    Logger.warn('Could not create game: ' + player1 + ' vs. ' + player2);
   }
 };
 
 function createGame(player1, player2, io) {
-  Logger.info('Creating Game: ' + player1 + ' vs. ' + player2);
-  PlayerMethods.create(player1, io);
-  PlayerMethods.create(player2, io);
+  var player1Name = GameHelper.formatName(player1);
+  var player2Name = GameHelper.formatName(player2);
+
+  Logger.info('Creating Game: ' + player1Name + ' vs. ' + player2Name);
+  PlayerMethods.create(player1Name);
+  PlayerMethods.create(player2Name);
 
   return new Game({
-    player1 : GameHelper.formatName(player1),
-    player2 : GameHelper.formatName(player2)
+    player1 : player1Name,
+    player2 : player2Name
   }).save();
 }
 
@@ -37,53 +43,35 @@ function createGame(player1, player2, io) {
 exports.playWinner = function (player1, gameId, io) {
   player1 = GameHelper.formatName(player1);
   var result = Game.findById(gameId);
-    result.then(function (parentGame) {
-      if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
-        var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
-        if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
-        
-          var createdGame = createGame(player1, player2, io);
-          createdGame.then(function(game){
-            Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
-            parentGame.childGameId = game._id;
-            parentGame.save();
-            Sockets.push(io);
-          });
-        } else {
-          Logger.warn('Error ' + player1 + ' vs. ' + player2);
-        }
+  result.then(function (parentGame) {
+    if (player1 !== parentGame.player1 && player1 !== parentGame.player2) {
+      var player2 = 'Winner of ' + parentGame.player1 + ' vs. ' + parentGame.player2;
+      if (player1.length >= 2 && player2.length >= 2 && player1 !== player2) {
+        var createdGame = createGame(player1, player2, io);
+        createdGame.then(function(game){
+          Logger.info('Player ' + player1 + ' playing winner of game ' + parentGame._id);
+          parentGame.childGameId = game._id;
+          parentGame.save();
+          Sockets.push(io);
+        });
+      } else {
+        Logger.warn('Error ' + player1 + ' vs. ' + player2);
       }
-    });
+    }
+  });
 };
 
-
-/* Remove the game from the queue */
 exports.abandon = function (gameId, io) {
-  Game.findById(gameId, function (error, game) {
-    if (error) {
-      Logger.error('Problem finding game: ' + gameId + ' to abandon: ' + error);
-    }
-    Game.find({
-      childGameId: gameId
-    }).exec(function (error, games) {
-      games.forEach(function (entry) {
-        Logger.info('Removing child game from game: ' + entry._id);
-        entry.childGameId = undefined;
-        entry.save();
-      });
-    });
-    if (game & game.childGameId) {
+  var targetGame = Game.findById(gameId);
+  targetGame.then(function(game){
+    Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
+    if(game.childGameId){
+      Logger.info('Abandoning child game: ' + game.childGameId);
       exports.abandon(game.childGameId, io);
     }
-    Logger.info('Abandon game: ' + game._id + ' - ' + game.player1 + ' vs. ' + game.player2);
-    game.winner = 'Abandoned';
-    game.save();
-
-    GameHelper.removeInactivePlayer(game.player1);
-    GameHelper.removeInactivePlayer(game.player2);
+    GameHelper.removeInactivePlayer(game.player1, io);
+    GameHelper.removeInactivePlayer(game.player2, io);
     Game.findById(gameId).remove().exec();
-
-    Sockets.push(io);
   });
 };
 
@@ -103,12 +91,7 @@ exports.complete = function (gameId, winner, io) {
       if (game.player1 !== winner) {
         loser = game.player1;
       }
-
-      Player.find({
-        name: {
-          $in: [winner, loser]
-        }
-      }, function (error, players) {
+      Player.find({name: { $in: [winner, loser] }}, function (error, players) {
         if (players[0].name == winner) {
           GameHelper.updatePlayers(players[0], players[1], io);
         } else {

@@ -23,20 +23,17 @@ exports.importPlayer = function (playerName, importedWins, importedLosses) {
   Logger.info('Importing ' + player.name + ' | Wins ' + wins + ' - ' + losses + ' Losses ');
 };
 
-exports.create = function (playerName, io) {
+exports.create = function (playerName) {
   var result = Player.findOne({ name: playerName });
 
   result.then(function (player) {
     if (!player && !playerName.startsWith('Winner of')) {
       Logger.info('Create new player: ' + playerName);
-      player = new Player({
-        name: playerName
-      });
+      player = new Player({ name: playerName });
       player.save();
-      Sockets.push(io);
     }
   });
-}
+};
 
 /* Complete a game */
 exports.getStats = function (playerName, socket, request, response) {
@@ -49,7 +46,7 @@ exports.getStats = function (playerName, socket, request, response) {
         playerMostPlayed: getPlayerMostPlayed(playerName, games),
         winStreak: getWinStreak(playerName, games)
       };
-      
+
       if (socket) {
         socket.emit('player stats', {
           stats: playerStats
