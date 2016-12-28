@@ -25,7 +25,7 @@ exports.queue = function (player1, player2, io) {
   }
 };
 
-function createGame(player1, player2, io) {
+function createGame(player1, player2) {
   var player1Name = GameHelper.formatName(player1);
   var player2Name = GameHelper.formatName(player2);
 

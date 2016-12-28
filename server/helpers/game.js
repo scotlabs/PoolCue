@@ -51,9 +51,7 @@ exports.removeInactivePlayer = function (playerName, io) {
 };
 
 exports.removePlayerFromWaitingList = function (playerName, io) {
-  WaitingList.find({
-    player: playerName
-  }).remove().exec(function (error) {
+  WaitingList.find({ player: playerName }).remove().exec(function () {
     Sockets.push(io);
   });
 };

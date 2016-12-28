@@ -4,7 +4,6 @@
 
 /* Imports */
 var Logger = require('../../helpers/logger');
-var Sockets = require('../../helpers/sockets');
 var Player = require('../../models/player');
 var Game = require('../../models/game');
 
@@ -28,7 +27,7 @@ exports.create = function (playerName) {
 
   result.then(function (player) {
     if (!player && !playerName.startsWith('Winner of')) {
-      Logger.info('Create new player: ' + playerName);
+      Logger.info('Creating new player: ' + playerName);
       player = new Player({ name: playerName });
       player.save();
     }
