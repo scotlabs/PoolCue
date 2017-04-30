@@ -1,12 +1,12 @@
 'use strict';
 
 /* Imports */
-var Player = require('../../query/player');
-var GameHelper = require('../../helpers/game');
+var Player = require('../../../query/player');
+var GameHelper = require('../../../helpers/game');
 
 /* Routes */
 module.exports = function (Router) {
-	var root = '/api/players/';
+	var root = '/api/v1/players/';
 
 	// Endpoint: All Players
 	// Example: GET - example.com/api/players

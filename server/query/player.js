@@ -8,13 +8,13 @@ const PlayerMethods = require('../models/methods/player');
 
 /* Functions */
 exports.getAll = function(request, response) {
-    Player.find({}, filter).sort({elo: 'descending'}).lean().exec(function(error, result) {
+    Player.find({}).sort({elo: 'descending'}).lean().exec(function(error, result) {
           response.json(result);
         });
   };
 
 exports.get = function(playerName, request, response) {
-    Player.find({name: playerName}, filter).lean().exec(function(error, result) {
+    Player.find({name: playerName}).lean().exec(function(error, result) {
           response.json(result);
         });
   };

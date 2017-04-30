@@ -1,12 +1,12 @@
 'use strict';
 
 /* Imports */
-var Game = require('../../models/methods/game');
-var Response = require('../../helpers/response');
+var Game = require('../../../models/methods/game');
+var Response = require('../../../helpers/response');
 
 /* Routes */
 module.exports = function (Router, io) {
-	var root = '/api/games/';
+	var root = '/api/v1/games/';
 
 	// Endpoint: Create
 	// Example: POST - example.com/api/games/create?player1=Fred&player2=George

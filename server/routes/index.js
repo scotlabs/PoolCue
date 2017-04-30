@@ -3,10 +3,7 @@
 /* Routes */
 module.exports = function (Router, io) {
 	/* Game */
-	require('./api/game.query')(Router);
-	require('./api/game.command')(Router, io);
-	/* Player */
-	require('./api/player.query')(Router);
+	require('./api/v1/')(Router);
 
 	/* Root Route */
 	Router.get('/', function (request, response) {
@@ -19,6 +16,7 @@ module.exports = function (Router, io) {
 
 	/* 404 Route */
 	Router.get('*', function (request, response) {
+		console.log(request.url);
 		response.status(404).send('404');
 	});
 };

@@ -1,12 +1,12 @@
 'use strict';
 
 /* Imports */
-var Game = require('../../query/game');
-var GameHelper = require('../../helpers/game');
+var Game = require('../../../query/game');
+var GameHelper = require('../../../helpers/game');
 
 /* Routes */
 module.exports = function (Router) {
-	var root = '/api/games/'
+	var root = '/api/v1/games/'
 
 	// Endpoint: All Games
 	// Example: GET - example.com/api/games
@@ -17,6 +17,7 @@ module.exports = function (Router) {
 	// Endpoint: All Games currently in the Queue
 	// Example: GET - example.com/api/games/queue
 	Router.get(root + 'queue', function (request, response) {
+		console.log('here')
 		Game.getQueue(request, response);
 	});
 
