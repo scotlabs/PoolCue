@@ -2,6 +2,8 @@
 
 /* NPM Packages*/
 var Mongoose = require('mongoose');
+var Elo = require('elo-js');
+var EloRanking = new Elo();
 
 /* Player Schema */
 var player = Mongoose.Schema({
@@ -11,5 +13,17 @@ var player = Mongoose.Schema({
   losses:             {type: Number, default: 0},
   liberated:          {type: Boolean},
 });
+
+player.methods.wonGame = function wonGame(loserElo){
+  this.elo = EloRanking.ifWins(this.elo, loserElo);
+  this.wins++;
+  this.save();
+};
+
+player.methods.lostGame = function lostGame(winnerElo){
+  this.elo = EloRanking.ifLoses(this.elo, winnerElo);
+  this.losses++;
+  this.save();
+}
 
 module.exports = Mongoose.model('Player', player);

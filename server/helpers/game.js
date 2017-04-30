@@ -1,5 +1,4 @@
 /* NPM Packages*/
-var Elo = require('elo-js');
 
 /* Imports */
 var Game = require('../models/game');
@@ -7,9 +6,6 @@ var WaitingList = require('../models/waiting');
 var Player = require('../models/player');
 var Logger = require('./logger');
 var Sockets = require('./sockets');
-
-/* Global Variables */
-var EloRanking = new Elo();
 
 exports.findOrCreateWaitingPlayer = function (waitingList, playerName) {
   Player.findOne({ name: playerName }, function (error, player) {
@@ -27,13 +23,9 @@ exports.findOrCreateWaitingPlayer = function (waitingList, playerName) {
 
 /* Update helper function for game complete */
 exports.updatePlayers = function (winner, loser, io) {
-  winner.elo = EloRanking.ifWins(winner.elo, loser.elo);
-  winner.wins++;
-  winner.save();
+  winner.wonGame(loser.elo);
+  loser.lostGame(winner.elo);
 
-  loser.elo = EloRanking.ifLoses(loser.elo, winner.elo);
-  loser.losses++;
-  loser.save();
   Logger.info(winner.name + ' (' + winner.elo + ') vs. (' + loser.elo + ') ' + loser.name);
   Sockets.push(io);
 };
@@ -42,7 +34,7 @@ exports.updatePlayers = function (winner, loser, io) {
 exports.removeInactivePlayer = function (playerName, io) {
   var result = Game.find({$or: [{ player1: playerName}, { player2: playerName }]}).exec();
   result.then(function(games){
-    if (games.length < 1) {
+    if (games.length == 0) {
       Logger.info('Removing player: ' + playerName);
       Player.find({ name: playerName }).remove().exec();
       Sockets.push(io);
