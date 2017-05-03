@@ -11,7 +11,7 @@ var Logger = require('./helpers/logger');
 
 /* Functions */
 exports.connect = function() {
-    var connectionString = 'mongodb://' + Config.database_ip + ':' + Config.database_port + '/' + Config.database_name;
+    var connectionString = 'mongodb://' + Config.database_username + ':' + Config.database_password + '@' + Config.database_host + ':' + Config.database_port + '/' + Config.database_name;
 
     Logger.info("Connecting to Database: " + connectionString);
 
