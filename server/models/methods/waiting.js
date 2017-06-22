@@ -2,15 +2,15 @@ var Logger = require('../../helpers/logger');
 var WaitingList = require('../../models/waiting');
 var GameHelper = require('../../helpers/game');
 
-exports.add = function (player, io) {
+exports.add = function(player, io) {
     var playerName = GameHelper.formatName(player);
     if (playerName.length >= 2) {
-        WaitingList.findOne({player: playerName}, function(error, playerRecord) {
-            if (error){
+        WaitingList.findOne({ player: playerName }, function(error, playerRecord) {
+            if (error) {
                 Logger.error("error adding to waiting list");
                 return;
             }
-            if (playerRecord){
+            if (playerRecord) {
                 Logger.info("Player already on waiting list");
                 return -1;
             } else {
@@ -25,7 +25,7 @@ exports.add = function (player, io) {
     }
 };
 
-exports.remove = function (player, io) {
+exports.remove = function(player, io) {
     var playerName = GameHelper.formatName(player);
     if (playerName.length >= 2) {
         Logger.info('Removing player [' + playerName + '] from waiting list');

@@ -11,6 +11,6 @@ exports.sendErrorMissingParameterData = function(response) {
     response.status(400).send('Missing parameter data');
 };
 
-exports.sendSuccessOk = function(response){
+exports.sendSuccessOk = function(response) {
     response.send(200);
 }

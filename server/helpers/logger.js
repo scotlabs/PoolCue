@@ -1,57 +1,57 @@
 'use strict';
 
 /* NPM Packages*/
-var Fs     = require('fs');
-var Pad    = require('pad');
-var Chalk  = require('chalk');
+var Fs = require('fs');
+var Pad = require('pad');
+var Chalk = require('chalk');
 var Moment = require('moment');
 
 /* Functions */
 exports.debug = function(message) {
-  logIt('debug', Chalk.cyan, message);
+    logIt('debug', Chalk.cyan, message);
 };
 
 exports.info = function(message) {
-  logIt('info', Chalk.green, message);
+    logIt('info', Chalk.green, message);
 };
 
 exports.warn = function(message) {
-  logIt('warn', Chalk.yellow, message);
+    logIt('warn', Chalk.yellow, message);
 };
 
 exports.error = function(message) {
-  logIt('error', Chalk.red, message);
+    logIt('error', Chalk.red, message);
 };
 
 exports.fatal = function(message) {
-  logIt('fatal', Chalk.magenta, message);
+    logIt('fatal', Chalk.magenta, message);
 };
 
 exports.sockets = function(sockets) {
-  var message;
-  if(sockets.id){
-    message = 'Pushing data to socket: ' + sockets.id;
-  }else{
-    message = 'Pushing data to all sockets';
-  }
-  logIt('socket', Chalk.blue, message)
+    var message;
+    if (sockets.id) {
+        message = 'Pushing data to socket: ' + sockets.id;
+    } else {
+        message = 'Pushing data to all sockets';
+    }
+    logIt('socket', Chalk.blue, message)
 };
 
-function logIt(type, colour, message){
-  writeToFile(type, message);
-  console.log(colour(timeStamp() + Pad(9, '[' + type.toUpperCase() + '] ') + '- ' +Chalk.reset(message)));
+function logIt(type, colour, message) {
+    writeToFile(type, message);
+    console.log(colour(timeStamp() + Pad(9, '[' + type.toUpperCase() + '] ') + '- ' + Chalk.reset(message)));
 }
 
 function writeToFile(prefix, message) {
-  var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
-  try {
-    Fs.appendFileSync('logs/' + prefix + '.log', formattedMessage + '\n');
-    Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
-  }catch (error) {
-    console.log(Chalk.magenta(timeStamp() + '[FATAL]  - ' + Chalk.reset('Create a /logs folder first.')));
-  }
+    var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
+    try {
+        Fs.appendFileSync('logs/' + prefix + '.log', formattedMessage + '\n');
+        Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
+    } catch (error) {
+        console.log(Chalk.magenta(timeStamp() + '[FATAL]  - ' + Chalk.reset('Create a /logs folder first.')));
+    }
 }
 
 function timeStamp() {
-  return '[' + new Moment().format('DD-MMM-YYYY HH:mm:ss:SSS') + '] ';
+    return '[' + new Moment().format('DD-MMM-YYYY HH:mm:ss:SSS') + '] ';
 }
