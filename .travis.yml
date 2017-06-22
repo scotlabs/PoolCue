@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - "7.2"
-deploy:
-  provider: azure_web_apps
-  verbose: true
-notifications:
-  slack: team-hub:iUjTDM4aHLOdIyT6TGJarxb3
-  email: false

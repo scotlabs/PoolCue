@@ -1,5 +1,3 @@
-![Pool Cue](https://raw.githubusercontent.com/scotlabs/EloEloElo/master/images/ic_billiards-512.png "Pool Cue")
-
 # PoolCue
 
 [![Status](https://travis-ci.org/scotlabs/PoolCue.svg?branch=master)](https://travis-ci.org/scotlabs/PoolCue)
