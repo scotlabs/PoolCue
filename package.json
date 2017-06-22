@@ -18,6 +18,8 @@
         "socket.io": "^1.7.4",
         "sweetalert2": "^6.6.5",
         "typeahead.js": "^0.11.1",
+        "vue": "^2.3.4",
+        "webpack": "^3.0.0",
         "yarn": "^0.24.5"
     },
     "devDependencies": {
