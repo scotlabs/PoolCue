@@ -35,7 +35,6 @@
     },
     "scripts": {
         "start": "node server.js",
-        "postinstall": "yarn install",
         "test": "mocha"
     },
     "repository": {
