@@ -167,3 +167,8 @@ svg {
 .toggle.btn{
   min-width:120px 
 }
+
+.navbar-inverse {
+  background-color: #721F75;
+  border-color: #721F75
+}
