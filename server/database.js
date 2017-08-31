@@ -2,6 +2,7 @@
 
 /* NPM Packages*/
 var Mongoose = require('mongoose');
+Mongoose.Promise = global.Promise;
 
 /* Imports */
 var Config = require('../config.js');
@@ -27,7 +28,7 @@ exports.connect = function() {
 
     Logger.info("Connecting to Database: " + uri);
 
-    Mongoose.createConnection(uri, options);
+    Mongoose.connect(uri, options);
     // Mongoose.openUri(connectionString);
 
     Mongoose.connection.on('error', function(error) {
