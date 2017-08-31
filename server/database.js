@@ -11,14 +11,27 @@ var Logger = require('./helpers/logger');
 
 /* Functions */
 exports.connect = function() {
-    var connectionString = 'mongodb://' + Config.database_username + ':' + Config.database_password + '@' + Config.database_host + ':' + Config.database_port + '/' + Config.database_name;
+    // var connectionString = 'mongodb://' + Config.database_username + ':' + Config.database_password + '@' + Config.database_host + ':' + Config.database_port + '/' + Config.database_name;
 
-    Logger.info("Connecting to Database: " + connectionString);
+    const uri = "mongodb://" + Config.database_host  + ":" + Config.database_port + "/" + Config.database_name;
+    const options = {
+        server: {
+            poolSize: 5,
+            auto_reconnect: true,
+            reconnectTries: Number.MAX_VALUE,
+            reconnectInterval: 1000
+        },
+        user: Config.database_username,
+        pass: Config.database_password,
+    };
 
-    Mongoose.connect(connectionString);
+    Logger.info("Connecting to Database: " + uri);
+
+    Mongoose.createConnection(uri, options);
+    // Mongoose.openUri(connectionString);
 
     Mongoose.connection.on('error', function(error) {
-        Logger.error('Could not connect to database @ ' + connectionString);
+        Logger.error('Could not connect to database @ ' + uri);
         Logger.error(error);
     });
 
@@ -28,10 +41,9 @@ exports.connect = function() {
 
     Mongoose.connection.on('disconnected', function() {
         Logger.error('MongoDB disconnected!');
-        Mongoose.connect(connectionString, { server: { auto_reconnect: true } });
     });
 
     Mongoose.connection.once('open', function() {
-        Logger.info('Connected to database @ ' + connectionString);
+        Logger.info('Connected to database @ ' + uri);
     });
 }
