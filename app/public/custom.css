@@ -170,5 +170,15 @@ svg {
 
 .navbar-inverse {
   background-color: #721F75;
-  border-color: #721F75
+  border-color: #511651
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  background-color: #721F75;
+  border-color: #511651
+}
+
+.navbar-inverse .navbar-nav>li>a:hover{
+  background-color: #511651;
+  border-color: #511651
 }
