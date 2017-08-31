@@ -3,7 +3,7 @@ FROM alpine:latest
 
 ### Update base and Install node
 RUN apk -qq update && apk -qq upgrade
-RUN apk -qq add nodejs
+RUN apk -qq add nodejs nodejs-npm
 
 ### Install git - Required for some bower installs
 RUN apk -qq add bash git openssh
