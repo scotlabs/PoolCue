@@ -20,6 +20,7 @@
             </tr>
         </thead>
         <tbody class="scoreboard" data-bind="foreach:PlayerData">
+            <!-- ko if:$parent.isActive($data) -->
             <tr data-bind="click: $parent.GetStats,css: { 'bg-danger': $parent.PlayerDelta($data) < 0, 'bg-success': $parent.PlayerDelta($data) > 0}" data-toggle="modal" data-target="#myModal">
                 <td>
                     <div data-bind="text:$index()+1" class="text-center"></div>
@@ -41,6 +42,7 @@
                     <div data-bind="text:elo" class="text-center"></div>
                 </td>
             </tr>
+            <!-- /ko -->
         </tbody>
 
     </table>

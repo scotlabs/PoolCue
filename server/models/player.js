@@ -12,7 +12,7 @@ var player = Mongoose.Schema({
   wins:               {type: Number, default: 0},
   losses:             {type: Number, default: 0},
   liberated:          {type: Boolean},
-});
+}, {timestamps: true});
 
 player.methods.wonGame = function wonGame(loserElo){
   this.elo = EloRanking.ifWins(this.elo, loserElo);

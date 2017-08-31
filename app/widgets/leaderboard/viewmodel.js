@@ -20,6 +20,12 @@ define(["require", "exports", 'knockout', '../../datamodels/gameData', '../../se
                     return '0';
                 }
             };
+            this.isActive = function(player){
+                var thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate()-30);
+                var playerLastActive = new Date(player.updatedAt)
+                return player.updatedAt !== null && playerLastActive >= thirtyDaysAgo
+            };
             this.PlayerDeltaCss = function (player) {
                 var $delta = this.PlayerDelta(player);
                 if ($delta > 0) {
