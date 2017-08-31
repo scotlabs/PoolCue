@@ -17,8 +17,9 @@ exports.connect = function() {
 
     Mongoose.connect(connectionString);
 
-    Mongoose.connection.on('error', function() {
+    Mongoose.connection.on('error', function(error) {
         Logger.error('Could not connect to database @ ' + connectionString);
+        Logger.error(error);
     });
 
     Mongoose.connection.on('reconnected', function() {
