@@ -21,7 +21,7 @@ var App = new Express();
 /* Functions */
 
 exports.start = function(homeDirectory) {
-
+    Logger.clear();
     // Port
     var port = Config.http_port;
 
