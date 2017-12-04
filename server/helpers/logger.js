@@ -1,57 +1,29 @@
-'use strict';
+"use strict";
 
-/* NPM Packages*/
-var Fs = require('fs');
-var Pad = require('pad');
-var Chalk = require('chalk');
-var Moment = require('moment');
+/* NPM Modules */
+const _winston = require("winston");
 
-/* Functions */
-exports.debug = function(message) {
-    logIt('debug', Chalk.cyan, message);
+/* My Modules */
+const _config = require("../../config");
+
+const logger = new _winston.Logger({
+    transports: [
+        new _winston.transports.Console({
+            timestamp: true,
+            colorize: true,
+            level: _config.loggerConsoleLevel
+        })
+    ]
+});
+
+module.exports = logger;
+
+_winston.Logger.prototype.clear = function() {
+    process.stdout.write("\x1Bc");
 };
 
-exports.info = function(message) {
-    logIt('info', Chalk.green, message);
-};
-
-exports.warn = function(message) {
-    logIt('warn', Chalk.yellow, message);
-};
-
-exports.error = function(message) {
-    logIt('error', Chalk.red, message);
-};
-
-exports.fatal = function(message) {
-    logIt('fatal', Chalk.magenta, message);
-};
-
-exports.sockets = function(sockets) {
-    var message;
-    if (sockets.id) {
-        message = 'Pushing data to socket: ' + sockets.id;
-    } else {
-        message = 'Pushing data to all sockets';
+_winston.Logger.prototype.stream = {
+    write: function(message, encoding) {
+        logger.verbose(message);
     }
-    logIt('socket', Chalk.blue, message)
 };
-
-function logIt(type, colour, message) {
-    writeToFile(type, message);
-    console.log(colour(timeStamp() + Pad(9, '[' + type.toUpperCase() + '] ') + '- ' + Chalk.reset(message)));
-}
-
-function writeToFile(prefix, message) {
-    var formattedMessage = timeStamp() + '[' + prefix.toUpperCase() + '] - ' + message;
-    try {
-        Fs.appendFileSync('logs/' + prefix + '.log', formattedMessage + '\n');
-        Fs.appendFileSync('logs/master.log', formattedMessage + '\n');
-    } catch (error) {
-        console.log(Chalk.magenta(timeStamp() + '[FATAL]  - ' + Chalk.reset('Create a /logs folder first.')));
-    }
-}
-
-function timeStamp() {
-    return '[' + new Moment().format('DD-MMM-YYYY HH:mm:ss:SSS') + '] ';
-}
